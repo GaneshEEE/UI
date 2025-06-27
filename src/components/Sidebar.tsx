@@ -9,11 +9,11 @@ interface SidebarProps {
 }
 
 const features = [
-  { id: 'search' as const, label: 'AI Powered Search', icon: Search, emoji: '🔍' },
-  { id: 'video' as const, label: 'Video Summarizer', icon: Video, emoji: '🎬' },
-  { id: 'code' as const, label: 'Code Assistant', icon: Code, emoji: '🧠' },
-  { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp, emoji: '💡' },
-  { id: 'test' as const, label: 'Test Support Tool', icon: TestTube, emoji: '✅' },
+  { id: 'search' as const, label: 'AI Powered Search', icon: Search },
+  { id: 'video' as const, label: 'Video Summarizer', icon: Video },
+  { id: 'code' as const, label: 'Code Assistant', icon: Code },
+  { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp},
+  { id: 'test' as const, label: 'Test Support Tool', icon: TestTube},
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ activeFeature, onFeatureSelect }) => {
