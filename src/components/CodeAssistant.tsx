@@ -269,7 +269,7 @@ if __name__ == '__main__':
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-6 flex gap-2 overflow-x-auto">
+          <div className="mt-6 flex gap-2">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'code';

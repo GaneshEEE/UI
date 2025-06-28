@@ -219,7 +219,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-6 flex gap-2 overflow-x-auto">
+          <div className="mt-6 flex gap-2">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'impact';
