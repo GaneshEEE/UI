@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Code, FileText, Download, Save, X, ChevronDown, Loader2, Zap } from 'lucide-react';
+import { Code, FileText, Download, Save, X, ChevronDown, Loader2, Zap, Search, Video, TrendingUp, TestTube } from 'lucide-react';
+import { FeatureType } from '../App';
 
 interface CodeAssistantProps {
   onClose: () => void;
+  onFeatureSelect: (feature: FeatureType) => void;
 }
 
-const CodeAssistant: React.FC<CodeAssistantProps> = ({ onClose }) => {
+const CodeAssistant: React.FC<CodeAssistantProps> = ({ onClose, onFeatureSelect }) => {
   const [selectedPage, setSelectedPage] = useState('');
   const [detectedCode, setDetectedCode] = useState('');
   const [aiAction, setAiAction] = useState('');
@@ -13,6 +15,7 @@ const CodeAssistant: React.FC<CodeAssistantProps> = ({ onClose }) => {
   const [fileName, setFileName] = useState('');
   const [processedCode, setProcessedCode] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [exportFormat, setExportFormat] = useState('markdown');
 
   const codePages = [
     'API Documentation',
@@ -33,6 +36,14 @@ const CodeAssistant: React.FC<CodeAssistantProps> = ({ onClose }) => {
 
   const outputFormats = [
     'javascript', 'typescript', 'python', 'java', 'csharp', 'go', 'rust', 'php'
+  ];
+
+  const features = [
+    { id: 'search' as const, label: 'AI Powered Search', icon: Search },
+    { id: 'video' as const, label: 'Video Summarizer', icon: Video },
+    { id: 'code' as const, label: 'Code Assistant', icon: Code },
+    { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp },
+    { id: 'test' as const, label: 'Test Support Tool', icon: TestTube },
   ];
 
   const sampleCode = `// React Component Example
@@ -243,22 +254,45 @@ if __name__ == '__main__':
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-green-600 to-emerald-500 p-6 text-white">
+        <div className="bg-gradient-to-r from-confluence-blue to-confluence-light-blue p-6 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Code className="w-8 h-8" />
               <div>
-                <h2 className="text-2xl font-bold">Code Assistant</h2>
-                <p className="text-green-100">Analyze, optimize, and transform your code with AI</p>
+                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
+                <p className="text-blue-100">AI-powered tools for your Confluence workspace</p>
               </div>
             </div>
             <button onClick={onClose} className="text-white hover:bg-white/20 rounded-full p-2">
               <X className="w-6 h-6" />
             </button>
           </div>
+          
+          {/* Feature Navigation */}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              const isActive = feature.id === 'code';
+              
+              return (
+                <button
+                  key={feature.id}
+                  onClick={() => onFeatureSelect(feature.id)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                    isActive
+                      ? 'bg-white text-confluence-blue shadow-md'
+                      : 'bg-white/20 text-white hover:bg-white/30'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="text-sm font-medium">{feature.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
             {/* Left Column - Configuration */}
             <div className="space-y-6">
@@ -277,7 +311,7 @@ if __name__ == '__main__':
                     <select
                       value={selectedPage}
                       onChange={(e) => handlePageSelect(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Choose a page...</option>
                       {codePages.map(page => (
@@ -297,7 +331,7 @@ if __name__ == '__main__':
                     <select
                       value={aiAction}
                       onChange={(e) => setAiAction(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select action...</option>
                       {aiActions.map(action => (
@@ -318,7 +352,7 @@ if __name__ == '__main__':
                       <select
                         value={outputFormat}
                         onChange={(e) => setOutputFormat(e.target.value)}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                       >
                         {outputFormats.map(format => (
                           <option key={format} value={format}>
@@ -341,7 +375,7 @@ if __name__ == '__main__':
                     value={fileName}
                     onChange={(e) => setFileName(e.target.value)}
                     placeholder="my-component"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue"
                   />
                 </div>
 
@@ -349,7 +383,7 @@ if __name__ == '__main__':
                 <button
                   onClick={processCode}
                   disabled={!selectedPage || !aiAction || isProcessing}
-                  className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
+                  className="w-full bg-confluence-blue text-white py-3 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                 >
                   {isProcessing ? (
                     <>
@@ -394,7 +428,7 @@ if __name__ == '__main__':
                     <div className="flex space-x-2">
                       <button
                         onClick={() => exportCode('js')}
-                        className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700 transition-colors"
+                        className="px-3 py-1 bg-confluence-blue text-white rounded text-sm hover:bg-blue-700 transition-colors"
                       >
                         Export
                       </button>
@@ -426,35 +460,37 @@ if __name__ == '__main__':
               {processedCode && (
                 <div className="bg-gray-50 rounded-lg p-4">
                   <h4 className="font-semibold text-gray-800 mb-3">Export Options</h4>
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      onClick={() => exportCode('js')}
-                      className="flex items-center justify-center space-x-2 px-3 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>JS</span>
-                    </button>
-                    <button
-                      onClick={() => exportCode('ts')}
-                      className="flex items-center justify-center space-x-2 px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>TS</span>
-                    </button>
-                    <button
-                      onClick={() => exportCode('py')}
-                      className="flex items-center justify-center space-x-2 px-3 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Python</span>
-                    </button>
-                    <button
-                      onClick={() => exportCode('md')}
-                      className="flex items-center justify-center space-x-2 px-3 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>MD</span>
-                    </button>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <label className="text-sm font-medium text-gray-700">Export Format:</label>
+                      <select
+                        value={exportFormat}
+                        onChange={(e) => setExportFormat(e.target.value)}
+                        className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-confluence-blue"
+                      >
+                        <option value="markdown">Markdown</option>
+                        <option value="pdf">PDF</option>
+                        <option value="docx">Word Document</option>
+                        <option value="txt">Plain Text</option>
+                      </select>
+                    </div>
+                    
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => exportCode(exportFormat)}
+                        className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                      >
+                        <Download className="w-4 h-4" />
+                        <span>Export</span>
+                      </button>
+                      <button
+                        onClick={() => alert('Saved to Confluence!')}
+                        className="flex items-center space-x-2 px-4 py-2 bg-confluence-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        <Save className="w-4 h-4" />
+                        <span>Save to Confluence</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}

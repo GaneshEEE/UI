@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { TrendingUp, GitCompare, AlertTriangle, CheckCircle, X, ChevronDown, Loader2, Download, MessageSquare } from 'lucide-react';
+import { TrendingUp, GitCompare, AlertTriangle, CheckCircle, X, ChevronDown, Loader2, Download, Save, MessageSquare, Search, Video, Code, TestTube } from 'lucide-react';
+import { FeatureType } from '../App';
 
 interface ImpactAnalyzerProps {
   onClose: () => void;
+  onFeatureSelect: (feature: FeatureType) => void;
 }
 
 interface DiffMetrics {
@@ -18,7 +20,7 @@ interface RiskLevel {
   factors: string[];
 }
 
-const ImpactAnalyzer: React.FC<ImpactAnalyzerProps> = ({ onClose }) => {
+const ImpactAnalyzer: React.FC<ImpactAnalyzerProps> = ({ onClose, onFeatureSelect }) => {
   const [oldPage, setOldPage] = useState('');
   const [newPage, setNewPage] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -28,6 +30,7 @@ const ImpactAnalyzer: React.FC<ImpactAnalyzerProps> = ({ onClose }) => {
   const [riskLevel, setRiskLevel] = useState<RiskLevel | null>(null);
   const [question, setQuestion] = useState('');
   const [qaResults, setQaResults] = useState<Array<{question: string, answer: string}>>([]);
+  const [exportFormat, setExportFormat] = useState('markdown');
 
   const codePages = [
     'UserController.js v1.0',
@@ -36,6 +39,14 @@ const ImpactAnalyzer: React.FC<ImpactAnalyzerProps> = ({ onClose }) => {
     'PaymentService.py v2.1',
     'AuthenticationModule.ts v3.0',
     'AuthenticationModule.ts v3.1'
+  ];
+
+  const features = [
+    { id: 'search' as const, label: 'AI Powered Search', icon: Search },
+    { id: 'video' as const, label: 'Video Summarizer', icon: Video },
+    { id: 'code' as const, label: 'Code Assistant', icon: Code },
+    { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp },
+    { id: 'test' as const, label: 'Test Support Tool', icon: TestTube },
   ];
 
   const sampleDiff = `--- Old Version
@@ -167,7 +178,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'impact-analysis-report.md';
+    a.download = `impact-analysis-report.${exportFormat}`;
     a.click();
   };
 
@@ -193,22 +204,45 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange-600 to-red-500 p-6 text-white">
+        <div className="bg-gradient-to-r from-confluence-blue to-confluence-light-blue p-6 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <TrendingUp className="w-8 h-8" />
               <div>
-                <h2 className="text-2xl font-bold">Impact Analyzer</h2>
-                <p className="text-orange-100">Compare code versions and analyze impact with AI</p>
+                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
+                <p className="text-blue-100">AI-powered tools for your Confluence workspace</p>
               </div>
             </div>
             <button onClick={onClose} className="text-white hover:bg-white/20 rounded-full p-2">
               <X className="w-6 h-6" />
             </button>
           </div>
+          
+          {/* Feature Navigation */}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              const isActive = feature.id === 'impact';
+              
+              return (
+                <button
+                  key={feature.id}
+                  onClick={() => onFeatureSelect(feature.id)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                    isActive
+                      ? 'bg-white text-confluence-blue shadow-md'
+                      : 'bg-white/20 text-white hover:bg-white/30'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="text-sm font-medium">{feature.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
             {/* Left Column - Configuration */}
             <div className="xl:col-span-1">
@@ -227,7 +261,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <select
                       value={oldPage}
                       onChange={(e) => setOldPage(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 appearance-none bg-white"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select old version...</option>
                       {codePages.map(page => (
@@ -247,7 +281,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <select
                       value={newPage}
                       onChange={(e) => setNewPage(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 appearance-none bg-white"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select new version...</option>
                       {codePages.map(page => (
@@ -262,7 +296,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 <button
                   onClick={analyzeDiff}
                   disabled={!oldPage || !newPage || isAnalyzing}
-                  className="w-full bg-orange-600 text-white py-3 px-4 rounded-lg hover:bg-orange-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
+                  className="w-full bg-confluence-blue text-white py-3 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                 >
                   {isAnalyzing ? (
                     <>
@@ -413,13 +447,13 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                     placeholder="Ask about the impact analysis..."
-                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue"
                     onKeyPress={(e) => e.key === 'Enter' && addQuestion()}
                   />
                   <button
                     onClick={addQuestion}
                     disabled={!question.trim()}
-                    className="w-full px-3 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2"
+                    className="w-full px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-700 disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2"
                   >
                     <MessageSquare className="w-4 h-4" />
                     <span>Ask Question</span>
@@ -431,21 +465,37 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
               {diffResults && (
                 <div className="bg-gray-50 rounded-lg p-4">
                   <h3 className="font-semibold text-gray-800 mb-4">Export Options</h3>
-                  <div className="space-y-2">
-                    <button
-                      onClick={exportAnalysis}
-                      className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Export Report</span>
-                    </button>
-                    <button
-                      onClick={() => alert('Saved to Confluence!')}
-                      className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Save to Confluence</span>
-                    </button>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <label className="text-sm font-medium text-gray-700">Export Format:</label>
+                      <select
+                        value={exportFormat}
+                        onChange={(e) => setExportFormat(e.target.value)}
+                        className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-confluence-blue"
+                      >
+                        <option value="markdown">Markdown</option>
+                        <option value="pdf">PDF</option>
+                        <option value="docx">Word Document</option>
+                        <option value="txt">Plain Text</option>
+                      </select>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <button
+                        onClick={exportAnalysis}
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                      >
+                        <Download className="w-4 h-4" />
+                        <span>Export</span>
+                      </button>
+                      <button
+                        onClick={() => alert('Saved to Confluence!')}
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        <Save className="w-4 h-4" />
+                        <span>Save to Confluence</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}

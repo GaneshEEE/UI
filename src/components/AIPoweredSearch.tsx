@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Search, Download, Save, FileText, X, ChevronDown, Loader2, Settings } from 'lucide-react';
+import { Search, Download, Save, FileText, X, ChevronDown, Loader2, Settings, Video, Code, TrendingUp, TestTube } from 'lucide-react';
+import { FeatureType } from '../App';
 
 interface AIPoweredSearchProps {
   onClose: () => void;
+  onFeatureSelect: (feature: FeatureType) => void;
 }
 
-const AIPoweredSearch: React.FC<AIPoweredSearchProps> = ({ onClose }) => {
+const AIPoweredSearch: React.FC<AIPoweredSearchProps> = ({ onClose, onFeatureSelect }) => {
   const [selectedSpace, setSelectedSpace] = useState('');
   const [selectedPages, setSelectedPages] = useState<string[]>([]);
   const [query, setQuery] = useState('');
@@ -16,6 +18,14 @@ const AIPoweredSearch: React.FC<AIPoweredSearchProps> = ({ onClose }) => {
 
   const spaces = ['Engineering', 'Product', 'Design', 'Marketing', 'Documentation'];
   const pages = ['API Documentation', 'User Guide', 'Technical Specs', 'Meeting Notes', 'Project Overview'];
+
+  const features = [
+    { id: 'search' as const, label: 'AI Powered Search', icon: Search },
+    { id: 'video' as const, label: 'Video Summarizer', icon: Video },
+    { id: 'code' as const, label: 'Code Assistant', icon: Code },
+    { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp },
+    { id: 'test' as const, label: 'Test Support Tool', icon: TestTube },
+  ];
 
   const handleSearch = async () => {
     setIsLoading(true);
@@ -59,17 +69,40 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
             <div className="flex items-center space-x-3">
               <Search className="w-8 h-8" />
               <div>
-                <h2 className="text-2xl font-bold">AI Powered Search</h2>
-                <p className="text-blue-100">Search and analyze your Confluence content with AI</p>
+                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
+                <p className="text-blue-100">AI-powered tools for your Confluence workspace</p>
               </div>
             </div>
             <button onClick={onClose} className="text-white hover:bg-white/20 rounded-full p-2">
               <X className="w-6 h-6" />
             </button>
           </div>
+          
+          {/* Feature Navigation */}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              const isActive = feature.id === 'search';
+              
+              return (
+                <button
+                  key={feature.id}
+                  onClick={() => onFeatureSelect(feature.id)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                    isActive
+                      ? 'bg-white text-confluence-blue shadow-md'
+                      : 'bg-white/20 text-white hover:bg-white/30'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="text-sm font-medium">{feature.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Column - Search Configuration */}
             <div className="space-y-6">

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { TestTube, Code, FileCheck, Download, X, ChevronDown, Loader2, MessageSquare, Play } from 'lucide-react';
+import { TestTube, Code, FileCheck, Download, Save, X, ChevronDown, Loader2, MessageSquare, Play, Search, Video, TrendingUp } from 'lucide-react';
+import { FeatureType } from '../App';
 
 interface TestSupportToolProps {
   onClose: () => void;
+  onFeatureSelect: (feature: FeatureType) => void;
 }
 
 interface TestReport {
@@ -11,13 +13,14 @@ interface TestReport {
   sensitivity: string;
 }
 
-const TestSupportTool: React.FC<TestSupportToolProps> = ({ onClose }) => {
+const TestSupportTool: React.FC<TestSupportToolProps> = ({ onClose, onFeatureSelect }) => {
   const [codePageId, setCodePageId] = useState('');
   const [testInputPage, setTestInputPage] = useState('');
   const [isGenerating, setIsGenerating] = useState<string>('');
   const [testReport, setTestReport] = useState<TestReport | null>(null);
   const [question, setQuestion] = useState('');
   const [qaResults, setQaResults] = useState<Array<{question: string, answer: string}>>([]);
+  const [exportFormat, setExportFormat] = useState('markdown');
 
   const codePages = [
     'UserService.js',
@@ -33,6 +36,14 @@ const TestSupportTool: React.FC<TestSupportToolProps> = ({ onClose }) => {
     'Auth Test Cases',
     'Database Tests',
     'API Integration Tests'
+  ];
+
+  const features = [
+    { id: 'search' as const, label: 'AI Powered Search', icon: Search },
+    { id: 'video' as const, label: 'Video Summarizer', icon: Video },
+    { id: 'code' as const, label: 'Code Assistant', icon: Code },
+    { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp },
+    { id: 'test' as const, label: 'Test Support Tool', icon: TestTube },
   ];
 
   const generateTestStrategy = async () => {
@@ -246,7 +257,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'test-support-report.md';
+    a.download = `test-support-report.${exportFormat}`;
     a.click();
   };
 
@@ -254,22 +265,45 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
+        <div className="bg-gradient-to-r from-confluence-blue to-confluence-light-blue p-6 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <TestTube className="w-8 h-8" />
               <div>
-                <h2 className="text-2xl font-bold">Test Support Tool</h2>
-                <p className="text-indigo-100">Generate comprehensive testing strategies and analysis</p>
+                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
+                <p className="text-blue-100">AI-powered tools for your Confluence workspace</p>
               </div>
             </div>
             <button onClick={onClose} className="text-white hover:bg-white/20 rounded-full p-2">
               <X className="w-6 h-6" />
             </button>
           </div>
+          
+          {/* Feature Navigation */}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              const isActive = feature.id === 'test';
+              
+              return (
+                <button
+                  key={feature.id}
+                  onClick={() => onFeatureSelect(feature.id)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                    isActive
+                      ? 'bg-white text-confluence-blue shadow-md'
+                      : 'bg-white/20 text-white hover:bg-white/30'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="text-sm font-medium">{feature.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
             {/* Left Column - Configuration */}
             <div className="xl:col-span-1">
@@ -288,7 +322,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <select
                       value={codePageId}
                       onChange={(e) => setCodePageId(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select code page...</option>
                       {codePages.map(page => (
@@ -308,7 +342,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <select
                       value={testInputPage}
                       onChange={(e) => setTestInputPage(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select test page...</option>
                       {testPages.map(page => (
@@ -324,7 +358,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <button
                     onClick={generateTestStrategy}
                     disabled={!codePageId || !testInputPage || isGenerating === 'strategy'}
-                    className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
+                    className="w-full bg-confluence-blue text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                   >
                     {isGenerating === 'strategy' ? (
                       <>
@@ -342,7 +376,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <button
                     onClick={generateCrossPlatform}
                     disabled={!codePageId || !testInputPage || isGenerating === 'crossplatform'}
-                    className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
+                    className="w-full bg-confluence-blue text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                   >
                     {isGenerating === 'crossplatform' ? (
                       <>
@@ -360,7 +394,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <button
                     onClick={generateSensitivity}
                     disabled={!codePageId || !testInputPage || isGenerating === 'sensitivity'}
-                    className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
+                    className="w-full bg-confluence-blue text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                   >
                     {isGenerating === 'sensitivity' ? (
                       <>
@@ -378,14 +412,37 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
                 {/* Export Button */}
                 {testReport && (testReport.strategy || testReport.crossPlatform || testReport.sensitivity) && (
-                  <div className="pt-4 border-t">
-                    <button
-                      onClick={exportReport}
-                      className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Export Report</span>
-                    </button>
+                  <div className="pt-4 border-t space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <label className="text-sm font-medium text-gray-700">Export Format:</label>
+                      <select
+                        value={exportFormat}
+                        onChange={(e) => setExportFormat(e.target.value)}
+                        className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-confluence-blue"
+                      >
+                        <option value="markdown">Markdown</option>
+                        <option value="pdf">PDF</option>
+                        <option value="docx">Word Document</option>
+                        <option value="txt">Plain Text</option>
+                      </select>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <button
+                        onClick={exportReport}
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                      >
+                        <Download className="w-4 h-4" />
+                        <span>Export</span>
+                      </button>
+                      <button
+                        onClick={() => alert('Test report saved to Confluence!')}
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        <Save className="w-4 h-4" />
+                        <span>Save to Confluence</span>
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -397,7 +454,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
               {testReport?.strategy && (
                 <div className="bg-gray-50 rounded-lg p-4">
                   <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                    <Play className="w-5 h-5 mr-2 text-indigo-600" />
+                    <Play className="w-5 h-5 mr-2 text-confluence-blue" />
                     Test Strategy
                   </h3>
                   <div className="bg-white rounded-lg p-4 border prose prose-sm max-w-none">
@@ -428,7 +485,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
               {testReport?.crossPlatform && (
                 <div className="bg-gray-50 rounded-lg p-4">
                   <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                    <Code className="w-5 h-5 mr-2 text-purple-600" />
+                    <Code className="w-5 h-5 mr-2 text-confluence-blue" />
                     Cross-Platform Analysis
                   </h3>
                   <div className="bg-white rounded-lg p-4 border prose prose-sm max-w-none">
@@ -459,7 +516,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
               {testReport?.sensitivity && (
                 <div className="bg-gray-50 rounded-lg p-4">
                   <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                    <TestTube className="w-5 h-5 mr-2 text-red-600" />
+                    <TestTube className="w-5 h-5 mr-2 text-confluence-blue" />
                     Sensitivity Analysis
                   </h3>
                   <div className="bg-white rounded-lg p-4 border prose prose-sm max-w-none">
@@ -515,31 +572,18 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                     placeholder="Ask about testing strategies, coverage, or specific scenarios..."
-                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue resize-none"
                     rows={3}
                   />
                   <button
                     onClick={addQuestion}
                     disabled={!question.trim()}
-                    className="w-full px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2"
+                    className="w-full px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-700 disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2"
                   >
                     <MessageSquare className="w-4 h-4" />
                     <span>Ask Question</span>
                   </button>
                 </div>
-
-                {/* Save to Confluence */}
-                {testReport && (testReport.strategy || testReport.crossPlatform || testReport.sensitivity) && (
-                  <div className="pt-4 border-t">
-                    <button
-                      onClick={() => alert('Test report saved to Confluence!')}
-                      className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Save to Confluence</span>
-                    </button>
-                  </div>
-                )}
               </div>
             </div>
           </div>
