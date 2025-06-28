@@ -269,7 +269,7 @@ if __name__ == '__main__':
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-6 flex gap-2 overflow-x-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'code';
@@ -278,7 +278,7 @@ if __name__ == '__main__':
                 <button
                   key={feature.id}
                   onClick={() => onFeatureSelect(feature.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
                     isActive
                       ? 'bg-white text-confluence-blue shadow-md'
                       : 'bg-white/20 text-white hover:bg-white/30'
