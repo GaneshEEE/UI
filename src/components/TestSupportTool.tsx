@@ -262,19 +262,21 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-40 p-4">
+      <div className="glass-container rounded-3xl w-full max-w-7xl max-h-[90vh] overflow-hidden liquid-animation">
         {/* Header */}
-        <div className="bg-gradient-to-r from-confluence-blue to-confluence-light-blue p-6 text-white">
+        <div className="glass-header p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <TestTube className="w-8 h-8" />
+              <div className="w-12 h-12 rounded-2xl glass-card flex items-center justify-center liquid-animation-delayed">
+                <TestTube className="w-6 h-6 text-white" />
+              </div>
               <div>
-                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
-                <p className="text-blue-100">AI-powered tools for your Confluence workspace</p>
+                <h2 className="text-2xl font-bold glass-text">Confluence AI Assistant</h2>
+                <p className="glass-text-muted">AI-powered tools for your Confluence workspace</p>
               </div>
             </div>
-            <button onClick={onClose} className="text-white hover:bg-white/20 rounded-full p-2">
+            <button onClick={onClose} className="glass-button rounded-full p-2 hover:rotate-90 transition-transform duration-300">
               <X className="w-6 h-6" />
             </button>
           </div>
@@ -289,10 +291,10 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 <button
                   key={feature.id}
                   onClick={() => onFeatureSelect(feature.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 whitespace-nowrap ${
                     isActive
-                      ? 'bg-white text-confluence-blue shadow-md'
-                      : 'bg-white/20 text-white hover:bg-white/30'
+                      ? 'glass-nav-button-active'
+                      : 'glass-nav-button'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -307,49 +309,49 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
             {/* Left Column - Configuration */}
             <div className="xl:col-span-1">
-              <div className="bg-gray-50 rounded-lg p-4 space-y-6">
-                <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
+              <div className="glass-card rounded-2xl p-4 space-y-6">
+                <h3 className="font-semibold glass-text mb-4 flex items-center">
                   <FileCheck className="w-5 h-5 mr-2" />
                   Component Selection
                 </h3>
                 
                 {/* Code Page Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium glass-text mb-2">
                     Code Page
                   </label>
                   <div className="relative">
                     <select
                       value={codePageId}
                       onChange={(e) => setCodePageId(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
+                      className="w-full p-3 glass-select rounded-xl focus:ring-2 focus:ring-white/30 appearance-none"
                     >
                       <option value="">Select code page...</option>
                       {codePages.map(page => (
                         <option key={page} value={page}>{page}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 glass-text-muted pointer-events-none" />
                   </div>
                 </div>
 
                 {/* Test Input Page Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium glass-text mb-2">
                     Test Input Page
                   </label>
                   <div className="relative">
                     <select
                       value={testInputPage}
                       onChange={(e) => setTestInputPage(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
+                      className="w-full p-3 glass-select rounded-xl focus:ring-2 focus:ring-white/30 appearance-none"
                     >
                       <option value="">Select test page...</option>
                       {testPages.map(page => (
                         <option key={page} value={page}>{page}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 glass-text-muted pointer-events-none" />
                   </div>
                 </div>
 
@@ -358,7 +360,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <button
                     onClick={generateTestStrategy}
                     disabled={!codePageId || !testInputPage || isGenerating === 'strategy'}
-                    className="w-full bg-confluence-blue text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
+                    className="w-full glass-button-primary py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-all duration-300"
                   >
                     {isGenerating === 'strategy' ? (
                       <>
@@ -376,7 +378,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <button
                     onClick={generateCrossPlatform}
                     disabled={!codePageId || !testInputPage || isGenerating === 'crossplatform'}
-                    className="w-full bg-confluence-blue text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
+                    className="w-full glass-button-primary py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-all duration-300"
                   >
                     {isGenerating === 'crossplatform' ? (
                       <>
@@ -394,7 +396,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <button
                     onClick={generateSensitivity}
                     disabled={!codePageId || !testInputPage || isGenerating === 'sensitivity'}
-                    className="w-full bg-confluence-blue text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
+                    className="w-full glass-button-primary py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-all duration-300"
                   >
                     {isGenerating === 'sensitivity' ? (
                       <>
@@ -412,13 +414,13 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
                 {/* Export Button */}
                 {testReport && (testReport.strategy || testReport.crossPlatform || testReport.sensitivity) && (
-                  <div className="pt-4 border-t space-y-3">
+                  <div className="pt-4 border-t border-white/10 space-y-3">
                     <div className="flex items-center space-x-2">
-                      <label className="text-sm font-medium text-gray-700">Export Format:</label>
+                      <label className="text-sm font-medium glass-text">Export Format:</label>
                       <select
                         value={exportFormat}
                         onChange={(e) => setExportFormat(e.target.value)}
-                        className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-confluence-blue"
+                        className="px-3 py-1 glass-select rounded-lg text-sm focus:ring-2 focus:ring-white/30"
                       >
                         <option value="markdown">Markdown</option>
                         <option value="pdf">PDF</option>
@@ -430,14 +432,14 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <div className="space-y-2">
                       <button
                         onClick={exportReport}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 glass-button-primary rounded-xl transition-all duration-300"
                       >
                         <Download className="w-4 h-4" />
                         <span>Export</span>
                       </button>
                       <button
                         onClick={() => alert('Test report saved to Confluence!')}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 glass-button rounded-xl transition-all duration-300"
                       >
                         <Save className="w-4 h-4" />
                         <span>Save to Confluence</span>
@@ -452,28 +454,28 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
             <div className="xl:col-span-2 space-y-6">
               {/* Test Strategy */}
               {testReport?.strategy && (
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                    <Play className="w-5 h-5 mr-2 text-confluence-blue" />
+                <div className="glass-card rounded-2xl p-4">
+                  <h3 className="font-semibold glass-text mb-4 flex items-center">
+                    <Play className="w-5 h-5 mr-2 text-white" />
                     Test Strategy
                   </h3>
-                  <div className="bg-white rounded-lg p-4 border prose prose-sm max-w-none">
+                  <div className="glass-content rounded-xl p-4 prose prose-sm max-w-none">
                     {testReport.strategy.split('\n').map((line, index) => {
                       if (line.startsWith('### ')) {
-                        return <h3 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(4)}</h3>;
+                        return <h3 key={index} className="text-lg font-bold glass-text mt-4 mb-2">{line.substring(4)}</h3>;
                       } else if (line.startsWith('## ')) {
-                        return <h2 key={index} className="text-xl font-bold text-gray-800 mt-6 mb-3">{line.substring(3)}</h2>;
+                        return <h2 key={index} className="text-xl font-bold glass-text mt-6 mb-3">{line.substring(3)}</h2>;
                       } else if (line.startsWith('# ')) {
-                        return <h1 key={index} className="text-2xl font-bold text-gray-800 mt-8 mb-4">{line.substring(2)}</h1>;
+                        return <h1 key={index} className="text-2xl font-bold glass-text mt-8 mb-4">{line.substring(2)}</h1>;
                       } else if (line.startsWith('- **')) {
                         const match = line.match(/- \*\*(.*?)\*\*: (.*)/);
                         if (match) {
-                          return <p key={index} className="mb-2"><strong>{match[1]}:</strong> {match[2]}</p>;
+                          return <p key={index} className="mb-2 glass-text"><strong>{match[1]}:</strong> {match[2]}</p>;
                         }
                       } else if (line.startsWith('- ')) {
-                        return <p key={index} className="mb-1 ml-4">• {line.substring(2)}</p>;
+                        return <p key={index} className="mb-1 ml-4 glass-text">• {line.substring(2)}</p>;
                       } else if (line.trim()) {
-                        return <p key={index} className="mb-2 text-gray-700">{line}</p>;
+                        return <p key={index} className="mb-2 glass-text">{line}</p>;
                       }
                       return <br key={index} />;
                     })}
@@ -483,28 +485,28 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
               {/* Cross-Platform Analysis */}
               {testReport?.crossPlatform && (
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                    <Code className="w-5 h-5 mr-2 text-confluence-blue" />
+                <div className="glass-card rounded-2xl p-4">
+                  <h3 className="font-semibold glass-text mb-4 flex items-center">
+                    <Code className="w-5 h-5 mr-2 text-white" />
                     Cross-Platform Analysis
                   </h3>
-                  <div className="bg-white rounded-lg p-4 border prose prose-sm max-w-none">
+                  <div className="glass-content rounded-xl p-4 prose prose-sm max-w-none">
                     {testReport.crossPlatform.split('\n').map((line, index) => {
                       if (line.startsWith('### ')) {
-                        return <h3 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(4)}</h3>;
+                        return <h3 key={index} className="text-lg font-bold glass-text mt-4 mb-2">{line.substring(4)}</h3>;
                       } else if (line.startsWith('## ')) {
-                        return <h2 key={index} className="text-xl font-bold text-gray-800 mt-6 mb-3">{line.substring(3)}</h2>;
+                        return <h2 key={index} className="text-xl font-bold glass-text mt-6 mb-3">{line.substring(3)}</h2>;
                       } else if (line.startsWith('# ')) {
-                        return <h1 key={index} className="text-2xl font-bold text-gray-800 mt-8 mb-4">{line.substring(2)}</h1>;
+                        return <h1 key={index} className="text-2xl font-bold glass-text mt-8 mb-4">{line.substring(2)}</h1>;
                       } else if (line.startsWith('- **')) {
                         const match = line.match(/- \*\*(.*?)\*\*: (.*)/);
                         if (match) {
-                          return <p key={index} className="mb-2"><strong>{match[1]}:</strong> {match[2]}</p>;
+                          return <p key={index} className="mb-2 glass-text"><strong>{match[1]}:</strong> {match[2]}</p>;
                         }
                       } else if (line.startsWith('- ')) {
-                        return <p key={index} className="mb-1 ml-4">• {line.substring(2)}</p>;
+                        return <p key={index} className="mb-1 ml-4 glass-text">• {line.substring(2)}</p>;
                       } else if (line.trim()) {
-                        return <p key={index} className="mb-2 text-gray-700">{line}</p>;
+                        return <p key={index} className="mb-2 glass-text">{line}</p>;
                       }
                       return <br key={index} />;
                     })}
@@ -514,30 +516,30 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
               {/* Sensitivity Analysis */}
               {testReport?.sensitivity && (
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                    <TestTube className="w-5 h-5 mr-2 text-confluence-blue" />
+                <div className="glass-card rounded-2xl p-4">
+                  <h3 className="font-semibold glass-text mb-4 flex items-center">
+                    <TestTube className="w-5 h-5 mr-2 text-white" />
                     Sensitivity Analysis
                   </h3>
-                  <div className="bg-white rounded-lg p-4 border prose prose-sm max-w-none">
+                  <div className="glass-content rounded-xl p-4 prose prose-sm max-w-none">
                     {testReport.sensitivity.split('\n').map((line, index) => {
                       if (line.startsWith('### ')) {
-                        return <h3 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(4)}</h3>;
+                        return <h3 key={index} className="text-lg font-bold glass-text mt-4 mb-2">{line.substring(4)}</h3>;
                       } else if (line.startsWith('## ')) {
-                        return <h2 key={index} className="text-xl font-bold text-gray-800 mt-6 mb-3">{line.substring(3)}</h2>;
+                        return <h2 key={index} className="text-xl font-bold glass-text mt-6 mb-3">{line.substring(3)}</h2>;
                       } else if (line.startsWith('# ')) {
-                        return <h1 key={index} className="text-2xl font-bold text-gray-800 mt-8 mb-4">{line.substring(2)}</h1>;
+                        return <h1 key={index} className="text-2xl font-bold glass-text mt-8 mb-4">{line.substring(2)}</h1>;
                       } else if (line.match(/^\d+\./)) {
-                        return <p key={index} className="mb-2 font-medium">{line}</p>;
+                        return <p key={index} className="mb-2 font-medium glass-text">{line}</p>;
                       } else if (line.startsWith('- **')) {
                         const match = line.match(/- \*\*(.*?)\*\*: (.*)/);
                         if (match) {
-                          return <p key={index} className="mb-2"><strong>{match[1]}:</strong> {match[2]}</p>;
+                          return <p key={index} className="mb-2 glass-text"><strong>{match[1]}:</strong> {match[2]}</p>;
                         }
                       } else if (line.startsWith('- ')) {
-                        return <p key={index} className="mb-1 ml-4">• {line.substring(2)}</p>;
+                        return <p key={index} className="mb-1 ml-4 glass-text">• {line.substring(2)}</p>;
                       } else if (line.trim()) {
-                        return <p key={index} className="mb-2 text-gray-700">{line}</p>;
+                        return <p key={index} className="mb-2 glass-text">{line}</p>;
                       }
                       return <br key={index} />;
                     })}
@@ -548,8 +550,8 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
             {/* Right Column - Q&A */}
             <div className="xl:col-span-1">
-              <div className="bg-gray-50 rounded-lg p-4 space-y-4">
-                <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
+              <div className="glass-card rounded-2xl p-4 space-y-4">
+                <h3 className="font-semibold glass-text mb-4 flex items-center">
                   <MessageSquare className="w-5 h-5 mr-2" />
                   Questions & Analysis
                 </h3>
@@ -558,9 +560,9 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 {qaResults.length > 0 && (
                   <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
                     {qaResults.map((qa, index) => (
-                      <div key={index} className="bg-white rounded-lg p-3 border">
-                        <p className="font-medium text-gray-800 mb-2 text-sm">Q: {qa.question}</p>
-                        <p className="text-gray-700 text-xs">{qa.answer.substring(0, 200)}...</p>
+                      <div key={index} className="glass-content rounded-xl p-3">
+                        <p className="font-medium glass-text mb-2 text-sm">Q: {qa.question}</p>
+                        <p className="glass-text-muted text-xs">{qa.answer.substring(0, 200)}...</p>
                       </div>
                     ))}
                   </div>
@@ -572,13 +574,13 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                     placeholder="Ask about testing strategies, coverage, or specific scenarios..."
-                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue resize-none"
+                    className="w-full p-2 glass-input rounded-xl focus:ring-2 focus:ring-white/30 resize-none"
                     rows={3}
                   />
                   <button
                     onClick={addQuestion}
                     disabled={!question.trim()}
-                    className="w-full px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-700 disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2"
+                    className="w-full px-3 py-2 glass-button-primary rounded-xl disabled:opacity-50 transition-all duration-300 flex items-center justify-center space-x-2"
                   >
                     <MessageSquare className="w-4 h-4" />
                     <span>Ask Question</span>
@@ -591,9 +593,11 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
           {/* Empty State */}
           {!testReport?.strategy && !testReport?.crossPlatform && !testReport?.sensitivity && (
             <div className="text-center py-12">
-              <TestTube className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-600 mb-2">Ready to Generate Test Analysis</h3>
-              <p className="text-gray-500">Select your code and test components, then choose which analysis to generate.</p>
+              <div className="w-16 h-16 glass-card rounded-2xl flex items-center justify-center mx-auto mb-4 liquid-animation">
+                <TestTube className="w-8 h-8 glass-text-muted" />
+              </div>
+              <h3 className="text-lg font-semibold glass-text mb-2">Ready to Generate Test Analysis</h3>
+              <p className="glass-text-muted">Select your code and test components, then choose which analysis to generate.</p>
             </div>
           )}
         </div>

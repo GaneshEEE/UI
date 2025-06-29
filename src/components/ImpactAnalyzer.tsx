@@ -184,10 +184,10 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
   const getRiskColor = (level: string) => {
     switch (level) {
-      case 'low': return 'text-green-700 bg-green-100';
-      case 'medium': return 'text-yellow-700 bg-yellow-100';
-      case 'high': return 'text-red-700 bg-red-100';
-      default: return 'text-gray-700 bg-gray-100';
+      case 'low': return 'glass-text bg-green-500/20 border-green-400/30';
+      case 'medium': return 'glass-text bg-yellow-500/20 border-yellow-400/30';
+      case 'high': return 'glass-text bg-red-500/20 border-red-400/30';
+      default: return 'glass-text bg-gray-500/20 border-gray-400/30';
     }
   };
 
@@ -201,19 +201,21 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-40 p-4">
+      <div className="glass-container rounded-3xl w-full max-w-7xl max-h-[90vh] overflow-hidden liquid-animation">
         {/* Header */}
-        <div className="bg-gradient-to-r from-confluence-blue to-confluence-light-blue p-6 text-white">
+        <div className="glass-header p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <TrendingUp className="w-8 h-8" />
+              <div className="w-12 h-12 rounded-2xl glass-card flex items-center justify-center liquid-animation-delayed">
+                <TrendingUp className="w-6 h-6 text-white" />
+              </div>
               <div>
-                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
-                <p className="text-blue-100">AI-powered tools for your Confluence workspace</p>
+                <h2 className="text-2xl font-bold glass-text">Confluence AI Assistant</h2>
+                <p className="glass-text-muted">AI-powered tools for your Confluence workspace</p>
               </div>
             </div>
-            <button onClick={onClose} className="text-white hover:bg-white/20 rounded-full p-2">
+            <button onClick={onClose} className="glass-button rounded-full p-2 hover:rotate-90 transition-transform duration-300">
               <X className="w-6 h-6" />
             </button>
           </div>
@@ -228,10 +230,10 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 <button
                   key={feature.id}
                   onClick={() => onFeatureSelect(feature.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 whitespace-nowrap ${
                     isActive
-                      ? 'bg-white text-confluence-blue shadow-md'
-                      : 'bg-white/20 text-white hover:bg-white/30'
+                      ? 'glass-nav-button-active'
+                      : 'glass-nav-button'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -246,49 +248,49 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
             {/* Left Column - Configuration */}
             <div className="xl:col-span-1">
-              <div className="bg-gray-50 rounded-lg p-4 space-y-4">
-                <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
+              <div className="glass-card rounded-2xl p-4 space-y-4">
+                <h3 className="font-semibold glass-text mb-4 flex items-center">
                   <GitCompare className="w-5 h-5 mr-2" />
                   Version Comparison
                 </h3>
                 
                 {/* Old Version Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium glass-text mb-2">
                     Old Version
                   </label>
                   <div className="relative">
                     <select
                       value={oldPage}
                       onChange={(e) => setOldPage(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
+                      className="w-full p-3 glass-select rounded-xl focus:ring-2 focus:ring-white/30 appearance-none"
                     >
                       <option value="">Select old version...</option>
                       {codePages.map(page => (
                         <option key={page} value={page}>{page}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 glass-text-muted pointer-events-none" />
                   </div>
                 </div>
 
                 {/* New Version Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium glass-text mb-2">
                     New Version
                   </label>
                   <div className="relative">
                     <select
                       value={newPage}
                       onChange={(e) => setNewPage(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
+                      className="w-full p-3 glass-select rounded-xl focus:ring-2 focus:ring-white/30 appearance-none"
                     >
                       <option value="">Select new version...</option>
                       {codePages.map(page => (
                         <option key={page} value={page}>{page}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 glass-text-muted pointer-events-none" />
                   </div>
                 </div>
 
@@ -296,7 +298,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 <button
                   onClick={analyzeDiff}
                   disabled={!oldPage || !newPage || isAnalyzing}
-                  className="w-full bg-confluence-blue text-white py-3 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
+                  className="w-full glass-button-primary py-3 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-all duration-300"
                 >
                   {isAnalyzing ? (
                     <>
@@ -314,23 +316,23 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 {/* Metrics Display */}
                 {metrics && (
                   <div className="mt-6 space-y-3">
-                    <h4 className="font-semibold text-gray-800">Change Metrics</h4>
+                    <h4 className="font-semibold glass-text">Change Metrics</h4>
                     <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div className="bg-green-100 p-2 rounded text-center">
-                        <div className="font-semibold text-green-800">+{metrics.linesAdded}</div>
-                        <div className="text-green-600 text-xs">Added</div>
+                      <div className="glass-card p-2 rounded-xl text-center border border-green-400/30">
+                        <div className="font-semibold text-green-300">+{metrics.linesAdded}</div>
+                        <div className="text-green-400 text-xs">Added</div>
                       </div>
-                      <div className="bg-red-100 p-2 rounded text-center">
-                        <div className="font-semibold text-red-800">-{metrics.linesRemoved}</div>
-                        <div className="text-red-600 text-xs">Removed</div>
+                      <div className="glass-card p-2 rounded-xl text-center border border-red-400/30">
+                        <div className="font-semibold text-red-300">-{metrics.linesRemoved}</div>
+                        <div className="text-red-400 text-xs">Removed</div>
                       </div>
-                      <div className="bg-blue-100 p-2 rounded text-center">
-                        <div className="font-semibold text-blue-800">{metrics.filesChanged}</div>
-                        <div className="text-blue-600 text-xs">Files</div>
+                      <div className="glass-card p-2 rounded-xl text-center border border-blue-400/30">
+                        <div className="font-semibold text-blue-300">{metrics.filesChanged}</div>
+                        <div className="text-blue-400 text-xs">Files</div>
                       </div>
-                      <div className="bg-purple-100 p-2 rounded text-center">
-                        <div className="font-semibold text-purple-800">{metrics.percentageChanged}%</div>
-                        <div className="text-purple-600 text-xs">Changed</div>
+                      <div className="glass-card p-2 rounded-xl text-center border border-purple-400/30">
+                        <div className="font-semibold text-purple-300">{metrics.percentageChanged}%</div>
+                        <div className="text-purple-400 text-xs">Changed</div>
                       </div>
                     </div>
                   </div>
@@ -339,8 +341,8 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 {/* Risk Level */}
                 {riskLevel && (
                   <div className="mt-6">
-                    <h4 className="font-semibold text-gray-800 mb-2">Risk Assessment</h4>
-                    <div className={`p-3 rounded-lg flex items-center space-x-2 ${getRiskColor(riskLevel.level)}`}>
+                    <h4 className="font-semibold glass-text mb-2">Risk Assessment</h4>
+                    <div className={`p-3 rounded-xl flex items-center space-x-2 border ${getRiskColor(riskLevel.level)}`}>
                       {getRiskIcon(riskLevel.level)}
                       <div>
                         <div className="font-semibold capitalize">{riskLevel.level} Risk</div>
@@ -356,9 +358,9 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
             <div className="xl:col-span-2 space-y-6">
               {/* Code Diff */}
               {diffResults && (
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-800 mb-4">Code Diff</h3>
-                  <div className="bg-gray-900 rounded-lg p-4 overflow-auto max-h-80">
+                <div className="glass-card rounded-2xl p-4">
+                  <h3 className="font-semibold glass-text mb-4">Code Diff</h3>
+                  <div className="glass-content rounded-xl p-4 overflow-auto max-h-80">
                     <pre className="text-sm">
                       <code>
                         {diffResults.split('\n').map((line, index) => (
@@ -368,7 +370,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                               line.startsWith('+') ? 'text-green-400' :
                               line.startsWith('-') ? 'text-red-400' :
                               line.startsWith('@@') ? 'text-blue-400' :
-                              'text-gray-300'
+                              'glass-text'
                             }
                           >
                             {line}
@@ -382,23 +384,23 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
               {/* Impact Summary */}
               {impactSummary && (
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-800 mb-4">AI Impact Summary</h3>
-                  <div className="bg-white rounded-lg p-4 border prose prose-sm max-w-none">
+                <div className="glass-card rounded-2xl p-4">
+                  <h3 className="font-semibold glass-text mb-4">AI Impact Summary</h3>
+                  <div className="glass-content rounded-xl p-4 prose prose-sm max-w-none">
                     {impactSummary.split('\n').map((line, index) => {
                       if (line.startsWith('### ')) {
-                        return <h3 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(4)}</h3>;
+                        return <h3 key={index} className="text-lg font-bold glass-text mt-4 mb-2">{line.substring(4)}</h3>;
                       } else if (line.startsWith('## ')) {
-                        return <h2 key={index} className="text-xl font-bold text-gray-800 mt-6 mb-3">{line.substring(3)}</h2>;
+                        return <h2 key={index} className="text-xl font-bold glass-text mt-6 mb-3">{line.substring(3)}</h2>;
                       } else if (line.startsWith('- **')) {
                         const match = line.match(/- \*\*(.*?)\*\*: (.*)/);
                         if (match) {
-                          return <p key={index} className="mb-2"><strong>{match[1]}:</strong> {match[2]}</p>;
+                          return <p key={index} className="mb-2 glass-text"><strong>{match[1]}:</strong> {match[2]}</p>;
                         }
                       } else if (line.match(/^\d+\./)) {
-                        return <p key={index} className="mb-2 font-medium">{line}</p>;
+                        return <p key={index} className="mb-2 font-medium glass-text">{line}</p>;
                       } else if (line.trim()) {
-                        return <p key={index} className="mb-2 text-gray-700">{line}</p>;
+                        return <p key={index} className="mb-2 glass-text">{line}</p>;
                       }
                       return <br key={index} />;
                     })}
@@ -411,13 +413,13 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
             <div className="xl:col-span-1 space-y-6">
               {/* Risk Factors */}
               {riskLevel && (
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-800 mb-4">Risk Factors</h3>
+                <div className="glass-card rounded-2xl p-4">
+                  <h3 className="font-semibold glass-text mb-4">Risk Factors</h3>
                   <div className="space-y-2">
                     {riskLevel.factors.map((factor, index) => (
                       <div key={index} className="flex items-start space-x-2 text-sm">
-                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700">{factor}</span>
+                        <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                        <span className="glass-text">{factor}</span>
                       </div>
                     ))}
                   </div>
@@ -425,16 +427,16 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
               )}
 
               {/* Q&A Section */}
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="font-semibold text-gray-800 mb-4">Questions & Analysis</h3>
+              <div className="glass-card rounded-2xl p-4">
+                <h3 className="font-semibold glass-text mb-4">Questions & Analysis</h3>
                 
                 {/* Existing Q&A */}
                 {qaResults.length > 0 && (
                   <div className="space-y-3 mb-4">
                     {qaResults.map((qa, index) => (
-                      <div key={index} className="bg-white rounded-lg p-3 border">
-                        <p className="font-medium text-gray-800 mb-2">Q: {qa.question}</p>
-                        <p className="text-gray-700 text-sm">A: {qa.answer}</p>
+                      <div key={index} className="glass-content rounded-xl p-3">
+                        <p className="font-medium glass-text mb-2">Q: {qa.question}</p>
+                        <p className="glass-text-muted text-sm">A: {qa.answer}</p>
                       </div>
                     ))}
                   </div>
@@ -447,13 +449,13 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                     placeholder="Ask about the impact analysis..."
-                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue"
+                    className="w-full p-2 glass-input rounded-lg focus:ring-2 focus:ring-white/30"
                     onKeyPress={(e) => e.key === 'Enter' && addQuestion()}
                   />
                   <button
                     onClick={addQuestion}
                     disabled={!question.trim()}
-                    className="w-full px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-700 disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2"
+                    className="w-full px-3 py-2 glass-button-primary rounded-lg disabled:opacity-50 transition-all duration-300 flex items-center justify-center space-x-2"
                   >
                     <MessageSquare className="w-4 h-4" />
                     <span>Ask Question</span>
@@ -463,15 +465,15 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
               {/* Export Options */}
               {diffResults && (
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-800 mb-4">Export Options</h3>
+                <div className="glass-card rounded-2xl p-4">
+                  <h3 className="font-semibold glass-text mb-4">Export Options</h3>
                   <div className="space-y-3">
                     <div className="flex items-center space-x-2">
-                      <label className="text-sm font-medium text-gray-700">Export Format:</label>
+                      <label className="text-sm font-medium glass-text">Export Format:</label>
                       <select
                         value={exportFormat}
                         onChange={(e) => setExportFormat(e.target.value)}
-                        className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-confluence-blue"
+                        className="px-3 py-1 glass-select rounded-lg text-sm focus:ring-2 focus:ring-white/30"
                       >
                         <option value="markdown">Markdown</option>
                         <option value="pdf">PDF</option>
@@ -483,14 +485,14 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <div className="space-y-2">
                       <button
                         onClick={exportAnalysis}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 glass-button-primary rounded-xl transition-all duration-300"
                       >
                         <Download className="w-4 h-4" />
                         <span>Export</span>
                       </button>
                       <button
                         onClick={() => alert('Saved to Confluence!')}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 glass-button rounded-xl transition-all duration-300"
                       >
                         <Save className="w-4 h-4" />
                         <span>Save to Confluence</span>
