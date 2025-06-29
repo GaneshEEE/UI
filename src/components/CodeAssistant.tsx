@@ -251,21 +251,19 @@ if __name__ == '__main__':
   };
 
   return (
-    <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-40 p-4">
-      <div className="glass-container rounded-3xl w-full max-w-7xl max-h-[90vh] overflow-hidden liquid-animation">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="glass-header p-6">
+        <div className="bg-gradient-to-r from-confluence-blue to-confluence-light-blue p-6 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-2xl glass-card flex items-center justify-center liquid-animation-delayed">
-                <Code className="w-6 h-6 text-white" />
-              </div>
+              <Code className="w-8 h-8" />
               <div>
-                <h2 className="text-2xl font-bold glass-text">Confluence AI Assistant</h2>
-                <p className="glass-text-muted">AI-powered tools for your Confluence workspace</p>
+                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
+                <p className="text-blue-100">AI-powered tools for your Confluence workspace</p>
               </div>
             </div>
-            <button onClick={onClose} className="glass-button rounded-full p-2 hover:rotate-90 transition-transform duration-300">
+            <button onClick={onClose} className="text-white hover:bg-white/20 rounded-full p-2">
               <X className="w-6 h-6" />
             </button>
           </div>
@@ -280,10 +278,10 @@ if __name__ == '__main__':
                 <button
                   key={feature.id}
                   onClick={() => onFeatureSelect(feature.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 whitespace-nowrap ${
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
                     isActive
-                      ? 'glass-nav-button-active'
-                      : 'glass-nav-button'
+                      ? 'bg-white text-confluence-blue shadow-md'
+                      : 'bg-white/20 text-white hover:bg-white/30'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -298,63 +296,63 @@ if __name__ == '__main__':
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
             {/* Left Column - Configuration */}
             <div className="space-y-6">
-              <div className="glass-card rounded-2xl p-4">
-                <h3 className="font-semibold glass-text mb-4 flex items-center">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
                   <FileText className="w-5 h-5 mr-2" />
                   Code Selection
                 </h3>
                 
                 {/* Page Selection */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium glass-text mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Select Code Page
                   </label>
                   <div className="relative">
                     <select
                       value={selectedPage}
                       onChange={(e) => handlePageSelect(e.target.value)}
-                      className="w-full p-3 glass-select rounded-xl focus:ring-2 focus:ring-white/30 appearance-none"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Choose a page...</option>
                       {codePages.map(page => (
                         <option key={page} value={page}>{page}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 glass-text-muted pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                   </div>
                 </div>
 
                 {/* AI Action Selection */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium glass-text mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     AI Action
                   </label>
                   <div className="relative">
                     <select
                       value={aiAction}
                       onChange={(e) => setAiAction(e.target.value)}
-                      className="w-full p-3 glass-select rounded-xl focus:ring-2 focus:ring-white/30 appearance-none"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select action...</option>
                       {aiActions.map(action => (
                         <option key={action.value} value={action.value}>{action.label}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 glass-text-muted pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                   </div>
                 </div>
 
                 {/* Output Format */}
                 {aiAction === 'convert' && (
                   <div className="mb-4">
-                    <label className="block text-sm font-medium glass-text mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                       Target Language
                     </label>
                     <div className="relative">
                       <select
                         value={outputFormat}
                         onChange={(e) => setOutputFormat(e.target.value)}
-                        className="w-full p-3 glass-select rounded-xl focus:ring-2 focus:ring-white/30 appearance-none"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                       >
                         {outputFormats.map(format => (
                           <option key={format} value={format}>
@@ -362,14 +360,14 @@ if __name__ == '__main__':
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 glass-text-muted pointer-events-none" />
+                      <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                     </div>
                   </div>
                 )}
 
                 {/* File Name */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium glass-text mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Output File Name
                   </label>
                   <input
@@ -377,7 +375,7 @@ if __name__ == '__main__':
                     value={fileName}
                     onChange={(e) => setFileName(e.target.value)}
                     placeholder="my-component"
-                    className="w-full p-3 glass-input rounded-xl focus:ring-2 focus:ring-white/30"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue"
                   />
                 </div>
 
@@ -385,7 +383,7 @@ if __name__ == '__main__':
                 <button
                   onClick={processCode}
                   disabled={!selectedPage || !aiAction || isProcessing}
-                  className="w-full glass-button-primary py-3 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-all duration-300"
+                  className="w-full bg-confluence-blue text-white py-3 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                 >
                   {isProcessing ? (
                     <>
@@ -404,19 +402,17 @@ if __name__ == '__main__':
 
             {/* Middle Column - Original Code */}
             <div className="space-y-6">
-              <div className="glass-card rounded-2xl p-4">
-                <h3 className="font-semibold glass-text mb-4">Detected Code</h3>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h3 className="font-semibold text-gray-800 mb-4">Detected Code</h3>
                 {detectedCode ? (
-                  <div className="glass-content rounded-xl p-4 overflow-auto max-h-96">
-                    <pre className="text-sm glass-text">
+                  <div className="bg-gray-900 rounded-lg p-4 overflow-auto max-h-96">
+                    <pre className="text-sm text-gray-300">
                       <code>{detectedCode}</code>
                     </pre>
                   </div>
                 ) : (
-                  <div className="text-center py-8 glass-text-muted">
-                    <div className="w-12 h-12 glass-card rounded-xl flex items-center justify-center mx-auto mb-2">
-                      <Code className="w-6 h-6" />
-                    </div>
+                  <div className="text-center py-8 text-gray-500">
+                    <Code className="w-12 h-12 mx-auto mb-2 text-gray-400" />
                     <p>Select a code page to view content</p>
                   </div>
                 )}
@@ -425,20 +421,20 @@ if __name__ == '__main__':
 
             {/* Right Column - Processed Code */}
             <div className="space-y-6">
-              <div className="glass-card rounded-2xl p-4">
+              <div className="bg-gray-50 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold glass-text">AI Result</h3>
+                  <h3 className="font-semibold text-gray-800">AI Result</h3>
                   {processedCode && (
                     <div className="flex space-x-2">
                       <button
                         onClick={() => exportCode('js')}
-                        className="px-3 py-1 glass-button rounded-lg text-sm transition-all duration-300"
+                        className="px-3 py-1 bg-confluence-blue text-white rounded text-sm hover:bg-blue-700 transition-colors"
                       >
                         Export
                       </button>
                       <button
                         onClick={() => alert('Saved to Confluence!')}
-                        className="px-3 py-1 glass-button rounded-lg text-sm transition-all duration-300"
+                        className="px-3 py-1 bg-confluence-blue text-white rounded text-sm hover:bg-blue-700 transition-colors"
                       >
                         Save
                       </button>
@@ -447,16 +443,14 @@ if __name__ == '__main__':
                 </div>
                 
                 {processedCode ? (
-                  <div className="glass-content rounded-xl p-4 overflow-auto max-h-96">
-                    <pre className="text-sm glass-text">
+                  <div className="bg-gray-900 rounded-lg p-4 overflow-auto max-h-96">
+                    <pre className="text-sm text-gray-300">
                       <code>{processedCode}</code>
                     </pre>
                   </div>
                 ) : (
-                  <div className="text-center py-8 glass-text-muted">
-                    <div className="w-12 h-12 glass-card rounded-xl flex items-center justify-center mx-auto mb-2">
-                      <Zap className="w-6 h-6" />
-                    </div>
+                  <div className="text-center py-8 text-gray-500">
+                    <Zap className="w-12 h-12 mx-auto mb-2 text-gray-400" />
                     <p>Process code to see AI results</p>
                   </div>
                 )}
@@ -464,15 +458,15 @@ if __name__ == '__main__':
 
               {/* Export Options */}
               {processedCode && (
-                <div className="glass-card rounded-2xl p-4">
-                  <h4 className="font-semibold glass-text mb-3">Export Options</h4>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-800 mb-3">Export Options</h4>
                   <div className="space-y-3">
                     <div className="flex items-center space-x-2">
-                      <label className="text-sm font-medium glass-text">Export Format:</label>
+                      <label className="text-sm font-medium text-gray-700">Export Format:</label>
                       <select
                         value={exportFormat}
                         onChange={(e) => setExportFormat(e.target.value)}
-                        className="px-3 py-1 glass-select rounded-lg text-sm focus:ring-2 focus:ring-white/30"
+                        className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-confluence-blue"
                       >
                         <option value="markdown">Markdown</option>
                         <option value="pdf">PDF</option>
@@ -484,14 +478,14 @@ if __name__ == '__main__':
                     <div className="flex space-x-2">
                       <button
                         onClick={() => exportCode(exportFormat)}
-                        className="flex items-center space-x-2 px-4 py-2 glass-button-primary rounded-xl transition-all duration-300"
+                        className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                       >
                         <Download className="w-4 h-4" />
                         <span>Export</span>
                       </button>
                       <button
                         onClick={() => alert('Saved to Confluence!')}
-                        className="flex items-center space-x-2 px-4 py-2 glass-button rounded-xl transition-all duration-300"
+                        className="flex items-center space-x-2 px-4 py-2 bg-confluence-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
                       >
                         <Save className="w-4 h-4" />
                         <span>Save to Confluence</span>
