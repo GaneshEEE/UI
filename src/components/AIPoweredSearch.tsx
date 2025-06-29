@@ -62,17 +62,17 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
 
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-40 p-4">
-      <div className="glass-container rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden liquid-animation">
+      <div className="glass-container rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="glass-header p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-2xl glass-card flex items-center justify-center liquid-animation-delayed">
+              <div className="w-12 h-12 rounded-2xl glass-card flex items-center justify-center">
                 <Search className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold glass-text">Confluence AI Assistant</h2>
-                <p className="glass-text-muted">AI-powered tools for your Confluence workspace</p>
+                <h2 className="text-2xl font-bold glass-text-blue">Confluence AI Assistant</h2>
+                <p className="glass-text-blue-muted">AI-powered tools for your Confluence workspace</p>
               </div>
             </div>
             <button onClick={onClose} className="glass-button rounded-full p-2 hover:rotate-90 transition-transform duration-300">
@@ -81,7 +81,7 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-6 flex gap-2">
+          <div className="mt-6 flex gap-2 flex-wrap">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'search';
@@ -276,7 +276,7 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
 
               {!response && !isLoading && (
                 <div className="glass-card rounded-2xl p-8 text-center">
-                  <div className="w-16 h-16 glass-card rounded-2xl flex items-center justify-center mx-auto mb-4 liquid-animation">
+                  <div className="w-16 h-16 glass-card rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <FileText className="w-8 h-8 glass-text-muted" />
                   </div>
                   <h3 className="text-lg font-semibold glass-text mb-2">Ready to Search</h3>
