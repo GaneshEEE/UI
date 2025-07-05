@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Video, Download, Save, X, ChevronDown, ChevronRight, Loader2, Search, Code, TrendingUp, TestTube, MessageSquare } from 'lucide-react';
+import { Video, Download, Save, X, ChevronDown, ChevronRight, Loader2, Search, Code, TrendingUp, TestTube, MessageSquare, Image } from 'lucide-react';
 import { FeatureType } from '../App';
 
 interface VideoSummarizerProps {
@@ -34,6 +34,7 @@ const VideoSummarizer: React.FC<VideoSummarizerProps> = ({ onClose, onFeatureSel
     { id: 'code' as const, label: 'Code Assistant', icon: Code },
     { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp },
     { id: 'test' as const, label: 'Test Support Tool', icon: TestTube },
+    { id: 'image' as const, label: 'Image Insights & Chart Builder', icon: Image },
   ];
 
   const processVideo = async () => {
@@ -112,7 +113,7 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-6 flex gap-2">
+          <div className="mt-6 flex gap-2 overflow-x-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'video';

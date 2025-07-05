@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Code, FileText, Download, Save, X, ChevronDown, Loader2, Zap, Search, Video, TrendingUp, TestTube } from 'lucide-react';
+import { Code, FileText, Download, Save, X, ChevronDown, Loader2, Zap, Search, Video, TrendingUp, TestTube, Image } from 'lucide-react';
 import { FeatureType } from '../App';
 
 interface CodeAssistantProps {
@@ -44,6 +44,7 @@ const CodeAssistant: React.FC<CodeAssistantProps> = ({ onClose, onFeatureSelect 
     { id: 'code' as const, label: 'Code Assistant', icon: Code },
     { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp },
     { id: 'test' as const, label: 'Test Support Tool', icon: TestTube },
+    { id: 'image' as const, label: 'Image Insights & Chart Builder', icon: Image },
   ];
 
   const sampleCode = `// React Component Example
@@ -269,7 +270,7 @@ if __name__ == '__main__':
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-6 flex gap-2">
+          <div className="mt-6 flex gap-2 overflow-x-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'code';

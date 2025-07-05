@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TestTube, Code, FileCheck, Download, Save, X, ChevronDown, Loader2, MessageSquare, Play, Search, Video, TrendingUp } from 'lucide-react';
+import { TestTube, Code, FileCheck, Download, Save, X, ChevronDown, Loader2, MessageSquare, Play, Search, Video, TrendingUp, Image } from 'lucide-react';
 import { FeatureType } from '../App';
 
 interface TestSupportToolProps {
@@ -44,6 +44,7 @@ const TestSupportTool: React.FC<TestSupportToolProps> = ({ onClose, onFeatureSel
     { id: 'code' as const, label: 'Code Assistant', icon: Code },
     { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp },
     { id: 'test' as const, label: 'Test Support Tool', icon: TestTube },
+    { id: 'image' as const, label: 'Image Insights & Chart Builder', icon: Image },
   ];
 
   const generateTestStrategy = async () => {
@@ -280,7 +281,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-6 flex gap-2">
+          <div className="mt-6 flex gap-2 overflow-x-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'test';
