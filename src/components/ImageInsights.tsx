@@ -248,7 +248,7 @@ ${JSON.stringify(chartData.data, null, 2)}
 
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-            {/* Left Column - Configuration & Chart Builder */}
+            {/* Left Column - Image Selection */}
             <div className="xl:col-span-1">
               <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 space-y-6 border border-white/20 shadow-lg">
                 <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
@@ -314,124 +314,6 @@ ${JSON.stringify(chartData.data, null, 2)}
                   <Image className="w-5 h-5" />
                   <span>Load Images</span>
                 </button>
-
-                {/* Chart Builder Section */}
-                {chartData && (
-                  <div className="pt-6 border-t border-white/20 space-y-4">
-                    <h4 className="font-semibold text-gray-800 flex items-center">
-                      <BarChart3 className="w-5 h-5 mr-2" />
-                      Chart Builder
-                    </h4>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Chart Type
-                      </label>
-                      <div className="relative">
-                        <select
-                          value={selectedChartType}
-                          onChange={(e) => {
-                            setSelectedChartType(e.target.value as any);
-                            // Update chart data when type changes
-                            const sampleData = {
-                              bar: {
-                                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-                                datasets: [{
-                                  label: 'Revenue',
-                                  data: [65, 78, 90, 81],
-                                  backgroundColor: 'rgba(38, 132, 255, 0.8)'
-                                }]
-                              },
-                              line: {
-                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                                datasets: [{
-                                  label: 'Growth',
-                                  data: [12, 19, 15, 25, 22],
-                                  borderColor: 'rgba(38, 132, 255, 1)',
-                                  fill: false
-                                }]
-                              },
-                              pie: {
-                                labels: ['Desktop', 'Mobile', 'Tablet'],
-                                datasets: [{
-                                  data: [55, 35, 10],
-                                  backgroundColor: ['#0052CC', '#2684FF', '#B3D4FF']
-                                }]
-                              },
-                              scatter: {
-                                datasets: [{
-                                  label: 'Performance',
-                                  data: [{x: 10, y: 20}, {x: 15, y: 25}, {x: 20, y: 30}],
-                                  backgroundColor: 'rgba(38, 132, 255, 0.8)'
-                                }]
-                              }
-                            };
-                            setChartData({
-                              type: e.target.value as any,
-                              data: sampleData[e.target.value as keyof typeof sampleData],
-                              title: `Generated ${e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1)} Chart`
-                            });
-                          }}
-                          className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
-                        >
-                          {chartTypes.map(type => (
-                            <option key={type.value} value={type.value}>{type.label}</option>
-                          ))}
-                        </select>
-                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Chart File Name
-                      </label>
-                      <input
-                        type="text"
-                        value={chartFileName}
-                        onChange={(e) => setChartFileName(e.target.value)}
-                        placeholder="my-chart"
-                        className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue bg-white/70 backdrop-blur-sm"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Export Format
-                      </label>
-                      <div className="relative">
-                        <select
-                          value={chartExportFormat}
-                          onChange={(e) => setChartExportFormat(e.target.value)}
-                          className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
-                        >
-                          <option value="png">PNG</option>
-                          <option value="pdf">PDF</option>
-                          <option value="docx">Word Document</option>
-                          <option value="pptx">PowerPoint</option>
-                        </select>
-                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <button
-                        onClick={exportChart}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
-                      >
-                        <Download className="w-4 h-4" />
-                        <span>Export Chart</span>
-                      </button>
-                      <button
-                        onClick={() => alert('Chart saved to Confluence!')}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
-                      >
-                        <Save className="w-4 h-4" />
-                        <span>Save to Confluence</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
 
@@ -508,21 +390,145 @@ ${JSON.stringify(chartData.data, null, 2)}
                 </div>
               )}
 
-              {/* Chart Preview */}
+              {/* Chart Preview Section */}
               {chartData && (
                 <div ref={chartPreviewRef} className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
                   <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
                     <BarChart3 className="w-5 h-5 mr-2" />
-                    Chart Preview: {chartData.title}
+                    Chart Builder
                   </h3>
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-white/20 text-center">
-                    <div className="w-full h-64 bg-gradient-to-br from-confluence-blue/10 to-confluence-light-blue/10 rounded-lg flex items-center justify-center border border-white/20">
-                      <div className="text-center">
-                        <BarChart3 className="w-16 h-16 text-confluence-blue mx-auto mb-4" />
-                        <p className="text-gray-600 font-medium">{chartData.title}</p>
-                        <p className="text-gray-500 text-sm mt-2">Live {chartData.type} chart preview</p>
-                        <div className="mt-4 text-xs text-gray-400">
-                          Chart updates automatically when you change the type in the left panel
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Chart Controls - Left Side */}
+                    <div className="lg:col-span-1 space-y-4">
+                      <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                        <h4 className="font-semibold text-gray-800 mb-3">Chart Settings</h4>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Chart Type
+                            </label>
+                            <div className="relative">
+                              <select
+                                value={selectedChartType}
+                                onChange={(e) => {
+                                  setSelectedChartType(e.target.value as any);
+                                  // Update chart data when type changes
+                                  const sampleData = {
+                                    bar: {
+                                      labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                                      datasets: [{
+                                        label: 'Revenue',
+                                        data: [65, 78, 90, 81],
+                                        backgroundColor: 'rgba(38, 132, 255, 0.8)'
+                                      }]
+                                    },
+                                    line: {
+                                      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                                      datasets: [{
+                                        label: 'Growth',
+                                        data: [12, 19, 15, 25, 22],
+                                        borderColor: 'rgba(38, 132, 255, 1)',
+                                        fill: false
+                                      }]
+                                    },
+                                    pie: {
+                                      labels: ['Desktop', 'Mobile', 'Tablet'],
+                                      datasets: [{
+                                        data: [55, 35, 10],
+                                        backgroundColor: ['#0052CC', '#2684FF', '#B3D4FF']
+                                      }]
+                                    },
+                                    scatter: {
+                                      datasets: [{
+                                        label: 'Performance',
+                                        data: [{x: 10, y: 20}, {x: 15, y: 25}, {x: 20, y: 30}],
+                                        backgroundColor: 'rgba(38, 132, 255, 0.8)'
+                                      }]
+                                    }
+                                  };
+                                  setChartData({
+                                    type: e.target.value as any,
+                                    data: sampleData[e.target.value as keyof typeof sampleData],
+                                    title: `Generated ${e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1)} Chart`
+                                  });
+                                }}
+                                className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                              >
+                                {chartTypes.map(type => (
+                                  <option key={type.value} value={type.value}>{type.label}</option>
+                                ))}
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Chart File Name
+                            </label>
+                            <input
+                              type="text"
+                              value={chartFileName}
+                              onChange={(e) => setChartFileName(e.target.value)}
+                              placeholder="my-chart"
+                              className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue bg-white/70 backdrop-blur-sm"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Export Format
+                            </label>
+                            <div className="relative">
+                              <select
+                                value={chartExportFormat}
+                                onChange={(e) => setChartExportFormat(e.target.value)}
+                                className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                              >
+                                <option value="png">PNG</option>
+                                <option value="pdf">PDF</option>
+                                <option value="docx">Word Document</option>
+                                <option value="pptx">PowerPoint</option>
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div className="space-y-2 pt-2">
+                            <button
+                              onClick={exportChart}
+                              className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
+                            >
+                              <Download className="w-4 h-4" />
+                              <span>Export Chart</span>
+                            </button>
+                            <button
+                              onClick={() => alert('Chart saved to Confluence!')}
+                              className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
+                            >
+                              <Save className="w-4 h-4" />
+                              <span>Save to Confluence</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Chart Preview - Right Side */}
+                    <div className="lg:col-span-2">
+                      <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                        <h4 className="font-semibold text-gray-800 mb-4">{chartData.title}</h4>
+                        <div className="w-full h-80 bg-gradient-to-br from-confluence-blue/10 to-confluence-light-blue/10 rounded-lg flex items-center justify-center border border-white/20">
+                          <div className="text-center">
+                            <BarChart3 className="w-20 h-20 text-confluence-blue mx-auto mb-4" />
+                            <p className="text-gray-600 font-medium text-lg">{chartData.title}</p>
+                            <p className="text-gray-500 text-sm mt-2">Live {chartData.type} chart preview</p>
+                            <div className="mt-4 text-xs text-gray-400 max-w-md mx-auto">
+                              Chart updates automatically when you change the type in the controls panel
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
