@@ -5,7 +5,8 @@ interface CircularLauncherProps {
 }
 
 const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
-  const [position, setPosition] = useState({ x: 50, y: 50 });
+  // Initialize position at top right
+  const [position, setPosition] = useState({ x: window.innerWidth - 100, y: 20 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -55,6 +56,22 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
       };
     }
   }, [isDragging, dragStart]);
+
+  // Update position on window resize to keep it in bounds
+  useEffect(() => {
+    const handleResize = () => {
+      const maxX = window.innerWidth - 80;
+      const maxY = window.innerHeight - 80;
+      
+      setPosition(prev => ({
+        x: Math.min(prev.x, maxX),
+        y: Math.min(prev.y, maxY)
+      }));
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <button
