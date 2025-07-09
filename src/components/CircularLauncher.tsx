@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Settings, Key, RotateCcw, Check } from 'lucide-react';
+import { Settings, Key, RotateCcw, Check, CheckCircle } from 'lucide-react';
 
 interface CircularLauncherProps {
   onClick: () => void;
@@ -18,6 +18,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
   const [showApiKeySwap, setShowApiKeySwap] = useState(false);
   const [currentApiKey, setCurrentApiKey] = useState('gemini-pro');
   const [isRestarting, setIsRestarting] = useState(false);
+  const [showSuccessIndicator, setShowSuccessIndicator] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const apiKeyOptions: ApiKeyOption[] = [
@@ -93,11 +94,13 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
   const handleApiKeySwap = async (newApiKey: string) => {
     setIsRestarting(true);
     setCurrentApiKey(newApiKey);
+    setShowSuccessIndicator(true);
     
     // Simulate API key swap and restart
     setTimeout(() => {
       setShowApiKeySwap(false);
       setIsRestarting(false);
+      setShowSuccessIndicator(false);
       // Force a page reload to restart the launcher with new API key
       window.location.reload();
     }, 1500);
@@ -120,7 +123,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
   if (isRestarting) {
     return (
       <div
-        className="fixed w-20 h-20 bg-gradient-to-br from-confluence-blue to-confluence-light-blue text-white rounded-full shadow-2xl z-50 flex items-center justify-center font-bold text-sm backdrop-blur-xl border-2 border-white/30 animate-pulse"
+        className="fixed w-20 h-20 bg-gradient-to-br from-confluence-blue to-confluence-light-blue text-white rounded-full shadow-2xl z-50 flex items-center justify-center font-bold text-sm backdrop-blur-xl border-2 border-white/30 animate-pulse transition-all duration-300"
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
@@ -146,7 +149,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
             ref={buttonRef}
             onMouseDown={handleMouseDown}
             onClick={handleClick}
-            className="w-20 h-20 bg-gradient-to-br from-confluence-blue to-confluence-light-blue text-white rounded-full shadow-2xl cursor-move flex items-center justify-center font-bold text-sm backdrop-blur-xl border-2 border-white/30 hover:shadow-confluence-blue/50 hover:shadow-2xl transition-all duration-300"
+            className="w-20 h-20 bg-gradient-to-br from-confluence-blue to-confluence-light-blue text-white rounded-full shadow-2xl cursor-move flex items-center justify-center font-bold text-sm backdrop-blur-xl border-2 border-white/30 hover:shadow-confluence-blue/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 animate-pulse-glow"
             style={{
               boxShadow: `
                 0 0 30px rgba(38, 132, 255, 0.4),
@@ -172,7 +175,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
           {/* API Key Settings Button */}
           <button
             onClick={toggleApiKeySwap}
-            className="absolute -bottom-2 -right-2 w-8 h-8 bg-white/90 backdrop-blur-xl text-confluence-blue rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center border border-white/30"
+            className="absolute -bottom-2 -right-2 w-8 h-8 bg-white/90 backdrop-blur-xl text-confluence-blue rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 flex items-center justify-center border border-white/30"
             style={{
               boxShadow: `
                 0 0 15px rgba(38, 132, 255, 0.3),
@@ -182,6 +185,13 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
           >
             <Settings className="w-4 h-4" />
           </button>
+
+          {/* Success Indicator */}
+          {showSuccessIndicator && (
+            <div className="absolute -top-2 -left-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center animate-ping">
+              <CheckCircle className="w-4 h-4 text-white" />
+            </div>
+          )}
         </div>
       </div>
 
@@ -189,6 +199,69 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
       {showApiKeySwap && (
         <div 
           className="fixed z-40"
+          style={{ 
+            left: `${Math.min(position.x + 100, window.innerWidth - 320)}px`, 
+            top: `${position.y}px`,
+            animation: 'slideInFade 0.3s ease-out'
+          }}
+        >
+          <div className="bg-white/90 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-80 overflow-hidden animate-slideInFade">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-4 text-white border-b border-white/10">
+              <div className="flex items-center space-x-3">
+                <Key className="w-6 h-6" />
+                <div>
+                  <h3 className="text-lg font-bold">API Key Manager</h3>
+                  <p className="text-blue-100/90 text-sm">Switch between available API keys</p>
+                </div>
+              </div>
+            </div>
+
+            {/* API Key Options */}
+            <div className="p-4 space-y-3">
+              {apiKeyOptions.map((option, index) => (
+                <button
+                  key={option.id}
+                  onClick={() => handleApiKeySwap(option.id)}
+                  disabled={option.id === currentApiKey}
+                  className={`w-full p-3 rounded-lg border transition-all duration-200 flex items-center justify-between hover:scale-102 hover:shadow-md ${
+                    option.id === currentApiKey
+                      ? 'bg-confluence-blue/20 border-confluence-blue/30 text-confluence-blue'
+                      : 'bg-white/60 border-white/30 hover:bg-white/80 text-gray-700'
+                  }`}
+                  style={{
+                    animationDelay: `${index * 0.1}s`,
+                    animation: 'staggeredFadeIn 0.4s ease-out forwards'
+                  }}
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-3 h-3 rounded-full ${getStatusColor(option.status)} animate-status-pulse`} />
+                    <div className="text-left">
+                      <div className="font-medium">{option.name}</div>
+                      <div className="text-xs opacity-70 capitalize">{option.status}</div>
+                    </div>
+                  </div>
+                  {option.id === currentApiKey && (
+                    <Check className="w-5 h-5 text-confluence-blue animate-checkmark" />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 bg-white/50 backdrop-blur-sm border-t border-white/20">
+              <p className="text-xs text-gray-600 text-center">
+                Switching API key will restart the launcher
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default CircularLauncher;
           style={{ 
             left: `${Math.min(position.x + 100, window.innerWidth - 320)}px`, 
             top: `${position.y}px` 

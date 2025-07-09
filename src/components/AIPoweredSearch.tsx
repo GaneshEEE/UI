@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Download, Save, FileText, X, ChevronDown, Loader2, Settings, Video, Code, TrendingUp, TestTube, Image } from 'lucide-react';
+import { Search, Download, Save, FileText, X, ChevronDown, Loader2, Settings, Video, Code, TrendingUp, TestTube, Image, MoreHorizontal } from 'lucide-react';
 import { FeatureType } from '../App';
 
 interface AIPoweredSearchProps {
@@ -13,6 +13,8 @@ const AIPoweredSearch: React.FC<AIPoweredSearchProps> = ({ onClose, onFeatureSel
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [typingText, setTypingText] = useState('');
+  const [showTypingIndicator, setShowTypingIndicator] = useState(false);
   const [showRawContent, setShowRawContent] = useState(false);
   const [exportFormat, setExportFormat] = useState('markdown');
 
@@ -30,9 +32,14 @@ const AIPoweredSearch: React.FC<AIPoweredSearchProps> = ({ onClose, onFeatureSel
 
   const handleSearch = async () => {
     setIsLoading(true);
+    setShowTypingIndicator(true);
+    setResponse('');
+    setTypingText('');
+    
     // Simulate AI processing
     setTimeout(() => {
-      setResponse(`Based on your query "${query}" across ${selectedPages.length} pages in the ${selectedSpace} space:
+      setShowTypingIndicator(false);
+      const fullResponse = `Based on your query "${query}" across ${selectedPages.length} pages in the ${selectedSpace} space:
 
 ## Summary
 This is an AI-generated response that analyzes the selected pages to provide comprehensive insights. The system has processed the content and extracted relevant information to answer your question.
@@ -47,7 +54,20 @@ The response is based on analysis of the following pages:
 ${selectedPages.map(page => `- ${page}`).join('\n')}
 
 *Generated at ${new Date().toLocaleString()}*`);
-      setIsLoading(false);
+      
+      // Typewriter effect
+      let currentIndex = 0;
+      const typewriterInterval = setInterval(() => {
+        if (currentIndex < fullResponse.length) {
+          setTypingText(fullResponse.substring(0, currentIndex + 1));
+          currentIndex++;
+        } else {
+          clearInterval(typewriterInterval);
+          setResponse(fullResponse);
+          setTypingText('');
+          setIsLoading(false);
+        }
+      }, 20);
     }, 2000);
   };
 
@@ -62,8 +82,8 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-40 p-4">
-      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-40 p-4 animate-fadeIn">
+      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden animate-slideInUp">
         {/* Header */}
         <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-6 text-white border-b border-white/10">
           <div className="flex items-center justify-between">
@@ -81,7 +101,7 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
           
           {/* Feature Navigation */}
           <div className="mt-6 flex gap-2 overflow-x-auto">
-            {features.map((feature) => {
+            {features.map((feature, index) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'search';
               
@@ -89,11 +109,15 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                 <button
                   key={feature.id}
                   onClick={() => onFeatureSelect(feature.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg backdrop-blur-sm border transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg backdrop-blur-sm border transition-all duration-200 whitespace-nowrap hover:scale-105 hover:shadow-lg ${
                     isActive
                       ? 'bg-white/90 text-confluence-blue shadow-lg border-white/30'
                       : 'bg-white/10 text-white hover:bg-white/20 border-white/10'
                   }`}
+                  style={{
+                    animationDelay: `${index * 0.1}s`,
+                    animation: 'staggeredFadeIn 0.5s ease-out forwards'
+                  }}
                 >
                   <Icon className="w-4 h-4" />
                   <span className="text-sm font-medium">{feature.label}</span>
@@ -180,7 +204,7 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                 <button
                   onClick={handleSearch}
                   disabled={!selectedSpace || selectedPages.length === 0 || !query.trim() || isLoading}
-                  className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-3 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
+                  className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-3 px-4 rounded-lg hover:bg-confluence-blue hover:scale-105 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center space-x-2 transition-all duration-200 border border-white/10"
                 >
                   {isLoading ? (
                     <>
@@ -199,7 +223,7 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
 
             {/* Right Column - Results */}
             <div className="space-y-6">
-              {response && (
+              {(response || typingText || showTypingIndicator) && (
                 <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="font-semibold text-gray-800">AI Response</h3>
@@ -214,10 +238,43 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                   </div>
                   
                   <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20 max-h-80 overflow-y-auto">
-                    {showRawContent ? (
-                      <pre className="text-sm text-gray-700 whitespace-pre-wrap">{response}</pre>
-                    ) : (
+                    {showTypingIndicator && (
+                      <div className="flex items-center space-x-2 text-gray-500">
+                        <span>AI is thinking</span>
+                        <div className="flex space-x-1">
+                          <div className="w-2 h-2 bg-confluence-blue rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                          <div className="w-2 h-2 bg-confluence-blue rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                          <div className="w-2 h-2 bg-confluence-blue rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                        </div>
+                      </div>
+                    )}
+                    {typingText && (
                       <div className="prose prose-sm max-w-none">
+                        <div className="animate-fadeIn">
+                          {typingText.split('\n').map((line, index) => {
+                            if (line.startsWith('## ')) {
+                              return <h2 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(3)}</h2>;
+                            } else if (line.startsWith('- **')) {
+                              const match = line.match(/- \*\*(.*?)\*\*: (.*)/);
+                              if (match) {
+                                return <p key={index} className="mb-2"><strong>{match[1]}:</strong> {match[2]}</p>;
+                              }
+                            } else if (line.startsWith('- ')) {
+                              return <p key={index} className="mb-1 ml-4">• {line.substring(2)}</p>;
+                            } else if (line.trim()) {
+                              return <p key={index} className="mb-2 text-gray-700">{line}</p>;
+                            }
+                            return <br key={index} />;
+                          })}
+                          <span className="animate-pulse">|</span>
+                        </div>
+                      </div>
+                    )}
+                    {response && !typingText && (
+                      showRawContent ? (
+                        <pre className="text-sm text-gray-700 whitespace-pre-wrap animate-fadeIn">{response}</pre>
+                    ) : (
+                        <div className="prose prose-sm max-w-none animate-fadeIn">
                         {response.split('\n').map((line, index) => {
                           if (line.startsWith('## ')) {
                             return <h2 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(3)}</h2>;
@@ -234,6 +291,7 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                           return <br key={index} />;
                         })}
                       </div>
+                      )
                     )}
                   </div>
 
@@ -256,14 +314,14 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                     <div className="flex space-x-2">
                       <button
                         onClick={() => exportResponse(exportFormat)}
-                        className="flex items-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
+                        className="flex items-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 hover:scale-105 transition-all duration-200 border border-white/10"
                       >
                         <Download className="w-4 h-4" />
                         <span>Export</span>
                       </button>
                       <button
                         onClick={() => alert('Saved to Confluence!')}
-                        className="flex items-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
+                        className="flex items-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue hover:scale-105 transition-all duration-200 border border-white/10"
                       >
                         <Save className="w-4 h-4" />
                         <span>Save to Confluence</span>
@@ -273,7 +331,7 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                 </div>
               )}
 
-              {!response && !isLoading && (
+              {!response && !typingText && !showTypingIndicator && !isLoading && (
                 <div className="bg-white/60 backdrop-blur-xl rounded-xl p-8 text-center border border-white/20 shadow-lg">
                   <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-gray-600 mb-2">Ready to Search</h3>
