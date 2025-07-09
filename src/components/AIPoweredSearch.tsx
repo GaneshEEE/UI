@@ -27,7 +27,7 @@ const AIPoweredSearch: React.FC<AIPoweredSearchProps> = ({ onClose, onFeatureSel
     { id: 'code' as const, label: 'Code Assistant', icon: Code },
     { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp },
     { id: 'test' as const, label: 'Test Support Tool', icon: TestTube },
-    { id: 'image' as const, label: 'Image Insights & Chart Builder', icon: Image },
+    { id: 'image' as const, label: 'Image Insights & Chart Builder', icon: Image }
   ];
 
   const handleSearch = async () => {
@@ -53,7 +53,7 @@ This is an AI-generated response that analyzes the selected pages to provide com
 The response is based on analysis of the following pages:
 ${selectedPages.map(page => `- ${page}`).join('\n')}
 
-*Generated at ${new Date().toLocaleString()}*`);
+*Generated at ${new Date().toLocaleString()}*`;
       
       // Typewriter effect
       let currentIndex = 0;
