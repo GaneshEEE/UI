@@ -10,6 +10,7 @@ interface ApiKeyOption {
   name: string;
   status: 'active' | 'inactive' | 'error';
 }
+
 const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
   // Initialize position at top right
   const [position, setPosition] = useState({ x: window.innerWidth - 100, y: 20 });
@@ -132,7 +133,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
             0 0 60px rgba(38, 132, 255, 0.4),
             0 8px 32px rgba(0, 0, 0, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.3)
-          `,
+          `
         }}
       >
         <RotateCcw className="w-8 h-8 animate-spin" />
@@ -166,7 +167,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
                   rgba(255, 255, 255, 0.3) 0%, 
                   transparent 50%
                 )
-              `,
+              `
             }}
           >
             <span className="text-white font-extrabold tracking-tight">C.AIA</span>
@@ -180,7 +181,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
               boxShadow: `
                 0 0 15px rgba(38, 132, 255, 0.3),
                 0 4px 16px rgba(0, 0, 0, 0.2)
-              `,
+              `
             }}
           >
             <Settings className="w-4 h-4" />
@@ -206,68 +207,6 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
           }}
         >
           <div className="bg-white/90 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-80 overflow-hidden animate-slideInFade">
-            {/* Header */}
-            <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-4 text-white border-b border-white/10">
-              <div className="flex items-center space-x-3">
-                <Key className="w-6 h-6" />
-                <div>
-                  <h3 className="text-lg font-bold">API Key Manager</h3>
-                  <p className="text-blue-100/90 text-sm">Switch between available API keys</p>
-                </div>
-              </div>
-            </div>
-
-            {/* API Key Options */}
-            <div className="p-4 space-y-3">
-              {apiKeyOptions.map((option, index) => (
-                <button
-                  key={option.id}
-                  onClick={() => handleApiKeySwap(option.id)}
-                  disabled={option.id === currentApiKey}
-                  className={`w-full p-3 rounded-lg border transition-all duration-200 flex items-center justify-between hover:scale-102 hover:shadow-md ${
-                    option.id === currentApiKey
-                      ? 'bg-confluence-blue/20 border-confluence-blue/30 text-confluence-blue'
-                      : 'bg-white/60 border-white/30 hover:bg-white/80 text-gray-700'
-                  }`}
-                  style={{
-                    animationDelay: `${index * 0.1}s`,
-                    animation: 'staggeredFadeIn 0.4s ease-out forwards'
-                  }}
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-3 h-3 rounded-full ${getStatusColor(option.status)} animate-status-pulse`} />
-                    <div className="text-left">
-                      <div className="font-medium">{option.name}</div>
-                      <div className="text-xs opacity-70 capitalize">{option.status}</div>
-                    </div>
-                  </div>
-                  {option.id === currentApiKey && (
-                    <Check className="w-5 h-5 text-confluence-blue animate-checkmark" />
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {/* Footer */}
-            <div className="p-4 bg-white/50 backdrop-blur-sm border-t border-white/20">
-              <p className="text-xs text-gray-600 text-center">
-                Switching API key will restart the launcher
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
-
-export default CircularLauncher;
-          style={{ 
-            left: `${Math.min(position.x + 100, window.innerWidth - 320)}px`, 
-            top: `${position.y}px` 
-          }}
-        >
-          <div className="bg-white/90 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-80 overflow-hidden">
             {/* Header */}
             <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-4 text-white border-b border-white/10">
               <div className="flex items-center space-x-3">
