@@ -304,7 +304,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
               <div className="bg-white/60 backdrop-blur-xl rounded-xl p-8 border border-white/20 shadow-lg text-center">
                 <div className="flex items-center justify-center space-x-3 mb-4">
                   <Brain className="w-8 h-8 text-orange-500 animate-pulse" />
-                  <h3 className="text-xl font-bold text-gray-800">🧩 Planning steps...</h3>
+                  <h3 className="text-xl font-bold text-gray-800">Planning steps...</h3>
                 </div>
                 <div className="flex items-center justify-center space-x-4 text-gray-600">
                   <span>1. Retrieve context</span>
