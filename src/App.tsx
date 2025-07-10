@@ -70,8 +70,7 @@ function App() {
             renderActiveFeature()
           ) : appMode === 'tool' ? (
             <AIPoweredSearch onClose={handleAppClose} onFeatureSelect={setActiveFeature} />
-          ) : null
-          )}
+          ) : null}
         </div>
       )}
     </div>
