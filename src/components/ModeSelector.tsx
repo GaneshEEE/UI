@@ -5,72 +5,21 @@ import { AppMode } from '../App';
 interface ModeSelectorProps {
   onModeSelect: (mode: AppMode) => void;
   onClose: () => void;
-  currentMode?: AppMode;
-  isOverlay?: boolean;
 }
 
-const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose, currentMode = 'tool', isOverlay = false }) => {
-  const [selectedMode, setSelectedMode] = useState<'agent' | 'tool'>(currentMode === 'agent' ? 'agent' : 'tool');
+const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) => {
+  const [selectedMode, setSelectedMode] = useState<'agent' | 'tool'>('agent');
 
   const handleModeChange = (mode: 'agent' | 'tool') => {
     setSelectedMode(mode);
-    if (isOverlay) {
-      // Immediately switch mode when in overlay
-      onModeSelect(mode);
-    }
   };
 
   const handleConfirm = () => {
-    if (!isOverlay) {
-      onModeSelect(selectedMode);
-    }
+    onModeSelect(selectedMode);
   };
 
-  if (isOverlay) {
-    return (
-      <div className="bg-white/90 backdrop-blur-xl border border-white/30 rounded-xl shadow-lg p-2">
-        <div className="relative bg-gray-100/80 backdrop-blur-sm rounded-lg p-1">
-          <div 
-            className={`absolute top-1 bottom-1 w-1/2 bg-white rounded-md shadow-sm transition-all duration-300 ease-out ${
-              selectedMode === 'agent' ? 'left-1' : 'left-1/2'
-            }`}
-            style={{
-              background: selectedMode === 'agent' 
-                ? 'linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.1) 100%)'
-                : 'linear-gradient(135deg, rgba(38, 132, 255, 0.1) 0%, rgba(0, 82, 204, 0.1) 100%)',
-              borderColor: selectedMode === 'agent' ? 'rgba(249, 115, 22, 0.2)' : 'rgba(38, 132, 255, 0.2)',
-              borderWidth: '1px'
-            }}
-          />
-          
-          <div className="relative flex">
-            <button
-              onClick={() => handleModeChange('agent')}
-              className={`flex-1 py-2 px-3 text-center font-medium transition-all duration-300 rounded-md text-sm ${
-                selectedMode === 'agent'
-                  ? 'text-orange-600 z-10'
-                  : 'text-gray-600 hover:text-gray-800'
-              }`}
-            >
-              Agent
-            </button>
-            <button
-              onClick={() => handleModeChange('tool')}
-              className={`flex-1 py-2 px-3 text-center font-medium transition-all duration-300 rounded-md text-sm ${
-                selectedMode === 'tool'
-                  ? 'text-confluence-blue z-10'
-                  : 'text-gray-600 hover:text-gray-800'
-              }`}
-            >
-              Tool
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
   return (
-    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-40 p-4">
+    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-40 p-4 animate-fadeIn">
       <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-slideInUp">
         {/* Header */}
         <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-6 text-white border-b border-white/10">
@@ -160,18 +109,16 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose, curr
           </div>
 
           {/* Confirm Button */}
-          {!isOverlay && (
-            <button
-              onClick={handleConfirm}
-              className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 shadow-lg ${
-                selectedMode === 'agent'
-                  ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 hover:shadow-orange-500/30'
-                  : 'bg-gradient-to-r from-confluence-blue to-confluence-light-blue hover:from-confluence-blue hover:to-blue-600 hover:shadow-blue-500/30'
-              }`}
-            >
-              Continue with {selectedMode === 'agent' ? 'Agent' : 'Tool'} Mode
-            </button>
-          )}
+          <button
+            onClick={handleConfirm}
+            className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 shadow-lg ${
+              selectedMode === 'agent'
+                ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 hover:shadow-orange-500/30'
+                : 'bg-gradient-to-r from-confluence-blue to-confluence-light-blue hover:from-confluence-blue hover:to-blue-600 hover:shadow-blue-500/30'
+            }`}
+          >
+            Continue with {selectedMode === 'agent' ? 'Agent' : 'Tool'} Mode
+          </button>
         </div>
       </div>
     </div>

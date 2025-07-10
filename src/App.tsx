@@ -15,7 +15,7 @@ export type AppMode = 'agent' | 'tool' | null;
 function App() {
   const [activeFeature, setActiveFeature] = useState<FeatureType>(null);
   const [isAppOpen, setIsAppOpen] = useState(false);
-  const [appMode, setAppMode] = useState<AppMode>('tool'); // Default to tool mode
+  const [appMode, setAppMode] = useState<AppMode>(null);
 
   const renderActiveFeature = () => {
     switch (activeFeature) {
@@ -38,13 +38,13 @@ function App() {
 
   const handleLauncherClick = () => {
     setIsAppOpen(true);
-    setActiveFeature('search'); // Default to search for tool mode
+    // Don't set a default feature, let user choose mode first
   };
 
   const handleAppClose = () => {
     setIsAppOpen(false);
     setActiveFeature(null);
-    setAppMode('tool'); // Reset to tool mode
+    setAppMode(null);
   };
 
   const handleModeSelect = (mode: AppMode) => {
@@ -57,30 +57,20 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       {!isAppOpen && (
-        <CircularLauncher onClick={handleLauncherClick} isAgentMode={appMode === 'agent'} />
+        <CircularLauncher onClick={handleLauncherClick} />
       )}
       
       {isAppOpen && (
         <div>
-          {appMode === 'agent' ? (
+          {!appMode ? (
+            <ModeSelector onModeSelect={handleModeSelect} onClose={handleAppClose} />
+          ) : appMode === 'agent' ? (
             <AgentMode onClose={handleAppClose} onModeSelect={setAppMode} />
-          ) : activeFeature ? (
+          ) : appMode === 'tool' && activeFeature ? (
             renderActiveFeature()
-          ) : (
+          ) : appMode === 'tool' ? (
             <AIPoweredSearch onClose={handleAppClose} onFeatureSelect={setActiveFeature} />
-          )}
-          
-          {/* Mode Selector - Show as overlay when switching modes */}
-          {isAppOpen && (
-            <div className="fixed bottom-6 right-6 z-50">
-              <ModeSelector 
-                onModeSelect={handleModeSelect} 
-                onClose={() => {}} 
-                currentMode={appMode}
-                isOverlay={true}
-              />
-            </div>
-          )}
+          ) : null}
         </div>
       )}
     </div>
