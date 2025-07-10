@@ -3,6 +3,7 @@ import { Settings, Key, RotateCcw, Check } from 'lucide-react';
 
 interface CircularLauncherProps {
   onClick: () => void;
+  isAgentMode?: boolean;
 }
 
 interface ApiKeyOption {
@@ -10,7 +11,7 @@ interface ApiKeyOption {
   name: string;
   status: 'active' | 'inactive' | 'error';
 }
-const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
+const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick, isAgentMode = false }) => {
   // Initialize position at top right
   const [position, setPosition] = useState({ x: window.innerWidth - 100, y: 20 });
   const [isDragging, setIsDragging] = useState(false);
@@ -146,18 +147,22 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
             ref={buttonRef}
             onMouseDown={handleMouseDown}
             onClick={handleClick}
-            className="w-20 h-20 bg-gradient-to-br from-confluence-blue to-confluence-light-blue text-white rounded-full shadow-2xl cursor-move flex items-center justify-center font-bold text-sm backdrop-blur-xl border-2 border-white/30 hover:shadow-confluence-blue/50 hover:shadow-2xl transition-all duration-300"
+            className={`w-20 h-20 text-white rounded-full shadow-2xl cursor-move flex items-center justify-center font-bold text-sm backdrop-blur-xl border-2 transition-all duration-300 ${
+              isAgentMode 
+                ? 'bg-gradient-to-br from-orange-500 to-orange-600 border-orange-300/30 hover:shadow-orange-500/50 animate-pulse' 
+                : 'bg-gradient-to-br from-confluence-blue to-confluence-light-blue border-white/30 hover:shadow-confluence-blue/50'
+            } hover:shadow-2xl`}
             style={{
               boxShadow: `
-                0 0 30px rgba(38, 132, 255, 0.4),
-                0 0 60px rgba(38, 132, 255, 0.2),
+                0 0 30px ${isAgentMode ? 'rgba(249, 115, 22, 0.4)' : 'rgba(38, 132, 255, 0.4)'},
+                0 0 60px ${isAgentMode ? 'rgba(249, 115, 22, 0.2)' : 'rgba(38, 132, 255, 0.2)'},
                 0 8px 32px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3)
               `,
               background: `
                 linear-gradient(135deg, 
-                  rgba(38, 132, 255, 0.9) 0%, 
-                  rgba(0, 82, 204, 0.9) 100%
+                  ${isAgentMode ? 'rgba(249, 115, 22, 0.9)' : 'rgba(38, 132, 255, 0.9)'} 0%, 
+                  ${isAgentMode ? 'rgba(234, 88, 12, 0.9)' : 'rgba(0, 82, 204, 0.9)'} 100%
                 ),
                 radial-gradient(circle at 30% 30%, 
                   rgba(255, 255, 255, 0.3) 0%, 
@@ -172,10 +177,12 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
           {/* API Key Settings Button */}
           <button
             onClick={toggleApiKeySwap}
-            className="absolute -bottom-2 -right-2 w-8 h-8 bg-white/90 backdrop-blur-xl text-confluence-blue rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center border border-white/30"
+            className={`absolute -bottom-2 -right-2 w-8 h-8 bg-white/90 backdrop-blur-xl rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center border border-white/30 ${
+              isAgentMode ? 'text-orange-500' : 'text-confluence-blue'
+            }`}
             style={{
               boxShadow: `
-                0 0 15px rgba(38, 132, 255, 0.3),
+                0 0 15px ${isAgentMode ? 'rgba(249, 115, 22, 0.3)' : 'rgba(38, 132, 255, 0.3)'},
                 0 4px 16px rgba(0, 0, 0, 0.2)
               `,
             }}
