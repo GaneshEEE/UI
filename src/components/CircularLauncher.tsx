@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Settings, Key, RotateCcw, Check, CheckCircle } from 'lucide-react';
+import { Settings, Key, RotateCcw, Check } from 'lucide-react';
 
 interface CircularLauncherProps {
   onClick: () => void;
@@ -10,7 +10,6 @@ interface ApiKeyOption {
   name: string;
   status: 'active' | 'inactive' | 'error';
 }
-
 const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
   // Initialize position at top right
   const [position, setPosition] = useState({ x: window.innerWidth - 100, y: 20 });
@@ -19,7 +18,6 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
   const [showApiKeySwap, setShowApiKeySwap] = useState(false);
   const [currentApiKey, setCurrentApiKey] = useState('gemini-pro');
   const [isRestarting, setIsRestarting] = useState(false);
-  const [showSuccessIndicator, setShowSuccessIndicator] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const apiKeyOptions: ApiKeyOption[] = [
@@ -95,13 +93,11 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
   const handleApiKeySwap = async (newApiKey: string) => {
     setIsRestarting(true);
     setCurrentApiKey(newApiKey);
-    setShowSuccessIndicator(true);
     
     // Simulate API key swap and restart
     setTimeout(() => {
       setShowApiKeySwap(false);
       setIsRestarting(false);
-      setShowSuccessIndicator(false);
       // Force a page reload to restart the launcher with new API key
       window.location.reload();
     }, 1500);
@@ -124,7 +120,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
   if (isRestarting) {
     return (
       <div
-        className="fixed w-20 h-20 bg-gradient-to-br from-confluence-blue to-confluence-light-blue text-white rounded-full shadow-2xl z-50 flex items-center justify-center font-bold text-sm backdrop-blur-xl border-2 border-white/30 animate-pulse transition-all duration-300"
+        className="fixed w-20 h-20 bg-gradient-to-br from-confluence-blue to-confluence-light-blue text-white rounded-full shadow-2xl z-50 flex items-center justify-center font-bold text-sm backdrop-blur-xl border-2 border-white/30 animate-pulse"
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
@@ -133,7 +129,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
             0 0 60px rgba(38, 132, 255, 0.4),
             0 8px 32px rgba(0, 0, 0, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.3)
-          `
+          `,
         }}
       >
         <RotateCcw className="w-8 h-8 animate-spin" />
@@ -150,7 +146,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
             ref={buttonRef}
             onMouseDown={handleMouseDown}
             onClick={handleClick}
-            className="w-20 h-20 bg-gradient-to-br from-confluence-blue to-confluence-light-blue text-white rounded-full shadow-2xl cursor-move flex items-center justify-center font-bold text-sm backdrop-blur-xl border-2 border-white/30 hover:shadow-confluence-blue/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 animate-pulse-glow"
+            className="w-20 h-20 bg-gradient-to-br from-confluence-blue to-confluence-light-blue text-white rounded-full shadow-2xl cursor-move flex items-center justify-center font-bold text-sm backdrop-blur-xl border-2 border-white/30 hover:shadow-confluence-blue/50 hover:shadow-2xl transition-all duration-300"
             style={{
               boxShadow: `
                 0 0 30px rgba(38, 132, 255, 0.4),
@@ -167,7 +163,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
                   rgba(255, 255, 255, 0.3) 0%, 
                   transparent 50%
                 )
-              `
+              `,
             }}
           >
             <span className="text-white font-extrabold tracking-tight">C.AIA</span>
@@ -176,23 +172,16 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
           {/* API Key Settings Button */}
           <button
             onClick={toggleApiKeySwap}
-            className="absolute -bottom-2 -right-2 w-8 h-8 bg-white/90 backdrop-blur-xl text-confluence-blue rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 flex items-center justify-center border border-white/30"
+            className="absolute -bottom-2 -right-2 w-8 h-8 bg-white/90 backdrop-blur-xl text-confluence-blue rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center border border-white/30"
             style={{
               boxShadow: `
                 0 0 15px rgba(38, 132, 255, 0.3),
                 0 4px 16px rgba(0, 0, 0, 0.2)
-              `
+              `,
             }}
           >
             <Settings className="w-4 h-4" />
           </button>
-
-          {/* Success Indicator */}
-          {showSuccessIndicator && (
-            <div className="absolute -top-2 -left-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center animate-ping">
-              <CheckCircle className="w-4 h-4 text-white" />
-            </div>
-          )}
         </div>
       </div>
 
@@ -202,11 +191,10 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick }) => {
           className="fixed z-40"
           style={{ 
             left: `${Math.min(position.x + 100, window.innerWidth - 320)}px`, 
-            top: `${position.y}px`,
-            animation: 'slideInFade 0.3s ease-out'
+            top: `${position.y}px` 
           }}
         >
-          <div className="bg-white/90 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-80 overflow-hidden animate-slideInFade">
+          <div className="bg-white/90 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-80 overflow-hidden">
             {/* Header */}
             <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-4 text-white border-b border-white/10">
               <div className="flex items-center space-x-3">

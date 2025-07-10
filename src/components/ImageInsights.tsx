@@ -309,7 +309,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                 <button
                   onClick={loadImages}
                   disabled={!spaceKey || selectedPages.length === 0}
-                  className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-3 px-4 rounded-lg hover:bg-confluence-blue hover:scale-105 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center space-x-2 transition-all duration-200 border border-white/10"
+                  className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-3 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
                 >
                   <Image className="w-5 h-5" />
                   <span>Load Images</span>
@@ -321,15 +321,8 @@ ${JSON.stringify(chartData.data, null, 2)}
             <div className="xl:col-span-2 space-y-6">
               {images.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {images.map((image, index) => (
-                    <div 
-                      key={image.id} 
-                      className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg hover:shadow-xl hover:scale-102 transition-all duration-300"
-                      style={{
-                        animationDelay: `${index * 0.1}s`,
-                        animation: 'staggeredFadeIn 0.5s ease-out forwards'
-                      }}
-                    >
+                  {images.map(image => (
+                    <div key={image.id} className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
                       <div className="aspect-video bg-gray-200/50 backdrop-blur-sm rounded-lg mb-4 overflow-hidden border border-white/20">
                         <img 
                           src={image.url} 
@@ -344,7 +337,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                         <button
                           onClick={() => analyzeImage(image.id)}
                           disabled={isAnalyzing === image.id}
-                          className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-2 px-4 rounded-lg hover:bg-confluence-blue hover:scale-105 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center space-x-2 transition-all duration-200 border border-white/10"
+                          className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-2 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
                         >
                           {isAnalyzing === image.id ? (
                             <>
@@ -362,7 +355,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                         {image.summary && (
                           <button
                             onClick={() => createChart(image.id)}
-                            className="w-full bg-green-600/90 backdrop-blur-sm text-white py-2 px-4 rounded-lg hover:bg-green-700 hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2 border border-white/10"
+                            className="w-full bg-green-600/90 backdrop-blur-sm text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 border border-white/10"
                           >
                             <BarChart3 className="w-4 h-4" />
                             <span>Create Graph</span>
@@ -399,7 +392,7 @@ ${JSON.stringify(chartData.data, null, 2)}
 
               {/* Chart Preview Section */}
               {chartData && (
-                <div ref={chartPreviewRef} className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg animate-slideInUp">
+                <div ref={chartPreviewRef} className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
                   <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
                     <BarChart3 className="w-5 h-5 mr-2" />
                     Chart Builder
@@ -506,14 +499,14 @@ ${JSON.stringify(chartData.data, null, 2)}
                           <div className="space-y-2 pt-2">
                             <button
                               onClick={exportChart}
-                              className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 hover:scale-105 transition-all duration-200 border border-white/10"
+                              className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
                             >
                               <Download className="w-4 h-4" />
                               <span>Export Chart</span>
                             </button>
                             <button
                               onClick={() => alert('Chart saved to Confluence!')}
-                              className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue hover:scale-105 transition-all duration-200 border border-white/10"
+                              className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
                             >
                               <Save className="w-4 h-4" />
                               <span>Save to Confluence</span>
@@ -527,9 +520,9 @@ ${JSON.stringify(chartData.data, null, 2)}
                     <div className="lg:col-span-2">
                       <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-white/20">
                         <h4 className="font-semibold text-gray-800 mb-4">{chartData.title}</h4>
-                        <div className="w-full h-80 bg-gradient-to-br from-confluence-blue/10 to-confluence-light-blue/10 rounded-lg flex items-center justify-center border border-white/20 animate-chartDraw">
+                        <div className="w-full h-80 bg-gradient-to-br from-confluence-blue/10 to-confluence-light-blue/10 rounded-lg flex items-center justify-center border border-white/20">
                           <div className="text-center">
-                            <BarChart3 className="w-20 h-20 text-confluence-blue mx-auto mb-4 animate-bounce" />
+                            <BarChart3 className="w-20 h-20 text-confluence-blue mx-auto mb-4" />
                             <p className="text-gray-600 font-medium text-lg">{chartData.title}</p>
                             <p className="text-gray-500 text-sm mt-2">Live {chartData.type} chart preview</p>
                             <div className="mt-4 text-xs text-gray-400 max-w-md mx-auto">
