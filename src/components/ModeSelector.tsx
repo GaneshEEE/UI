@@ -85,13 +85,14 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
           <div className="mb-6">
             {selectedMode === 'agent' ? (
               <div className="bg-gradient-to-br from-orange-50/80 to-orange-100/80 backdrop-blur-sm rounded-xl p-6 border border-orange-200/50">
+              <div className="bg-white rounded-xl p-6 border border-orange-200">
                 <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-10 h-10 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
                     <Zap className="w-5 h-5 text-yellow-400 fill-yellow-400" />
                   </div>
                   <h3 className="text-lg font-bold text-orange-800">Agent Mode</h3>
                 </div>
-                <p className="text-orange-700 text-sm leading-relaxed">
+                <p className="text-gray-700 text-sm leading-relaxed">
                   Goal-based assistance with AI planning and execution. Describe what you want to achieve, 
                   and the AI will create a plan, execute it step by step, and provide comprehensive results 
                   with reasoning and follow-up options.

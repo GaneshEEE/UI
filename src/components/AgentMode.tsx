@@ -249,23 +249,23 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
     <div className="fixed inset-0 flex items-center justify-center z-40 p-4">
       <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange-500/90 to-orange-600/90 backdrop-blur-xl p-6 text-white border-b border-orange-300/20">
+        <div className="bg-orange-500 p-6 text-white border-b border-orange-600">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Zap className="w-8 h-8 text-yellow-400 fill-yellow-400" />
               <div>
                 <h2 className="text-2xl font-bold">Agent Mode</h2>
-                <p className="text-orange-100/90">Goal-based AI assistance with planning and execution</p>
+                <p className="text-white">Goal-based AI assistance with planning and execution</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
               <button 
                 onClick={() => onModeSelect('tool')}
-                className="text-orange-100 hover:text-white hover:bg-white/10 rounded-lg px-3 py-1 text-sm transition-colors"
+                className="text-white hover:bg-orange-600 rounded-lg px-3 py-1 text-sm transition-colors"
               >
                 Switch to Tool Mode
               </button>
-              <button onClick={onClose} className="text-white hover:bg-white/10 rounded-full p-2 backdrop-blur-sm">
+              <button onClick={onClose} className="text-white hover:bg-orange-600 rounded-full p-2">
                 <X className="w-6 h-6" />
               </button>
             </div>
@@ -276,7 +276,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
           {/* Goal Input Section */}
           {!planSteps.length && !isPlanning && (
             <div className="max-w-4xl mx-auto">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-8 border border-white/20 shadow-lg text-center">
+              <div className="bg-white rounded-xl p-8 border border-orange-200 shadow-lg text-center">
                 <h3 className="text-2xl font-bold text-gray-800 mb-6">What do you want the assistant to help you achieve?</h3>
                 <div className="relative">
                   <textarea
@@ -289,7 +289,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                   <button
                     onClick={handleGoalSubmit}
                     disabled={!goal.trim()}
-                    className="absolute bottom-4 right-4 bg-orange-500/90 backdrop-blur-sm text-white p-3 rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center space-x-2 transition-colors border border-white/10"
+                    className="absolute bottom-4 right-4 bg-orange-500 text-white p-3 rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center space-x-2 transition-colors"
                   >
                     <Send className="w-5 h-5" />
                   </button>
@@ -301,7 +301,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
           {/* Planning Phase */}
           {isPlanning && (
             <div className="max-w-4xl mx-auto">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-8 border border-white/20 shadow-lg text-center">
+              <div className="bg-white rounded-xl p-8 border border-orange-200 shadow-lg text-center">
                 <div className="flex items-center justify-center space-x-3 mb-4">
                   <Brain className="w-8 h-8 text-orange-500 animate-pulse" />
                   <h3 className="text-xl font-bold text-gray-800">Planning steps...</h3>
@@ -322,7 +322,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left Column - Progress Timeline */}
               <div className="lg:col-span-1">
-                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+                <div className="bg-white rounded-xl p-4 border border-orange-200 shadow-lg">
                   <h3 className="font-semibold text-gray-800 mb-4">Live Progress Log</h3>
                   <div className="space-y-4">
                     {planSteps.map((step, index) => (
@@ -365,9 +365,9 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
               {/* Right Columns - Output Tabs */}
               <div className="lg:col-span-2">
                 {outputTabs.length > 0 && (
-                  <div className="bg-white/60 backdrop-blur-xl rounded-xl border border-white/20 shadow-lg overflow-hidden">
+                  <div className="bg-white rounded-xl border border-orange-200 shadow-lg overflow-hidden">
                     {/* Tab Headers */}
-                    <div className="border-b border-white/20 bg-white/40 backdrop-blur-sm">
+                    <div className="border-b border-orange-200 bg-orange-50">
                       <div className="flex overflow-x-auto">
                         {outputTabs.map(tab => {
                           const Icon = tab.icon;
@@ -377,8 +377,8 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                               onClick={() => setActiveTab(tab.id)}
                               className={`flex items-center space-x-2 px-4 py-3 border-b-2 transition-colors whitespace-nowrap ${
                                 activeTab === tab.id
-                                  ? 'border-orange-500 text-orange-600 bg-white/50'
-                                  : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-white/30'
+                                  ? 'border-orange-500 text-orange-600 bg-white'
+                                  : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-white'
                               }`}
                             >
                               <Icon className="w-4 h-4" />
@@ -400,19 +400,20 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                               </div>
                               {showFollowUp && (
                                 <div className="border-t border-white/20 pt-4">
+                                <div className="border-t border-orange-200 pt-4">
                                   <div className="flex space-x-2">
                                     <input
                                       type="text"
                                       value={followUpQuestion}
                                       onChange={(e) => setFollowUpQuestion(e.target.value)}
                                       placeholder="Ask a follow-up question..."
-                                      className="flex-1 p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white/70 backdrop-blur-sm"
+                                      className="flex-1 p-3 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white"
                                       onKeyPress={(e) => e.key === 'Enter' && handleFollowUp()}
                                     />
                                     <button
                                       onClick={handleFollowUp}
                                       disabled={!followUpQuestion.trim()}
-                                      className="px-4 py-3 bg-orange-500/90 backdrop-blur-sm text-white rounded-lg hover:bg-orange-600 disabled:bg-gray-300 transition-colors flex items-center border border-white/10"
+                                      className="px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:bg-gray-300 transition-colors flex items-center"
                                     >
                                       <Plus className="w-4 h-4" />
                                     </button>
@@ -454,21 +455,21 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                   <div className="mt-4 flex space-x-3">
                     <button
                       onClick={replaySteps}
-                      className="flex items-center space-x-2 px-4 py-2 bg-orange-500/90 backdrop-blur-sm text-white rounded-lg hover:bg-orange-600 transition-colors border border-white/10"
+                      className="flex items-center space-x-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
                     >
                       <RotateCcw className="w-4 h-4" />
                       <span>Replay Steps</span>
                     </button>
                     <button
                       onClick={exportPlan}
-                      className="flex items-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
+                      className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                     >
                       <Download className="w-4 h-4" />
                       <span>Export Plan</span>
                     </button>
                     <button
                       onClick={() => alert('Added to Confluence!')}
-                      className="flex items-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
+                      className="flex items-center space-x-2 px-4 py-2 bg-confluence-blue text-white rounded-lg hover:bg-confluence-blue transition-colors"
                     >
                       <FileText className="w-4 h-4" />
                       <span>Add to Confluence</span>
