@@ -197,6 +197,57 @@
   transform: scale(1.1);
 }
 
+/* Agent Mode Theme */
+.agent-mode-theme {
+  --agent-primary: #f97316;
+  --agent-primary-light: #fb923c;
+  --agent-primary-dark: #ea580c;
+  --agent-bg: #fff7ed;
+  --agent-border: #fed7aa;
+}
+
+.agent-mode-theme .bg-white\/80 {
+  background: rgba(255, 247, 237, 0.8) !important;
+}
+
+.agent-mode-theme .bg-white\/60 {
+  background: rgba(255, 247, 237, 0.6) !important;
+}
+
+.agent-mode-theme .bg-white\/70 {
+  background: rgba(255, 247, 237, 0.7) !important;
+}
+
+.agent-mode-theme .border-white\/20 {
+  border-color: rgba(249, 115, 22, 0.2) !important;
+}
+
+.agent-mode-theme .border-white\/30 {
+  border-color: rgba(249, 115, 22, 0.3) !important;
+}
+
+.agent-mode-theme .bg-confluence-blue\/90,
+.agent-mode-theme .bg-confluence-light-blue\/90 {
+  background: rgba(249, 115, 22, 0.9) !important;
+}
+
+.agent-mode-theme .bg-confluence-blue,
+.agent-mode-theme .hover\:bg-confluence-blue:hover {
+  background-color: #f97316 !important;
+}
+
+.agent-mode-theme .text-confluence-blue {
+  color: #f97316 !important;
+}
+
+.agent-mode-theme .focus\:ring-confluence-blue:focus {
+  --tw-ring-color: #f97316 !important;
+}
+
+.agent-mode-theme .focus\:border-confluence-blue:focus {
+  border-color: #f97316 !important;
+}
+
 /* Tooltip Styles */
 .tooltip {
   position: relative;

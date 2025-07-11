@@ -246,13 +246,13 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-40 p-4">
+    <div className="fixed inset-0 flex items-center justify-center z-40 p-4">
       <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-orange-500/90 to-orange-600/90 backdrop-blur-xl p-6 text-white border-b border-orange-300/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Zap className="w-8 h-8" />
+              <Zap className="w-8 h-8 text-yellow-300" />
               <div>
                 <h2 className="text-2xl font-bold">Agent Mode</h2>
                 <p className="text-orange-100/90">Goal-based AI assistance with planning and execution</p>

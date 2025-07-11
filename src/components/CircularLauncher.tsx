@@ -16,6 +16,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick, isAgentMod
   const [position, setPosition] = useState({ x: window.innerWidth - 100, y: 20 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [hasDragged, setHasDragged] = useState(false);
   const [showApiKeySwap, setShowApiKeySwap] = useState(false);
   const [currentApiKey, setCurrentApiKey] = useState('gemini-pro');
   const [isRestarting, setIsRestarting] = useState(false);
@@ -31,6 +32,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick, isAgentMod
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
+    setHasDragged(false);
     setDragStart({
       x: e.clientX - position.x,
       y: e.clientY - position.y
@@ -39,6 +41,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick, isAgentMod
 
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
+      setHasDragged(true);
       const newX = e.clientX - dragStart.x;
       const newY = e.clientY - dragStart.y;
       
@@ -58,7 +61,7 @@ const CircularLauncher: React.FC<CircularLauncherProps> = ({ onClick, isAgentMod
   };
 
   const handleClick = (e: React.MouseEvent) => {
-    if (!isDragging && !showApiKeySwap) {
+    if (!hasDragged && !showApiKeySwap) {
       onClick();
     }
   };

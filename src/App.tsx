@@ -61,7 +61,7 @@ function App() {
       )}
       
       {isAppOpen && (
-        <div>
+        <div className={appMode === 'agent' ? 'agent-mode-theme' : ''}>
           {!appMode ? (
             <ModeSelector onModeSelect={handleModeSelect} onClose={handleAppClose} />
           ) : appMode === 'agent' ? (
