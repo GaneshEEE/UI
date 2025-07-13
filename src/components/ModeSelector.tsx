@@ -19,14 +19,24 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-40 p-4 animate-fadeIn">
-      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-slideInUp">
+    <div className={`fixed inset-0 flex items-center justify-center z-40 p-4 animate-fadeIn ${selectedMode === 'agent' ? 'agent-mode-theme' : ''}`}>
+      <div className={`backdrop-blur-xl border rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-slideInUp ${
+        selectedMode === 'agent' 
+          ? 'bg-orange-50/90 border-orange-200/30' 
+          : 'bg-white/80 border-white/20'
+      }`}>
         {/* Header */}
-        <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-6 text-white border-b border-white/10">
+        <div className={`backdrop-blur-xl p-6 text-white border-b ${
+          selectedMode === 'agent'
+            ? 'bg-gradient-to-r from-orange-500/90 to-orange-600/90 border-orange-300/20'
+            : 'bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 border-white/10'
+        }`}>
           <div className="flex items-center justify-between">
             <div className="text-center flex-1">
               <h2 className="text-2xl font-bold">Choose Your Mode</h2>
-              <p className="text-blue-100/90 mt-1">How would you like to interact with the AI?</p>
+              <p className={`mt-1 ${
+                selectedMode === 'agent' ? 'text-orange-100/90' : 'text-blue-100/90'
+              }`}>How would you like to interact with the AI?</p>
             </div>
             <button onClick={onClose} className="text-white hover:bg-white/10 rounded-full p-2 backdrop-blur-sm transition-colors">
               <X className="w-6 h-6" />
@@ -37,7 +47,11 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
         {/* Mode Selection */}
         <div className="p-8">
           {/* Segmented Toggle */}
-          <div className="relative bg-gray-100/80 backdrop-blur-sm rounded-xl p-1 mb-6 border border-white/20">
+          <div className={`relative backdrop-blur-sm rounded-xl p-1 mb-6 border ${
+            selectedMode === 'agent'
+              ? 'bg-orange-100/80 border-orange-200/30'
+              : 'bg-gray-100/80 border-white/20'
+          }`}>
             <div 
               className={`absolute top-1 bottom-1 w-1/2 bg-white rounded-lg shadow-md transition-all duration-300 ease-out ${
                 selectedMode === 'agent' ? 'left-1' : 'left-1/2'
@@ -78,10 +92,16 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
           {/* Mode Description */}
           <div className="mb-6">
             {selectedMode === 'agent' ? (
-              <div className="bg-gradient-to-br from-orange-50/80 to-orange-100/80 backdrop-blur-sm rounded-xl p-6 border border-orange-200/50">
+              <div className={`backdrop-blur-sm rounded-xl p-6 border ${
+                selectedMode === 'agent'
+                  ? 'bg-gradient-to-br from-orange-50/90 to-orange-100/90 border-orange-200/60'
+                  : 'bg-gradient-to-br from-orange-50/80 to-orange-100/80 border-orange-200/50'
+              }`}>
                 <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-10 h-10 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Zap className="w-5 h-5 text-orange-600" />
+                  <div className={`w-10 h-10 backdrop-blur-sm rounded-full flex items-center justify-center ${
+                    selectedMode === 'agent' ? 'bg-orange-500/30' : 'bg-orange-500/20'
+                  }`}>
+                    <Zap className="w-5 h-5 text-yellow-500" />
                   </div>
                   <h3 className="text-lg font-bold text-orange-800">Agent Mode</h3>
                 </div>
@@ -92,14 +112,26 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
                 </p>
               </div>
             ) : (
-              <div className="bg-gradient-to-br from-blue-50/80 to-blue-100/80 backdrop-blur-sm rounded-xl p-6 border border-blue-200/50">
+              <div className={`backdrop-blur-sm rounded-xl p-6 border ${
+                selectedMode === 'agent'
+                  ? 'bg-gradient-to-br from-orange-50/90 to-orange-100/90 border-orange-200/60'
+                  : 'bg-gradient-to-br from-blue-50/80 to-blue-100/80 border-blue-200/50'
+              }`}>
                 <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-10 h-10 bg-confluence-blue/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Wrench className="w-5 h-5 text-confluence-blue" />
+                  <div className={`w-10 h-10 backdrop-blur-sm rounded-full flex items-center justify-center ${
+                    selectedMode === 'agent' ? 'bg-orange-500/30' : 'bg-confluence-blue/20'
+                  }`}>
+                    <Wrench className={`w-5 h-5 ${
+                      selectedMode === 'agent' ? 'text-orange-600' : 'text-confluence-blue'
+                    }`} />
                   </div>
-                  <h3 className="text-lg font-bold text-confluence-blue">Tool Mode</h3>
+                  <h3 className={`text-lg font-bold ${
+                    selectedMode === 'agent' ? 'text-orange-800' : 'text-confluence-blue'
+                  }`}>Tool Mode</h3>
                 </div>
-                <p className="text-blue-700 text-sm leading-relaxed">
+                <p className={`text-sm leading-relaxed ${
+                  selectedMode === 'agent' ? 'text-orange-700' : 'text-blue-700'
+                }`}>
                   Access individual tools like AI Powered Search, Code Assistant, Video Summarizer, 
                   Impact Analyzer, Test Support Tool, and Image Insights. Choose specific tools 
                   for targeted tasks and workflows.
@@ -111,7 +143,7 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
           {/* Confirm Button */}
           <button
             onClick={handleConfirm}
-            className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 shadow-lg ${
+            className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 shadow-lg border border-white/10 ${
               selectedMode === 'agent'
                 ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 hover:shadow-orange-500/30'
                 : 'bg-gradient-to-r from-confluence-blue to-confluence-light-blue hover:from-confluence-blue hover:to-blue-600 hover:shadow-blue-500/30'
