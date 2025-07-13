@@ -87,7 +87,7 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
               <div className="bg-gradient-to-br from-orange-50/80 to-orange-100/80 backdrop-blur-sm rounded-xl p-6 border border-orange-200/50">
                 <div className="flex items-center space-x-3 mb-3">
                   <div className="w-10 h-10 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Zap className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                    <Zap className="w-5 h-5 text-yellow-500" />
                   </div>
                   <h3 className="text-lg font-bold text-orange-800">Agent Mode</h3>
                 </div>
