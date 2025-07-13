@@ -202,28 +202,25 @@
   --agent-primary: #f97316;
   --agent-primary-light: #fb923c;
   --agent-primary-dark: #ea580c;
-  --agent-bg: #fff7ed;
+  --agent-bg: #ffffff;
   --agent-border: #fed7aa;
 }
 
-.agent-mode-theme .bg-white\/80 {
-  background: rgba(255, 247, 237, 0.8) !important;
+.agent-mode-theme .bg-white\/80,
+.agent-mode-theme .bg-white\/60,
+.agent-mode-theme .bg-white\/70,
+.agent-mode-theme .bg-white {
+  background: #ffffff !important;
 }
 
-.agent-mode-theme .bg-white\/60 {
-  background: rgba(255, 247, 237, 0.6) !important;
-}
-
-.agent-mode-theme .bg-white\/70 {
-  background: rgba(255, 247, 237, 0.7) !important;
-}
-
-.agent-mode-theme .border-white\/20 {
+.agent-mode-theme .border-white\/20,
+.agent-mode-theme .border-white\/30,
+.agent-mode-theme .border-gray-200 {
   border-color: rgba(249, 115, 22, 0.2) !important;
 }
 
-.agent-mode-theme .border-white\/30 {
-  border-color: rgba(249, 115, 22, 0.3) !important;
+.agent-mode-theme .bg-gray-100 {
+  background: #f9f9f9 !important;
 }
 
 .agent-mode-theme .bg-confluence-blue\/90,

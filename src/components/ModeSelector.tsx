@@ -20,9 +20,9 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-40 p-4 animate-fadeIn">
-      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-slideInUp">
+      <div className="bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-slideInUp">
         {/* Header */}
-        <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-6 text-white border-b border-white/10">
+        <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-6 text-white border-b border-gray-200">
           <div className="flex items-center justify-between">
             <div className="text-center flex-1">
               <h2 className="text-2xl font-bold">Choose Your Mode</h2>
@@ -37,15 +37,15 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
         {/* Mode Selection */}
         <div className="p-8">
           {/* Segmented Toggle */}
-          <div className="relative bg-gray-100/80 backdrop-blur-sm rounded-xl p-1 mb-6 border border-white/20">
+          <div className="relative bg-gray-100 backdrop-blur-sm rounded-xl p-1 mb-6 border border-gray-200">
             <div 
               className={`absolute top-1 bottom-1 w-1/2 bg-white rounded-lg shadow-md transition-all duration-300 ease-out ${
                 selectedMode === 'agent' ? 'left-1' : 'left-1/2'
               }`}
               style={{
                 background: selectedMode === 'agent' 
-                  ? 'linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.1) 100%)'
-                  : 'linear-gradient(135deg, rgba(38, 132, 255, 0.1) 0%, rgba(0, 82, 204, 0.1) 100%)',
+                  ? '#ffffff'
+                  : '#ffffff',
                 borderColor: selectedMode === 'agent' ? 'rgba(249, 115, 22, 0.2)' : 'rgba(38, 132, 255, 0.2)',
                 borderWidth: '1px'
               }}
@@ -78,10 +78,10 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
           {/* Mode Description */}
           <div className="mb-6">
             {selectedMode === 'agent' ? (
-              <div className="bg-gradient-to-br from-orange-50/80 to-orange-100/80 backdrop-blur-sm rounded-xl p-6 border border-orange-200/50">
+              <div className="bg-white backdrop-blur-sm rounded-xl p-6 border border-orange-200">
                 <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-10 h-10 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Zap className="w-5 h-5 text-orange-600" />
+                  <div className="w-10 h-10 bg-orange-100 backdrop-blur-sm rounded-full flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-yellow-500" />
                   </div>
                   <h3 className="text-lg font-bold text-orange-800">Agent Mode</h3>
                 </div>
@@ -92,9 +92,9 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
                 </p>
               </div>
             ) : (
-              <div className="bg-gradient-to-br from-blue-50/80 to-blue-100/80 backdrop-blur-sm rounded-xl p-6 border border-blue-200/50">
+              <div className="bg-white backdrop-blur-sm rounded-xl p-6 border border-blue-200">
                 <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-10 h-10 bg-confluence-blue/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-blue-100 backdrop-blur-sm rounded-full flex items-center justify-center">
                     <Wrench className="w-5 h-5 text-confluence-blue" />
                   </div>
                   <h3 className="text-lg font-bold text-confluence-blue">Tool Mode</h3>
