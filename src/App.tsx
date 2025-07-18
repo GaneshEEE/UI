@@ -52,6 +52,7 @@ function App() {
     if (mode === 'tool') {
       setActiveFeature('search'); // Default to search for tool mode
     }
+    // Don't close the app, just switch to the selected mode interface
   };
 
   return (
@@ -66,10 +67,8 @@ function App() {
             <ModeSelector onModeSelect={handleModeSelect} onClose={handleAppClose} />
           ) : appMode === 'agent' ? (
             <AgentMode onClose={handleAppClose} onModeSelect={setAppMode} />
-          ) : appMode === 'tool' && activeFeature ? (
-            renderActiveFeature()
           ) : appMode === 'tool' ? (
-            <AIPoweredSearch onClose={handleAppClose} onFeatureSelect={setActiveFeature} />
+            activeFeature ? renderActiveFeature() : <AIPoweredSearch onClose={handleAppClose} onFeatureSelect={setActiveFeature} />
           ) : null}
         </div>
       )}
