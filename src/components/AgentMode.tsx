@@ -246,52 +246,52 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-40 p-4">
-      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
+    <div className="fixed top-16 right-4 z-40">
+      <div className="bg-white border border-orange-200 rounded-lg shadow-lg w-96 h-[600px] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange-500/90 to-orange-600/90 backdrop-blur-xl p-6 text-white border-b border-orange-300/20">
+        <div className="bg-orange-500 p-3 text-white border-b border-orange-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Zap className="w-8 h-8 text-yellow-300" />
+              <Zap className="w-5 h-5 text-yellow-300" />
               <div>
-                <h2 className="text-2xl font-bold">Agent Mode</h2>
-                <p className="text-orange-100/90">Goal-based AI assistance with planning and execution</p>
+                <h2 className="text-lg font-semibold">Agent Mode</h2>
+                <p className="text-orange-100 text-xs">Goal-based AI assistance</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
               <button 
                 onClick={() => onModeSelect('tool')}
-                className="text-orange-100 hover:text-white hover:bg-white/10 rounded-lg px-3 py-1 text-sm transition-colors"
+                className="text-orange-100 hover:text-white hover:bg-white/10 rounded px-2 py-1 text-xs transition-colors"
               >
-                Switch to Tool Mode
+                Tool Mode
               </button>
-              <button onClick={onClose} className="text-white hover:bg-white/10 rounded-full p-2 backdrop-blur-sm">
-                <X className="w-6 h-6" />
+              <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1">
+                <X className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+        <div className="p-4 overflow-y-auto h-[calc(600px-60px)]">
           {/* Goal Input Section */}
           {!planSteps.length && !isPlanning && (
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-8 border border-white/20 shadow-lg text-center">
-                <h3 className="text-2xl font-bold text-gray-800 mb-6">What do you want the assistant to help you achieve?</h3>
+            <div>
+              <div className="bg-white rounded-lg p-4 border border-gray-200 text-center">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">What do you want to achieve?</h3>
                 <div className="relative">
                   <textarea
                     value={goal}
                     onChange={(e) => setGoal(e.target.value)}
-                    placeholder="Describe your goal in detail... (e.g., 'Help me analyze our documentation structure and recommend improvements for better user experience')"
-                    className="w-full p-4 border-2 border-orange-200/50 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none bg-white/70 backdrop-blur-sm text-lg"
-                    rows={4}
+                    placeholder="Describe your goal..."
+                    className="w-full p-3 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none text-sm"
+                    rows={3}
                   />
                   <button
                     onClick={handleGoalSubmit}
                     disabled={!goal.trim()}
-                    className="absolute bottom-4 right-4 bg-orange-500/90 backdrop-blur-sm text-white p-3 rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center space-x-2 transition-colors border border-white/10"
+                    className="absolute bottom-2 right-2 bg-orange-500 text-white p-2 rounded hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
                   >
-                    <Send className="w-5 h-5" />
+                    <Send className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -300,11 +300,11 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
 
           {/* Planning Phase */}
           {isPlanning && (
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-8 border border-white/20 shadow-lg text-center">
+            <div>
+              <div className="bg-white rounded-lg p-4 border border-gray-200 text-center">
                 <div className="flex items-center justify-center space-x-3 mb-4">
-                  <Brain className="w-8 h-8 text-orange-500 animate-pulse" />
-                  <h3 className="text-xl font-bold text-gray-800">Planning steps...</h3>
+                  <Brain className="w-6 h-6 text-orange-500 animate-pulse" />
+                  <h3 className="text-lg font-semibold text-gray-800">Planning steps...</h3>
                 </div>
                 <div className="flex items-center justify-center space-x-4 text-gray-600">
                   <span>1. Retrieve context</span>
@@ -319,27 +319,27 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
 
           {/* Execution Phase */}
           {planSteps.length > 0 && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="space-y-4">
               {/* Left Column - Progress Timeline */}
-              <div className="lg:col-span-1">
-                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
-                  <h3 className="font-semibold text-gray-800 mb-4">Live Progress Log</h3>
+              <div>
+                <div className="bg-white rounded-lg p-3 border border-gray-200">
+                  <h3 className="font-medium text-gray-800 mb-3 text-sm">Progress</h3>
                   <div className="space-y-4">
                     {planSteps.map((step, index) => (
                       <div key={step.id} className="flex items-start space-x-3">
                         <div className="flex-shrink-0 mt-1">
                           {step.status === 'completed' ? (
-                            <CheckCircle className="w-5 h-5 text-green-500" />
+                            <CheckCircle className="w-4 h-4 text-green-500" />
                           ) : step.status === 'running' ? (
-                            <Loader2 className="w-5 h-5 text-orange-500 animate-spin" />
+                            <Loader2 className="w-4 h-4 text-orange-500 animate-spin" />
                           ) : (
-                            <div className="w-5 h-5 border-2 border-gray-300 rounded-full" />
+                            <div className="w-4 h-4 border-2 border-gray-300 rounded-full" />
                           )}
                         </div>
                         <div className="flex-1">
-                          <div className="font-medium text-gray-800">{step.title}</div>
+                          <div className="text-sm font-medium text-gray-800">{step.title}</div>
                           {step.details && (
-                            <div className="text-sm text-gray-600 mt-1">{step.details}</div>
+                            <div className="text-xs text-gray-600 mt-1">{step.details}</div>
                           )}
                         </div>
                       </div>
@@ -348,7 +348,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                   
                   {/* Progress Bar */}
                   <div className="mt-6">
-                    <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+                    <div className="flex items-center justify-between text-xs text-gray-600 mb-2">
                       <span>Progress</span>
                       <span>{Math.round(((currentStep + 1) / planSteps.length) * 100)}%</span>
                     </div>
@@ -362,27 +362,27 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                 </div>
               </div>
 
-              {/* Right Columns - Output Tabs */}
-              <div className="lg:col-span-2">
+              {/* Output Tabs */}
+              <div>
                 {outputTabs.length > 0 && (
-                  <div className="bg-white/60 backdrop-blur-xl rounded-xl border border-white/20 shadow-lg overflow-hidden">
+                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                     {/* Tab Headers */}
-                    <div className="border-b border-white/20 bg-white/40 backdrop-blur-sm">
-                      <div className="flex overflow-x-auto">
+                    <div className="border-b border-gray-200 bg-gray-50">
+                      <div className="flex overflow-x-auto scrollbar-thin">
                         {outputTabs.map(tab => {
                           const Icon = tab.icon;
                           return (
                             <button
                               key={tab.id}
                               onClick={() => setActiveTab(tab.id)}
-                              className={`flex items-center space-x-2 px-4 py-3 border-b-2 transition-colors whitespace-nowrap ${
+                              className={`flex items-center space-x-1 px-3 py-2 border-b-2 transition-colors whitespace-nowrap text-xs ${
                                 activeTab === tab.id
-                                  ? 'border-orange-500 text-orange-600 bg-white/50'
-                                  : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-white/30'
+                                  ? 'border-orange-500 text-orange-600 bg-white'
+                                  : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-100'
                               }`}
                             >
-                              <Icon className="w-4 h-4" />
-                              <span className="text-sm font-medium">{tab.label}</span>
+                              <Icon className="w-3 h-3" />
+                              <span className="font-medium">{tab.label}</span>
                             </button>
                           );
                         })}
@@ -390,31 +390,31 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                     </div>
 
                     {/* Tab Content */}
-                    <div className="p-6">
+                    <div className="p-3">
                       {outputTabs.find(tab => tab.id === activeTab) && (
-                        <div className="prose prose-sm max-w-none">
+                        <div className="prose prose-xs max-w-none">
                           {activeTab === 'qa' ? (
                             <div>
-                              <div className="whitespace-pre-wrap text-gray-700 mb-4">
+                              <div className="whitespace-pre-wrap text-gray-700 mb-3 text-xs">
                                 {outputTabs.find(tab => tab.id === activeTab)?.content}
                               </div>
                               {showFollowUp && (
-                                <div className="border-t border-white/20 pt-4">
+                                <div className="border-t border-gray-200 pt-3">
                                   <div className="flex space-x-2">
                                     <input
                                       type="text"
                                       value={followUpQuestion}
                                       onChange={(e) => setFollowUpQuestion(e.target.value)}
                                       placeholder="Ask a follow-up question..."
-                                      className="flex-1 p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white/70 backdrop-blur-sm"
+                                      className="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-xs"
                                       onKeyPress={(e) => e.key === 'Enter' && handleFollowUp()}
                                     />
                                     <button
                                       onClick={handleFollowUp}
                                       disabled={!followUpQuestion.trim()}
-                                      className="px-4 py-3 bg-orange-500/90 backdrop-blur-sm text-white rounded-lg hover:bg-orange-600 disabled:bg-gray-300 transition-colors flex items-center border border-white/10"
+                                      className="px-3 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 disabled:bg-gray-300 transition-colors flex items-center"
                                     >
-                                      <Plus className="w-4 h-4" />
+                                      <Plus className="w-3 h-3" />
                                     </button>
                                   </div>
                                 </div>
@@ -422,22 +422,22 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                             </div>
                           ) : (
                             <div className="whitespace-pre-wrap text-gray-700">
-                              {outputTabs.find(tab => tab.id === activeTab)?.content.split('\n').map((line, index) => {
+                              {outputTabs.find(tab => tab.id === activeTab)?.content.split('\n').slice(0, 20).map((line, index) => {
                                 if (line.startsWith('### ')) {
-                                  return <h3 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(4)}</h3>;
+                                  return <h3 key={index} className="text-sm font-bold text-gray-800 mt-3 mb-1">{line.substring(4)}</h3>;
                                 } else if (line.startsWith('## ')) {
-                                  return <h2 key={index} className="text-xl font-bold text-gray-800 mt-6 mb-3">{line.substring(3)}</h2>;
+                                  return <h2 key={index} className="text-base font-bold text-gray-800 mt-4 mb-2">{line.substring(3)}</h2>;
                                 } else if (line.startsWith('# ')) {
-                                  return <h1 key={index} className="text-2xl font-bold text-gray-800 mt-8 mb-4">{line.substring(2)}</h1>;
+                                  return <h1 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-3">{line.substring(2)}</h1>;
                                 } else if (line.startsWith('- **')) {
                                   const match = line.match(/- \*\*(.*?)\*\*: (.*)/);
                                   if (match) {
-                                    return <p key={index} className="mb-2"><strong>{match[1]}:</strong> {match[2]}</p>;
+                                    return <p key={index} className="mb-1 text-xs"><strong>{match[1]}:</strong> {match[2]}</p>;
                                   }
                                 } else if (line.startsWith('- ')) {
-                                  return <p key={index} className="mb-1 ml-4">• {line.substring(2)}</p>;
+                                  return <p key={index} className="mb-1 ml-3 text-xs">• {line.substring(2)}</p>;
                                 } else if (line.trim()) {
-                                  return <p key={index} className="mb-2 text-gray-700">{line}</p>;
+                                  return <p key={index} className="mb-1 text-gray-700 text-xs">{line}</p>;
                                 }
                                 return <br key={index} />;
                               })}
@@ -451,26 +451,26 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
 
                 {/* Action Buttons */}
                 {outputTabs.length > 0 && !isExecuting && (
-                  <div className="mt-4 flex space-x-3">
+                  <div className="mt-3 flex space-x-2">
                     <button
                       onClick={replaySteps}
-                      className="flex items-center space-x-2 px-4 py-2 bg-orange-500/90 backdrop-blur-sm text-white rounded-lg hover:bg-orange-600 transition-colors border border-white/10"
+                      className="flex items-center space-x-1 px-3 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors text-xs"
                     >
-                      <RotateCcw className="w-4 h-4" />
+                      <RotateCcw className="w-3 h-3" />
                       <span>Replay Steps</span>
                     </button>
                     <button
                       onClick={exportPlan}
-                      className="flex items-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
+                      className="flex items-center space-x-1 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-xs"
                     >
-                      <Download className="w-4 h-4" />
+                      <Download className="w-3 h-3" />
                       <span>Export Plan</span>
                     </button>
                     <button
                       onClick={() => alert('Added to Confluence!')}
-                      className="flex items-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
+                      className="flex items-center space-x-1 px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 transition-colors text-xs"
                     >
-                      <FileText className="w-4 h-4" />
+                      <FileText className="w-3 h-3" />
                       <span>Add to Confluence</span>
                     </button>
                   </div>
