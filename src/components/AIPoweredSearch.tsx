@@ -62,25 +62,25 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
   };
 
   return (
-    <div className="fixed inset-0 flex z-40">
-      <div className="bg-[#1e1e1e] border-r border-[#3c3c3c] w-full max-w-4xl overflow-hidden flex flex-col">
+    <div className="fixed inset-0 flex items-center justify-center z-40 p-4">
+      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-[#2d2d30] border-b border-[#3c3c3c] p-4">
+        <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-6 text-white border-b border-white/10">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Search className="w-6 h-6 text-[#007acc]" />
+              <Search className="w-8 h-8" />
               <div>
-                <h2 className="text-[#cccccc] text-lg font-medium">AI Powered Search</h2>
-                <p className="text-[#9d9d9d] text-sm">Search and analyze Confluence content with AI</p>
+                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
+                <p className="text-blue-100/90">AI-powered tools for your Confluence workspace</p>
               </div>
             </div>
-            <button onClick={onClose} className="text-[#cccccc] hover:text-white hover:bg-[#3c3c3c] rounded p-1">
-              <X className="w-5 h-5" />
+            <button onClick={onClose} className="text-white hover:bg-white/10 rounded-full p-2 backdrop-blur-sm">
+              <X className="w-6 h-6" />
             </button>
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-4 flex gap-1 overflow-x-auto">
+          <div className="mt-6 flex gap-2 overflow-x-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'search';
@@ -89,58 +89,58 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                 <button
                   key={feature.id}
                   onClick={() => onFeatureSelect(feature.id)}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded text-sm transition-colors whitespace-nowrap ${
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg backdrop-blur-sm border transition-all duration-200 whitespace-nowrap ${
                     isActive
-                      ? 'bg-[#0e639c] text-white'
-                      : 'text-[#9d9d9d] hover:text-[#cccccc] hover:bg-[#3c3c3c]'
+                      ? 'bg-white/90 text-confluence-blue shadow-lg border-white/30'
+                      : 'bg-white/10 text-white hover:bg-white/20 border-white/10'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
-                  <span>{feature.label}</span>
+                  <span className="text-sm font-medium">{feature.label}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Column - Search Configuration */}
-            <div className="space-y-4">
-              <div className="bg-[#252526] border border-[#3c3c3c] rounded-lg p-4">
-                <h3 className="text-[#cccccc] font-medium mb-4 flex items-center">
-                  <Settings className="w-4 h-4 mr-2" />
+            <div className="space-y-6">
+              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+                <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
+                  <Settings className="w-5 h-5 mr-2" />
                   Search Configuration
                 </h3>
                 
                 {/* Space Selection */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-[#cccccc] mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Select Confluence Space
                   </label>
                   <div className="relative">
                     <select
                       value={selectedSpace}
                       onChange={(e) => setSelectedSpace(e.target.value)}
-                      className="w-full p-3 bg-[#1e1e1e] border border-[#3c3c3c] rounded text-[#cccccc] focus:border-[#007acc] focus:outline-none appearance-none"
+                      className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
                     >
                       <option value="">Choose a space...</option>
                       {spaces.map(space => (
                         <option key={space} value={space}>{space}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#9d9d9d] pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                   </div>
                 </div>
 
                 {/* Page Selection */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-[#cccccc] mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Select Pages to Analyze
                   </label>
-                  <div className="space-y-2 max-h-32 overflow-y-auto border border-[#3c3c3c] rounded p-2 bg-[#1e1e1e]">
+                  <div className="space-y-2 max-h-40 overflow-y-auto border border-white/30 rounded-lg p-2 bg-white/50 backdrop-blur-sm">
                     {pages.map(page => (
-                      <label key={page} className="flex items-center space-x-2 p-2 hover:bg-[#3c3c3c] rounded cursor-pointer text-sm">
+                      <label key={page} className="flex items-center space-x-2 p-2 hover:bg-white/30 rounded cursor-pointer backdrop-blur-sm">
                         <input
                           type="checkbox"
                           checked={selectedPages.includes(page)}
@@ -151,27 +151,27 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                               setSelectedPages(selectedPages.filter(p => p !== page));
                             }
                           }}
-                          className="rounded border-[#3c3c3c] text-[#007acc] focus:ring-[#007acc] bg-[#1e1e1e]"
+                          className="rounded border-gray-300 text-confluence-blue focus:ring-confluence-blue"
                         />
-                        <span className="text-[#cccccc]">{page}</span>
+                        <span className="text-sm text-gray-700">{page}</span>
                       </label>
                     ))}
                   </div>
-                  <p className="text-sm text-[#9d9d9d] mt-1">
+                  <p className="text-sm text-gray-500 mt-1">
                     {selectedPages.length} page(s) selected
                   </p>
                 </div>
 
                 {/* Query Input */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-[#cccccc] mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Your Question
                   </label>
                   <textarea
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="What would you like to know about the selected content?"
-                    className="w-full p-3 bg-[#1e1e1e] border border-[#3c3c3c] rounded text-[#cccccc] placeholder-[#9d9d9d] focus:border-[#007acc] focus:outline-none resize-none"
+                    className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue resize-none bg-white/70 backdrop-blur-sm"
                     rows={4}
                   />
                 </div>
@@ -180,16 +180,16 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                 <button
                   onClick={handleSearch}
                   disabled={!selectedSpace || selectedPages.length === 0 || !query.trim() || isLoading}
-                  className="w-full bg-[#0e639c] hover:bg-[#1177bb] disabled:bg-[#3c3c3c] disabled:text-[#9d9d9d] text-white py-3 px-4 rounded font-medium transition-colors flex items-center justify-center space-x-2"
+                  className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-3 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       <span>Generating AI Response...</span>
                     </>
                   ) : (
                     <>
-                      <Search className="w-4 h-4" />
+                      <Search className="w-5 h-5" />
                       <span>Generate AI Response</span>
                     </>
                   )}
@@ -198,38 +198,38 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
             </div>
 
             {/* Right Column - Results */}
-            <div className="space-y-4">
+            <div className="space-y-6">
               {response && (
-                <div className="bg-[#252526] border border-[#3c3c3c] rounded-lg p-4">
+                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-[#cccccc] font-medium">AI Response</h3>
+                    <h3 className="font-semibold text-gray-800">AI Response</h3>
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => setShowRawContent(!showRawContent)}
-                        className="text-sm text-[#007acc] hover:text-[#1177bb]"
+                        className="text-sm text-confluence-blue hover:underline"
                       >
                         {showRawContent ? 'Show Formatted' : 'Show Raw Content'}
                       </button>
                     </div>
                   </div>
                   
-                  <div className="bg-[#1e1e1e] border border-[#3c3c3c] rounded p-4 max-h-80 overflow-y-auto">
+                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20 max-h-80 overflow-y-auto">
                     {showRawContent ? (
-                      <pre className="text-sm text-[#cccccc] whitespace-pre-wrap">{response}</pre>
+                      <pre className="text-sm text-gray-700 whitespace-pre-wrap">{response}</pre>
                     ) : (
                       <div className="prose prose-sm max-w-none">
                         {response.split('\n').map((line, index) => {
                           if (line.startsWith('## ')) {
-                            return <h2 key={index} className="text-base font-medium text-[#cccccc] mt-4 mb-2">{line.substring(3)}</h2>;
+                            return <h2 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(3)}</h2>;
                           } else if (line.startsWith('- **')) {
                             const match = line.match(/- \*\*(.*?)\*\*: (.*)/);
                             if (match) {
-                              return <p key={index} className="mb-2 text-[#cccccc]"><span className="text-[#007acc] font-medium">{match[1]}:</span> {match[2]}</p>;
+                              return <p key={index} className="mb-2"><strong>{match[1]}:</strong> {match[2]}</p>;
                             }
                           } else if (line.startsWith('- ')) {
-                            return <p key={index} className="mb-1 ml-4 text-[#cccccc]">• {line.substring(2)}</p>;
+                            return <p key={index} className="mb-1 ml-4">• {line.substring(2)}</p>;
                           } else if (line.trim()) {
-                            return <p key={index} className="mb-2 text-[#cccccc] text-sm">{line}</p>;
+                            return <p key={index} className="mb-2 text-gray-700">{line}</p>;
                           }
                           return <br key={index} />;
                         })}
@@ -240,11 +240,11 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                   {/* Export Options */}
                   <div className="mt-4 space-y-3">
                     <div className="flex items-center space-x-2">
-                      <label className="text-sm font-medium text-[#cccccc]">Export Format:</label>
+                      <label className="text-sm font-medium text-gray-700">Export Format:</label>
                       <select
                         value={exportFormat}
                         onChange={(e) => setExportFormat(e.target.value)}
-                        className="px-3 py-1 bg-[#1e1e1e] border border-[#3c3c3c] rounded text-sm text-[#cccccc] focus:border-[#007acc] focus:outline-none"
+                        className="px-3 py-1 border border-white/30 rounded text-sm focus:ring-2 focus:ring-confluence-blue bg-white/70 backdrop-blur-sm"
                       >
                         <option value="markdown">Markdown</option>
                         <option value="pdf">PDF</option>
@@ -256,14 +256,14 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
                     <div className="flex space-x-2">
                       <button
                         onClick={() => exportResponse(exportFormat)}
-                        className="flex items-center space-x-2 px-3 py-2 bg-[#0e639c] hover:bg-[#1177bb] text-white rounded text-sm transition-colors"
+                        className="flex items-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
                       >
                         <Download className="w-4 h-4" />
                         <span>Export</span>
                       </button>
                       <button
                         onClick={() => alert('Saved to Confluence!')}
-                        className="flex items-center space-x-2 px-3 py-2 bg-[#0e639c] hover:bg-[#1177bb] text-white rounded text-sm transition-colors"
+                        className="flex items-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
                       >
                         <Save className="w-4 h-4" />
                         <span>Save to Confluence</span>
@@ -274,10 +274,10 @@ ${selectedPages.map(page => `- ${page}`).join('\n')}
               )}
 
               {!response && !isLoading && (
-                <div className="bg-[#252526] border border-[#3c3c3c] rounded-lg p-8 text-center">
-                  <FileText className="w-12 h-12 text-[#9d9d9d] mx-auto mb-4" />
-                  <h3 className="text-base font-medium text-[#cccccc] mb-2">Ready to Search</h3>
-                  <p className="text-[#9d9d9d] text-sm">Configure your search parameters and click "Generate AI Response" to get started.</p>
+                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-8 text-center border border-white/20 shadow-lg">
+                  <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-gray-600 mb-2">Ready to Search</h3>
+                  <p className="text-gray-500">Configure your search parameters and click "Generate AI Response" to get started.</p>
                 </div>
               )}
             </div>
