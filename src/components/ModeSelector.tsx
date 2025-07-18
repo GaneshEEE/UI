@@ -20,7 +20,7 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
 
   return (
     <div className="fixed top-16 right-4 z-40 animate-fadeIn">
-      <div className={`rounded-lg shadow-lg w-80 h-64 overflow-hidden animate-slideInUp ${
+      <div className={`rounded-lg shadow-lg w-96 h-48 overflow-hidden animate-slideInUp ${
         selectedMode === 'agent' 
           ? 'bg-white border border-orange-200' 
           : 'bg-white border border-gray-200'
