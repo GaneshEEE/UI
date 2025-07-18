@@ -247,7 +247,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
 
   return (
     <div className="fixed top-16 right-4 z-40">
-      <div className="bg-white border border-orange-200 rounded-lg shadow-lg w-96 h-[600px] overflow-hidden">
+      <div className="bg-white border border-orange-200 rounded-lg shadow-lg w-96 h-[700px] overflow-hidden">
         {/* Header */}
         <div className="bg-orange-500 p-3 text-white border-b border-orange-200">
           <div className="flex items-center justify-between">
