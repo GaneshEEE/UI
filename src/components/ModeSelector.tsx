@@ -16,7 +16,6 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
 
   const handleConfirm = () => {
     onModeSelect(selectedMode);
-    // The parent component will handle showing the appropriate interface
   };
 
   return (
