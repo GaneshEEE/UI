@@ -55,13 +55,13 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-[#1e1e1e]">
       {!isAppOpen && (
         <CircularLauncher onClick={handleLauncherClick} />
       )}
       
       {isAppOpen && (
-        <div className={appMode === 'agent' ? 'agent-mode-theme' : ''}>
+        <div>
           {!appMode ? (
             <ModeSelector onModeSelect={handleModeSelect} onClose={handleAppClose} />
           ) : appMode === 'agent' ? (

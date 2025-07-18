@@ -111,18 +111,18 @@ const AgentMode: React.FC<AgentModeProps> = ({ onClose, onModeSelect }) => {
 
   const getStepDetails = (stepIndex: number) => {
     const details = [
-      '🔍 Searching Confluence...',
-      '📊 Analyzing content...',
-      '💡 Generating recommendations...'
+      'Searching Confluence...',
+      'Analyzing content...',
+      'Generating recommendations...'
     ];
     return details[stepIndex];
   };
 
   const getCompletedDetails = (stepIndex: number) => {
     const details = [
-      '✅ Found 3 relevant pages',
-      '✅ Content summarized',
-      '✅ Recommendations generated'
+      'Found 3 relevant pages',
+      'Content summarized',
+      'Recommendations generated'
     ];
     return details[stepIndex];
   };
@@ -173,17 +173,17 @@ I've analyzed the relevant Confluence content and identified key areas for impro
   const generateUsedTools = () => {
     return `## Tools Utilized in This Analysis
 
-### 🔍 AI Powered Search
+### AI Powered Search
 - **Purpose**: Retrieved relevant content from Confluence spaces
 - **Scope**: Searched across 3 spaces, analyzed 5 pages
 - **Results**: Found key documentation and process information
 
-### 📊 Content Analyzer
+### Content Analyzer
 - **Purpose**: Processed and summarized retrieved content
 - **Method**: Natural language processing and pattern recognition
 - **Output**: Structured insights and key themes
 
-### 💡 Recommendation Engine
+### Recommendation Engine
 - **Purpose**: Generated actionable recommendations
 - **Approach**: Best practice matching and gap analysis
 - **Deliverable**: Prioritized action items with implementation guidance
@@ -246,52 +246,52 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-40 p-4">
-      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 flex z-40">
+      <div className="bg-[#1e1e1e] border-r border-[#3c3c3c] w-full max-w-6xl overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange-500/90 to-orange-600/90 backdrop-blur-xl p-6 text-white border-b border-orange-300/20">
+        <div className="bg-[#2d2d30] border-b border-[#3c3c3c] p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Zap className="w-8 h-8 text-yellow-300" />
+              <Zap className="w-6 h-6 text-yellow-400" />
               <div>
-                <h2 className="text-2xl font-bold">Agent Mode</h2>
-                <p className="text-orange-100/90">Goal-based AI assistance with planning and execution</p>
+                <h2 className="text-[#cccccc] text-lg font-medium">Agent Mode</h2>
+                <p className="text-[#9d9d9d] text-sm">Goal-based AI assistance with planning and execution</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
               <button 
                 onClick={() => onModeSelect('tool')}
-                className="text-orange-100 hover:text-white hover:bg-white/10 rounded-lg px-3 py-1 text-sm transition-colors"
+                className="text-[#9d9d9d] hover:text-[#cccccc] hover:bg-[#3c3c3c] rounded px-3 py-1 text-sm transition-colors"
               >
                 Switch to Tool Mode
               </button>
-              <button onClick={onClose} className="text-white hover:bg-white/10 rounded-full p-2 backdrop-blur-sm">
-                <X className="w-6 h-6" />
+              <button onClick={onClose} className="text-[#cccccc] hover:text-white hover:bg-[#3c3c3c] rounded p-1">
+                <X className="w-5 h-5" />
               </button>
             </div>
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+        <div className="flex-1 overflow-y-auto p-4">
           {/* Goal Input Section */}
           {!planSteps.length && !isPlanning && (
             <div className="max-w-4xl mx-auto">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-8 border border-white/20 shadow-lg text-center">
-                <h3 className="text-2xl font-bold text-gray-800 mb-6">What do you want the assistant to help you achieve?</h3>
+              <div className="bg-[#252526] border border-[#3c3c3c] rounded-lg p-6">
+                <h3 className="text-[#cccccc] text-lg font-medium mb-4">What do you want the assistant to help you achieve?</h3>
                 <div className="relative">
                   <textarea
                     value={goal}
                     onChange={(e) => setGoal(e.target.value)}
                     placeholder="Describe your goal in detail... (e.g., 'Help me analyze our documentation structure and recommend improvements for better user experience')"
-                    className="w-full p-4 border-2 border-orange-200/50 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none bg-white/70 backdrop-blur-sm text-lg"
+                    className="w-full p-3 bg-[#1e1e1e] border border-[#3c3c3c] rounded text-[#cccccc] placeholder-[#9d9d9d] focus:border-[#007acc] focus:outline-none resize-none"
                     rows={4}
                   />
                   <button
                     onClick={handleGoalSubmit}
                     disabled={!goal.trim()}
-                    className="absolute bottom-4 right-4 bg-orange-500/90 backdrop-blur-sm text-white p-3 rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center space-x-2 transition-colors border border-white/10"
+                    className="absolute bottom-3 right-3 bg-[#0e639c] hover:bg-[#1177bb] disabled:bg-[#3c3c3c] disabled:text-[#9d9d9d] text-white p-2 rounded transition-colors"
                   >
-                    <Send className="w-5 h-5" />
+                    <Send className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -301,12 +301,12 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
           {/* Planning Phase */}
           {isPlanning && (
             <div className="max-w-4xl mx-auto">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-8 border border-white/20 shadow-lg text-center">
+              <div className="bg-[#252526] border border-[#3c3c3c] rounded-lg p-6 text-center">
                 <div className="flex items-center justify-center space-x-3 mb-4">
-                  <Brain className="w-8 h-8 text-orange-500 animate-pulse" />
-                  <h3 className="text-xl font-bold text-gray-800">Planning steps...</h3>
+                  <Brain className="w-6 h-6 text-[#007acc] animate-pulse" />
+                  <h3 className="text-[#cccccc] text-lg font-medium">Planning steps...</h3>
                 </div>
-                <div className="flex items-center justify-center space-x-4 text-gray-600">
+                <div className="flex items-center justify-center space-x-4 text-[#9d9d9d] text-sm">
                   <span>1. Retrieve context</span>
                   <span>→</span>
                   <span>2. Summarize</span>
@@ -319,27 +319,27 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
 
           {/* Execution Phase */}
           {planSteps.length > 0 && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               {/* Left Column - Progress Timeline */}
               <div className="lg:col-span-1">
-                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
-                  <h3 className="font-semibold text-gray-800 mb-4">Live Progress Log</h3>
-                  <div className="space-y-4">
+                <div className="bg-[#252526] border border-[#3c3c3c] rounded-lg p-4">
+                  <h3 className="text-[#cccccc] font-medium mb-4">Live Progress Log</h3>
+                  <div className="space-y-3">
                     {planSteps.map((step, index) => (
                       <div key={step.id} className="flex items-start space-x-3">
                         <div className="flex-shrink-0 mt-1">
                           {step.status === 'completed' ? (
-                            <CheckCircle className="w-5 h-5 text-green-500" />
+                            <CheckCircle className="w-4 h-4 text-green-400" />
                           ) : step.status === 'running' ? (
-                            <Loader2 className="w-5 h-5 text-orange-500 animate-spin" />
+                            <Loader2 className="w-4 h-4 text-[#007acc] animate-spin" />
                           ) : (
-                            <div className="w-5 h-5 border-2 border-gray-300 rounded-full" />
+                            <div className="w-4 h-4 border-2 border-[#3c3c3c] rounded-full" />
                           )}
                         </div>
                         <div className="flex-1">
-                          <div className="font-medium text-gray-800">{step.title}</div>
+                          <div className="text-[#cccccc] text-sm font-medium">{step.title}</div>
                           {step.details && (
-                            <div className="text-sm text-gray-600 mt-1">{step.details}</div>
+                            <div className="text-[#9d9d9d] text-xs mt-1">{step.details}</div>
                           )}
                         </div>
                       </div>
@@ -347,14 +347,14 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                   </div>
                   
                   {/* Progress Bar */}
-                  <div className="mt-6">
-                    <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+                  <div className="mt-4">
+                    <div className="flex items-center justify-between text-xs text-[#9d9d9d] mb-2">
                       <span>Progress</span>
                       <span>{Math.round(((currentStep + 1) / planSteps.length) * 100)}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-[#3c3c3c] rounded-full h-1">
                       <div 
-                        className="bg-orange-500 h-2 rounded-full transition-all duration-500"
+                        className="bg-[#007acc] h-1 rounded-full transition-all duration-500"
                         style={{ width: `${((currentStep + 1) / planSteps.length) * 100}%` }}
                       />
                     </div>
@@ -365,9 +365,9 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
               {/* Right Columns - Output Tabs */}
               <div className="lg:col-span-2">
                 {outputTabs.length > 0 && (
-                  <div className="bg-white/60 backdrop-blur-xl rounded-xl border border-white/20 shadow-lg overflow-hidden">
+                  <div className="bg-[#252526] border border-[#3c3c3c] rounded-lg overflow-hidden">
                     {/* Tab Headers */}
-                    <div className="border-b border-white/20 bg-white/40 backdrop-blur-sm">
+                    <div className="border-b border-[#3c3c3c] bg-[#2d2d30]">
                       <div className="flex overflow-x-auto">
                         {outputTabs.map(tab => {
                           const Icon = tab.icon;
@@ -375,14 +375,14 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                             <button
                               key={tab.id}
                               onClick={() => setActiveTab(tab.id)}
-                              className={`flex items-center space-x-2 px-4 py-3 border-b-2 transition-colors whitespace-nowrap ${
+                              className={`flex items-center space-x-2 px-4 py-3 border-b-2 transition-colors whitespace-nowrap text-sm ${
                                 activeTab === tab.id
-                                  ? 'border-orange-500 text-orange-600 bg-white/50'
-                                  : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-white/30'
+                                  ? 'border-[#007acc] text-[#007acc] bg-[#1e1e1e]'
+                                  : 'border-transparent text-[#9d9d9d] hover:text-[#cccccc] hover:bg-[#3c3c3c]'
                               }`}
                             >
                               <Icon className="w-4 h-4" />
-                              <span className="text-sm font-medium">{tab.label}</span>
+                              <span>{tab.label}</span>
                             </button>
                           );
                         })}
@@ -390,29 +390,29 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                     </div>
 
                     {/* Tab Content */}
-                    <div className="p-6">
+                    <div className="p-4">
                       {outputTabs.find(tab => tab.id === activeTab) && (
                         <div className="prose prose-sm max-w-none">
                           {activeTab === 'qa' ? (
                             <div>
-                              <div className="whitespace-pre-wrap text-gray-700 mb-4">
+                              <div className="whitespace-pre-wrap text-[#cccccc] mb-4 text-sm">
                                 {outputTabs.find(tab => tab.id === activeTab)?.content}
                               </div>
                               {showFollowUp && (
-                                <div className="border-t border-white/20 pt-4">
+                                <div className="border-t border-[#3c3c3c] pt-4">
                                   <div className="flex space-x-2">
                                     <input
                                       type="text"
                                       value={followUpQuestion}
                                       onChange={(e) => setFollowUpQuestion(e.target.value)}
                                       placeholder="Ask a follow-up question..."
-                                      className="flex-1 p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white/70 backdrop-blur-sm"
+                                      className="flex-1 p-2 bg-[#1e1e1e] border border-[#3c3c3c] rounded text-[#cccccc] placeholder-[#9d9d9d] focus:border-[#007acc] focus:outline-none text-sm"
                                       onKeyPress={(e) => e.key === 'Enter' && handleFollowUp()}
                                     />
                                     <button
                                       onClick={handleFollowUp}
                                       disabled={!followUpQuestion.trim()}
-                                      className="px-4 py-3 bg-orange-500/90 backdrop-blur-sm text-white rounded-lg hover:bg-orange-600 disabled:bg-gray-300 transition-colors flex items-center border border-white/10"
+                                      className="px-3 py-2 bg-[#0e639c] hover:bg-[#1177bb] disabled:bg-[#3c3c3c] text-white rounded transition-colors"
                                     >
                                       <Plus className="w-4 h-4" />
                                     </button>
@@ -421,23 +421,23 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                               )}
                             </div>
                           ) : (
-                            <div className="whitespace-pre-wrap text-gray-700">
+                            <div className="whitespace-pre-wrap text-[#cccccc] text-sm">
                               {outputTabs.find(tab => tab.id === activeTab)?.content.split('\n').map((line, index) => {
                                 if (line.startsWith('### ')) {
-                                  return <h3 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(4)}</h3>;
+                                  return <h3 key={index} className="text-base font-medium text-[#cccccc] mt-4 mb-2">{line.substring(4)}</h3>;
                                 } else if (line.startsWith('## ')) {
-                                  return <h2 key={index} className="text-xl font-bold text-gray-800 mt-6 mb-3">{line.substring(3)}</h2>;
+                                  return <h2 key={index} className="text-lg font-medium text-[#cccccc] mt-6 mb-3">{line.substring(3)}</h2>;
                                 } else if (line.startsWith('# ')) {
-                                  return <h1 key={index} className="text-2xl font-bold text-gray-800 mt-8 mb-4">{line.substring(2)}</h1>;
+                                  return <h1 key={index} className="text-xl font-medium text-[#cccccc] mt-8 mb-4">{line.substring(2)}</h1>;
                                 } else if (line.startsWith('- **')) {
                                   const match = line.match(/- \*\*(.*?)\*\*: (.*)/);
                                   if (match) {
-                                    return <p key={index} className="mb-2"><strong>{match[1]}:</strong> {match[2]}</p>;
+                                    return <p key={index} className="mb-2 text-[#cccccc]"><span className="text-[#007acc] font-medium">{match[1]}:</span> {match[2]}</p>;
                                   }
                                 } else if (line.startsWith('- ')) {
-                                  return <p key={index} className="mb-1 ml-4">• {line.substring(2)}</p>;
+                                  return <p key={index} className="mb-1 ml-4 text-[#cccccc]">• {line.substring(2)}</p>;
                                 } else if (line.trim()) {
-                                  return <p key={index} className="mb-2 text-gray-700">{line}</p>;
+                                  return <p key={index} className="mb-2 text-[#cccccc]">{line}</p>;
                                 }
                                 return <br key={index} />;
                               })}
@@ -451,24 +451,24 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
 
                 {/* Action Buttons */}
                 {outputTabs.length > 0 && !isExecuting && (
-                  <div className="mt-4 flex space-x-3">
+                  <div className="mt-4 flex space-x-2">
                     <button
                       onClick={replaySteps}
-                      className="flex items-center space-x-2 px-4 py-2 bg-orange-500/90 backdrop-blur-sm text-white rounded-lg hover:bg-orange-600 transition-colors border border-white/10"
+                      className="flex items-center space-x-2 px-3 py-2 bg-[#0e639c] hover:bg-[#1177bb] text-white rounded text-sm transition-colors"
                     >
                       <RotateCcw className="w-4 h-4" />
                       <span>Replay Steps</span>
                     </button>
                     <button
                       onClick={exportPlan}
-                      className="flex items-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
+                      className="flex items-center space-x-2 px-3 py-2 bg-[#0e639c] hover:bg-[#1177bb] text-white rounded text-sm transition-colors"
                     >
                       <Download className="w-4 h-4" />
                       <span>Export Plan</span>
                     </button>
                     <button
                       onClick={() => alert('Added to Confluence!')}
-                      className="flex items-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
+                      className="flex items-center space-x-2 px-3 py-2 bg-[#0e639c] hover:bg-[#1177bb] text-white rounded text-sm transition-colors"
                     >
                       <FileText className="w-4 h-4" />
                       <span>Add to Confluence</span>
