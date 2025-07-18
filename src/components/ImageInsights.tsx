@@ -203,26 +203,26 @@ ${JSON.stringify(chartData.data, null, 2)}
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-40 p-4">
-      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden">
+    <div className="fixed top-4 right-4 z-40">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-lg w-[600px] h-[700px] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-6 text-white border-b border-white/10">
+        <div className="bg-confluence-blue p-4 text-white border-b border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Image className="w-8 h-8" />
+              <Image className="w-5 h-5" />
               <div>
-                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
-                <p className="text-blue-100/90">AI-powered tools for your Confluence workspace</p>
+                <h2 className="text-base font-bold">Image Insights & Chart Builder</h2>
+                <p className="text-blue-100 text-sm">Analyze images and create charts</p>
               </div>
             </div>
-            <button onClick={onClose} className="text-white hover:bg-white/10 rounded-full p-2 backdrop-blur-sm">
-              <X className="w-6 h-6" />
+            <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1.5">
+              <X className="w-4 h-4" />
             </button>
           </div>
           
           {/* Feature Navigation with Custom Scrollbar */}
-          <div className="mt-6 overflow-x-auto scrollbar-thin scrollbar-track-white/10 scrollbar-thumb-white/30 hover:scrollbar-thumb-white/50">
-            <div className="flex gap-2 min-w-max pb-2">
+          <div className="mt-3 overflow-x-auto">
+            <div className="flex gap-1 min-w-max">
               {features.map((feature) => {
                 const Icon = feature.icon;
                 const isActive = feature.id === 'image';
@@ -231,14 +231,14 @@ ${JSON.stringify(chartData.data, null, 2)}
                   <button
                     key={feature.id}
                     onClick={() => onFeatureSelect(feature.id)}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg backdrop-blur-sm border transition-all duration-200 whitespace-nowrap ${
+                    className={`flex items-center space-x-1 px-2 py-1 rounded text-xs transition-all duration-200 whitespace-nowrap ${
                       isActive
-                        ? 'bg-white/90 text-confluence-blue shadow-lg border-white/30'
-                        : 'bg-white/10 text-white hover:bg-white/20 border-white/10'
+                        ? 'bg-white text-confluence-blue'
+                        : 'text-white hover:bg-white/20'
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
-                    <span className="text-sm font-medium">{feature.label}</span>
+                    <Icon className="w-3 h-3" />
+                    <span className="font-medium">{feature.label}</span>
                   </button>
                 );
               })}
@@ -246,13 +246,13 @@ ${JSON.stringify(chartData.data, null, 2)}
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
-          <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <div className="p-4 overflow-y-auto h-[calc(700px-120px)]">
+          <div className="space-y-4">
             {/* Left Column - Image Selection */}
-            <div className="xl:col-span-1">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 space-y-6 border border-white/20 shadow-lg">
+            <div>
+              <div className="bg-white rounded-lg p-4 space-y-3 border border-gray-200">
                 <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                  <Eye className="w-5 h-5 mr-2" />
+                  <Eye className="w-4 h-4 mr-2" />
                   Image Selection
                 </h3>
                 
@@ -265,7 +265,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                     <select
                       value={spaceKey}
                       onChange={(e) => setSpaceKey(e.target.value)}
-                      className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                      className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select space...</option>
                       {spaces.map(space => (
@@ -281,9 +281,9 @@ ${JSON.stringify(chartData.data, null, 2)}
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Select Pages
                   </label>
-                  <div className="space-y-2 max-h-40 overflow-y-auto border border-white/30 rounded-lg p-2 bg-white/50 backdrop-blur-sm">
+                  <div className="space-y-1 max-h-32 overflow-y-auto border border-gray-300 rounded p-2 bg-white">
                     {pages.map(page => (
-                      <label key={page} className="flex items-center space-x-2 p-2 hover:bg-white/30 rounded cursor-pointer backdrop-blur-sm">
+                      <label key={page} className="flex items-center space-x-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                         <input
                           type="checkbox"
                           checked={selectedPages.includes(page)}
@@ -296,7 +296,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                           }}
                           className="rounded border-gray-300 text-confluence-blue focus:ring-confluence-blue"
                         />
-                        <span className="text-sm text-gray-700">{page}</span>
+                        <span className="text-xs text-gray-700">{page}</span>
                       </label>
                     ))}
                   </div>
@@ -309,7 +309,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                 <button
                   onClick={loadImages}
                   disabled={!spaceKey || selectedPages.length === 0}
-                  className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-3 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
+                  className="w-full bg-confluence-blue text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                 >
                   <Image className="w-5 h-5" />
                   <span>Load Images</span>
@@ -318,12 +318,11 @@ ${JSON.stringify(chartData.data, null, 2)}
             </div>
 
             {/* Middle Column - Images Grid */}
-            <div className="xl:col-span-2 space-y-6">
               {images.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-3">
                   {images.map(image => (
-                    <div key={image.id} className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
-                      <div className="aspect-video bg-gray-200/50 backdrop-blur-sm rounded-lg mb-4 overflow-hidden border border-white/20">
+                    <div key={image.id} className="bg-white rounded-lg p-3 border border-gray-200">
+                      <div className="aspect-video bg-gray-200 rounded mb-3 overflow-hidden">
                         <img 
                           src={image.url} 
                           alt={image.name}
@@ -331,13 +330,13 @@ ${JSON.stringify(chartData.data, null, 2)}
                         />
                       </div>
                       
-                      <h4 className="font-semibold text-gray-800 mb-2">{image.name}</h4>
+                      <h4 className="font-medium text-gray-800 mb-2 text-sm">{image.name}</h4>
                       
                       <div className="space-y-2">
                         <button
                           onClick={() => analyzeImage(image.id)}
                           disabled={isAnalyzing === image.id}
-                          className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-2 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
+                          className="w-full bg-confluence-blue text-white py-2 px-3 rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors text-sm"
                         >
                           {isAnalyzing === image.id ? (
                             <>
@@ -355,7 +354,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                         {image.summary && (
                           <button
                             onClick={() => createChart(image.id)}
-                            className="w-full bg-green-600/90 backdrop-blur-sm text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 border border-white/10"
+                            className="w-full bg-green-600 text-white py-2 px-3 rounded hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 text-sm"
                           >
                             <BarChart3 className="w-4 h-4" />
                             <span>Create Graph</span>
@@ -364,17 +363,17 @@ ${JSON.stringify(chartData.data, null, 2)}
                       </div>
 
                       {image.summary && (
-                        <div className="mt-4 p-3 bg-white/70 backdrop-blur-sm rounded-lg border border-white/20">
-                          <p className="text-sm text-gray-700">{image.summary}</p>
+                        <div className="mt-3 p-2 bg-gray-50 rounded">
+                          <p className="text-xs text-gray-700">{image.summary.substring(0, 150)}...</p>
                         </div>
                       )}
 
                       {image.qa && image.qa.length > 0 && (
-                        <div className="mt-4 space-y-2">
+                        <div className="mt-3 space-y-1">
                           {image.qa.map((qa, index) => (
-                            <div key={index} className="p-3 bg-white/70 backdrop-blur-sm rounded-lg border border-white/20">
-                              <p className="font-medium text-gray-800 text-sm mb-1">Q: {qa.question}</p>
-                              <p className="text-gray-700 text-xs">{qa.answer.substring(0, 100)}...</p>
+                            <div key={index} className="p-2 bg-gray-50 rounded">
+                              <p className="font-medium text-gray-800 text-xs mb-1">Q: {qa.question}</p>
+                              <p className="text-gray-700 text-xs">{qa.answer.substring(0, 80)}...</p>
                             </div>
                           ))}
                         </div>
@@ -384,27 +383,27 @@ ${JSON.stringify(chartData.data, null, 2)}
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <Image className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-600 mb-2">No Images Loaded</h3>
-                  <p className="text-gray-500">Select a space and pages to load embedded images for analysis.</p>
+                  <Image className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                  <h3 className="text-base font-semibold text-gray-600 mb-2">No Images Loaded</h3>
+                  <p className="text-sm text-gray-500">Select a space and pages to load embedded images for analysis.</p>
                 </div>
               )}
 
               {/* Chart Preview Section */}
               {chartData && (
-                <div ref={chartPreviewRef} className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+                <div ref={chartPreviewRef} className="bg-white rounded-lg p-4 border border-gray-200">
                   <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                    <BarChart3 className="w-5 h-5 mr-2" />
+                    <BarChart3 className="w-4 h-4 mr-2" />
                     Chart Builder
                   </h3>
                   
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="space-y-4">
                     {/* Chart Controls - Left Side */}
-                    <div className="lg:col-span-1 space-y-4">
-                      <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                    <div>
+                      <div className="bg-gray-50 rounded p-3">
                         <h4 className="font-semibold text-gray-800 mb-3">Chart Settings</h4>
                         
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                               Chart Type
@@ -454,7 +453,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                                     title: `Generated ${e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1)} Chart`
                                   });
                                 }}
-                                className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                                className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                               >
                                 {chartTypes.map(type => (
                                   <option key={type.value} value={type.value}>{type.label}</option>
@@ -473,7 +472,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                               value={chartFileName}
                               onChange={(e) => setChartFileName(e.target.value)}
                               placeholder="my-chart"
-                              className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue bg-white/70 backdrop-blur-sm"
+                              className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue bg-white"
                             />
                           </div>
 
@@ -485,7 +484,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                               <select
                                 value={chartExportFormat}
                                 onChange={(e) => setChartExportFormat(e.target.value)}
-                                className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                                className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                               >
                                 <option value="png">PNG</option>
                                 <option value="pdf">PDF</option>
@@ -499,14 +498,14 @@ ${JSON.stringify(chartData.data, null, 2)}
                           <div className="space-y-2 pt-2">
                             <button
                               onClick={exportChart}
-                              className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
+                              className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
                             >
                               <Download className="w-4 h-4" />
                               <span>Export Chart</span>
                             </button>
                             <button
                               onClick={() => alert('Chart saved to Confluence!')}
-                              className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
+                              className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 transition-colors"
                             >
                               <Save className="w-4 h-4" />
                               <span>Save to Confluence</span>
@@ -517,12 +516,12 @@ ${JSON.stringify(chartData.data, null, 2)}
                     </div>
 
                     {/* Chart Preview - Right Side */}
-                    <div className="lg:col-span-2">
-                      <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                    <div>
+                      <div className="bg-gray-50 rounded p-4">
                         <h4 className="font-semibold text-gray-800 mb-4">{chartData.title}</h4>
-                        <div className="w-full h-80 bg-gradient-to-br from-confluence-blue/10 to-confluence-light-blue/10 rounded-lg flex items-center justify-center border border-white/20">
+                        <div className="w-full h-60 bg-blue-50 rounded flex items-center justify-center">
                           <div className="text-center">
-                            <BarChart3 className="w-20 h-20 text-confluence-blue mx-auto mb-4" />
+                            <BarChart3 className="w-16 h-16 text-confluence-blue mx-auto mb-3" />
                             <p className="text-gray-600 font-medium text-lg">{chartData.title}</p>
                             <p className="text-gray-500 text-sm mt-2">Live {chartData.type} chart preview</p>
                             <div className="mt-4 text-xs text-gray-400 max-w-md mx-auto">
@@ -535,13 +534,11 @@ ${JSON.stringify(chartData.data, null, 2)}
                   </div>
                 </div>
               )}
-            </div>
 
             {/* Right Column - Q&A and Export */}
-            <div className="xl:col-span-1">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 space-y-4 border border-white/20 shadow-lg">
+              <div className="bg-white rounded-lg p-4 space-y-3 border border-gray-200">
                 <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                  <MessageSquare className="w-5 h-5 mr-2" />
+                  <MessageSquare className="w-4 h-4 mr-2" />
                   Image Q&A
                 </h3>
                 
@@ -561,7 +558,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                         <option key={image.id} value={image.id}>{image.name}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                          className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
                   </div>
                 </div>
 
@@ -571,13 +568,13 @@ ${JSON.stringify(chartData.data, null, 2)}
                     value={newQuestion}
                     onChange={(e) => setNewQuestion(e.target.value)}
                     placeholder="Ask about the selected image..."
-                    className="w-full p-2 border border-white/30 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue resize-none bg-white/70 backdrop-blur-sm"
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue resize-none bg-white"
                     rows={3}
                   />
                   <button
                     onClick={addQuestion}
                     disabled={!newQuestion.trim() || !selectedImage}
-                    className="w-full px-3 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded hover:bg-confluence-blue disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2 border border-white/10"
+                    className="w-full px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2"
                   >
                     <MessageSquare className="w-4 h-4" />
                     <span>Ask Question</span>
@@ -585,7 +582,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                 </div>
 
                 {/* Export Options */}
-                <div className="pt-4 border-t border-white/20 space-y-3">
+                <div className="pt-3 border-t border-gray-200 space-y-2">
                   <h4 className="font-semibold text-gray-800">Export Image Analysis</h4>
                   
                   <div>
@@ -597,7 +594,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                       value={fileName}
                       onChange={(e) => setFileName(e.target.value)}
                       placeholder="image-analysis"
-                      className="w-full p-2 border border-white/30 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue bg-white/70 backdrop-blur-sm"
+                      className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue bg-white"
                     />
                   </div>
 
@@ -609,7 +606,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                       <select
                         value={exportFormat}
                         onChange={(e) => setExportFormat(e.target.value)}
-                        className="w-full p-2 border border-white/30 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                        className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                       >
                         <option value="png">PNG</option>
                         <option value="pdf">PDF</option>
@@ -618,7 +615,7 @@ ${JSON.stringify(chartData.data, null, 2)}
                       </select>
                       <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                     </div>
-                  </div>
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
 
                   <div className="space-y-2">
                     {images.filter(img => img.summary).map(image => (
@@ -634,7 +631,6 @@ ${JSON.stringify(chartData.data, null, 2)}
                   </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>

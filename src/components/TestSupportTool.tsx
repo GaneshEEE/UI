@@ -263,25 +263,25 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-40 p-4">
-      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden">
+    <div className="fixed top-4 right-4 z-40">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-lg w-[600px] h-[700px] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-6 text-white border-b border-white/10">
+        <div className="bg-confluence-blue p-4 text-white border-b border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <TestTube className="w-8 h-8" />
+              <TestTube className="w-5 h-5" />
               <div>
-                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
-                <p className="text-blue-100/90">AI-powered tools for your Confluence workspace</p>
+                <h2 className="text-base font-bold">Test Support Tool</h2>
+                <p className="text-blue-100 text-sm">Generate testing strategies and analysis</p>
               </div>
             </div>
-            <button onClick={onClose} className="text-white hover:bg-white/10 rounded-full p-2 backdrop-blur-sm">
-              <X className="w-6 h-6" />
+            <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1.5">
+              <X className="w-4 h-4" />
             </button>
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-6 flex gap-2 overflow-x-auto">
+          <div className="mt-3 flex gap-1 overflow-x-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'test';
@@ -290,27 +290,27 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 <button
                   key={feature.id}
                   onClick={() => onFeatureSelect(feature.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg backdrop-blur-sm border transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center space-x-1 px-2 py-1 rounded text-xs transition-all duration-200 whitespace-nowrap ${
                     isActive
-                      ? 'bg-white/90 text-confluence-blue shadow-lg border-white/30'
-                      : 'bg-white/10 text-white hover:bg-white/20 border-white/10'
+                      ? 'bg-white text-confluence-blue'
+                      : 'text-white hover:bg-white/20'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="text-sm font-medium">{feature.label}</span>
+                  <Icon className="w-3 h-3" />
+                  <span className="font-medium">{feature.label}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
-          <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <div className="p-4 overflow-y-auto h-[calc(700px-120px)]">
+          <div className="space-y-4">
             {/* Left Column - Configuration */}
-            <div className="xl:col-span-1">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 space-y-6 border border-white/20 shadow-lg">
+            <div>
+              <div className="bg-white rounded-lg p-4 space-y-3 border border-gray-200">
                 <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                  <FileCheck className="w-5 h-5 mr-2" />
+                  <FileCheck className="w-4 h-4 mr-2" />
                   Component Selection
                 </h3>
                 
@@ -323,7 +323,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <select
                       value={codePageId}
                       onChange={(e) => setCodePageId(e.target.value)}
-                      className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                      className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select code page...</option>
                       {codePages.map(page => (
@@ -343,7 +343,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <select
                       value={testInputPage}
                       onChange={(e) => setTestInputPage(e.target.value)}
-                      className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                      className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select test page...</option>
                       {testPages.map(page => (
@@ -359,7 +359,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <button
                     onClick={generateTestStrategy}
                     disabled={!codePageId || !testInputPage || isGenerating === 'strategy'}
-                    className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-2 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
+                    className="w-full bg-confluence-blue text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                   >
                     {isGenerating === 'strategy' ? (
                       <>
@@ -377,7 +377,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <button
                     onClick={generateCrossPlatform}
                     disabled={!codePageId || !testInputPage || isGenerating === 'crossplatform'}
-                    className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-2 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
+                    className="w-full bg-confluence-blue text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                   >
                     {isGenerating === 'crossplatform' ? (
                       <>
@@ -395,7 +395,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <button
                     onClick={generateSensitivity}
                     disabled={!codePageId || !testInputPage || isGenerating === 'sensitivity'}
-                    className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-2 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
+                    className="w-full bg-confluence-blue text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                   >
                     {isGenerating === 'sensitivity' ? (
                       <>
@@ -413,13 +413,13 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
                 {/* Export Button */}
                 {testReport && (testReport.strategy || testReport.crossPlatform || testReport.sensitivity) && (
-                  <div className="pt-4 border-t border-white/20 space-y-3">
+                  <div className="pt-3 border-t border-gray-200 space-y-2">
                     <div className="flex items-center space-x-2">
                       <label className="text-sm font-medium text-gray-700">Export Format:</label>
                       <select
                         value={exportFormat}
                         onChange={(e) => setExportFormat(e.target.value)}
-                        className="px-3 py-1 border border-white/30 rounded text-sm focus:ring-2 focus:ring-confluence-blue bg-white/70 backdrop-blur-sm"
+                        className="px-2 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-confluence-blue bg-white"
                       >
                         <option value="markdown">Markdown</option>
                         <option value="pdf">PDF</option>
@@ -431,14 +431,14 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <div className="space-y-2">
                       <button
                         onClick={exportReport}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
+                        className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
                       >
                         <Download className="w-4 h-4" />
                         <span>Export</span>
                       </button>
                       <button
                         onClick={() => alert('Test report saved to Confluence!')}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
+                        className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 transition-colors"
                       >
                         <Save className="w-4 h-4" />
                         <span>Save to Confluence</span>
@@ -450,15 +450,14 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
             </div>
 
             {/* Middle Columns - Generated Content */}
-            <div className="xl:col-span-2 space-y-6">
               {/* Test Strategy */}
               {testReport?.strategy && (
-                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
                   <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                    <Play className="w-5 h-5 mr-2 text-confluence-blue" />
+                    <Play className="w-4 h-4 mr-2 text-confluence-blue" />
                     Test Strategy
                   </h3>
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20 prose prose-sm max-w-none">
+                  <div className="bg-gray-50 rounded p-3 prose prose-sm max-w-none max-h-60 overflow-y-auto">
                     {testReport.strategy.split('\n').map((line, index) => {
                       if (line.startsWith('### ')) {
                         return <h3 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(4)}</h3>;
@@ -484,12 +483,12 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
               {/* Cross-Platform Analysis */}
               {testReport?.crossPlatform && (
-                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
                   <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                    <Code className="w-5 h-5 mr-2 text-confluence-blue" />
+                    <Code className="w-4 h-4 mr-2 text-confluence-blue" />
                     Cross-Platform Analysis
                   </h3>
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20 prose prose-sm max-w-none">
+                  <div className="bg-gray-50 rounded p-3 prose prose-sm max-w-none max-h-60 overflow-y-auto">
                     {testReport.crossPlatform.split('\n').map((line, index) => {
                       if (line.startsWith('### ')) {
                         return <h3 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(4)}</h3>;
@@ -515,12 +514,12 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
               {/* Sensitivity Analysis */}
               {testReport?.sensitivity && (
-                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
                   <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                    <TestTube className="w-5 h-5 mr-2 text-confluence-blue" />
+                    <TestTube className="w-4 h-4 mr-2 text-confluence-blue" />
                     Sensitivity Analysis
                   </h3>
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20 prose prose-sm max-w-none">
+                  <div className="bg-gray-50 rounded p-3 prose prose-sm max-w-none max-h-60 overflow-y-auto">
                     {testReport.sensitivity.split('\n').map((line, index) => {
                       if (line.startsWith('### ')) {
                         return <h3 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(4)}</h3>;
@@ -545,23 +544,21 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   </div>
                 </div>
               )}
-            </div>
 
             {/* Right Column - Q&A */}
-            <div className="xl:col-span-1">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 space-y-4 border border-white/20 shadow-lg">
+              <div className="bg-white rounded-lg p-4 space-y-3 border border-gray-200">
                 <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                  <MessageSquare className="w-5 h-5 mr-2" />
+                  <MessageSquare className="w-4 h-4 mr-2" />
                   Questions & Analysis
                 </h3>
                 
                 {/* Existing Q&A */}
                 {qaResults.length > 0 && (
-                  <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
+                  <div className="space-y-2 mb-3 max-h-40 overflow-y-auto">
                     {qaResults.map((qa, index) => (
-                      <div key={index} className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-white/20">
-                        <p className="font-medium text-gray-800 mb-2 text-sm">Q: {qa.question}</p>
-                        <p className="text-gray-700 text-xs">{qa.answer.substring(0, 200)}...</p>
+                      <div key={index} className="bg-gray-50 rounded p-2">
+                        <p className="font-medium text-gray-800 mb-1 text-sm">Q: {qa.question}</p>
+                        <p className="text-gray-700 text-xs">{qa.answer.substring(0, 100)}...</p>
                       </div>
                     ))}
                   </div>
@@ -573,28 +570,27 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                     placeholder="Ask about testing strategies, coverage, or specific scenarios..."
-                    className="w-full p-2 border border-white/30 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue resize-none bg-white/70 backdrop-blur-sm"
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue resize-none bg-white"
                     rows={3}
                   />
                   <button
                     onClick={addQuestion}
                     disabled={!question.trim()}
-                    className="w-full px-3 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded hover:bg-confluence-blue disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2 border border-white/10"
+                    className="w-full px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2"
                   >
                     <MessageSquare className="w-4 h-4" />
                     <span>Ask Question</span>
                   </button>
                 </div>
               </div>
-            </div>
           </div>
 
           {/* Empty State */}
           {!testReport?.strategy && !testReport?.crossPlatform && !testReport?.sensitivity && (
             <div className="text-center py-12">
-              <TestTube className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-600 mb-2">Ready to Generate Test Analysis</h3>
-              <p className="text-gray-500">Select your code and test components, then choose which analysis to generate.</p>
+              <TestTube className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+              <h3 className="text-base font-semibold text-gray-600 mb-2">Ready to Generate Test Analysis</h3>
+              <p className="text-sm text-gray-500">Select your code and test components, then choose which analysis to generate.</p>
             </div>
           )}
         </div>

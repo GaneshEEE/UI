@@ -19,22 +19,22 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
   };
 
   return (
-    <div className="fixed top-16 right-4 z-40 animate-fadeIn">
-      <div className={`rounded-lg shadow-lg w-96 h-48 overflow-hidden animate-slideInUp ${
+    <div className="fixed top-4 right-4 z-40 animate-fadeIn">
+      <div className={`rounded-lg shadow-lg w-80 h-auto overflow-hidden animate-slideInUp ${
         selectedMode === 'agent' 
           ? 'bg-white border border-orange-200' 
           : 'bg-white border border-gray-200'
       }`}>
         {/* Header */}
-        <div className={`p-3 text-white ${
+        <div className={`p-4 text-white ${
           selectedMode === 'agent'
             ? 'bg-orange-500 border-b border-orange-200'
             : 'bg-confluence-blue border-b border-gray-200'
         }`}>
           <div className="flex items-center justify-between">
             <div className="flex-1">
-              <h2 className="text-lg font-semibold">Choose Mode</h2>
-              <p className={`text-xs ${
+              <h2 className="text-base font-semibold">Choose Mode</h2>
+              <p className={`text-sm ${
                 selectedMode === 'agent' ? 'text-orange-100/90' : 'text-blue-100/90'
               }`}>Select interaction type</p>
             </div>
@@ -45,7 +45,7 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
         </div>
 
         {/* Mode Selection */}
-        <div className="p-4">
+        <div className="p-4 space-y-4">
           {/* Segmented Toggle */}
           <div className={`relative rounded-lg p-1 mb-3 ${
             selectedMode === 'agent'
@@ -88,7 +88,7 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
           </div>
 
           {/* Mode Description */}
-          <div className="mb-4">
+          <div className="mb-4 min-h-[80px]">
             {selectedMode === 'agent' ? (
               <div className="bg-white rounded-lg p-3 border border-orange-200">
                 <div className="flex items-center space-x-2 mb-2">
@@ -97,8 +97,8 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
                   </div>
                   <h3 className="text-sm font-semibold text-orange-800">Agent Mode</h3>
                 </div>
-                <p className="text-orange-700 text-xs leading-relaxed">
-                  Goal-based assistance with AI planning and execution. The AI creates plans and executes them step by step.
+                <p className="text-orange-700 text-sm leading-relaxed">
+                  Goal-based assistance with AI planning and execution. Creates plans and executes them step by step.
                 </p>
               </div>
             ) : (
@@ -109,8 +109,8 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
                   </div>
                   <h3 className="text-sm font-semibold text-confluence-blue">Tool Mode</h3>
                 </div>
-                <p className="text-blue-700 text-xs leading-relaxed">
-                  Access individual tools like Search, Code Assistant, Video Summarizer, and more for specific tasks.
+                <p className="text-blue-700 text-sm leading-relaxed">
+                  Access individual tools like Search, Code Assistant, Video Summarizer for specific tasks.
                 </p>
               </div>
             )}
@@ -119,7 +119,7 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ onModeSelect, onClose }) =>
           {/* Confirm Button */}
           <button
             onClick={handleConfirm}
-            className={`w-full py-2 px-4 rounded-lg text-sm font-medium text-white transition-all duration-200 ${
+            className={`w-full py-3 px-4 rounded-lg text-sm font-medium text-white transition-all duration-200 ${
               selectedMode === 'agent'
                 ? 'bg-orange-500 hover:bg-orange-600'
                 : 'bg-confluence-blue hover:bg-blue-600'

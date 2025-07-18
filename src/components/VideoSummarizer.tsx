@@ -95,25 +95,25 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-40 p-4">
-      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
+    <div className="fixed top-4 right-4 z-40">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-lg w-[500px] h-[700px] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-6 text-white border-b border-white/10">
+        <div className="bg-confluence-blue p-4 text-white border-b border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Video className="w-8 h-8" />
+              <Video className="w-5 h-5" />
               <div>
-                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
-                <p className="text-blue-100/90">AI-powered tools for your Confluence workspace</p>
+                <h2 className="text-base font-bold">Video Summarizer</h2>
+                <p className="text-blue-100 text-sm">Analyze and summarize video content</p>
               </div>
             </div>
-            <button onClick={onClose} className="text-white hover:bg-white/10 rounded-full p-2 backdrop-blur-sm">
-              <X className="w-6 h-6" />
+            <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1.5">
+              <X className="w-4 h-4" />
             </button>
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-6 flex gap-2 overflow-x-auto">
+          <div className="mt-3 flex gap-1 overflow-x-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'video';
@@ -122,25 +122,25 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 <button
                   key={feature.id}
                   onClick={() => onFeatureSelect(feature.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg backdrop-blur-sm border transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center space-x-1 px-2 py-1 rounded text-xs transition-all duration-200 whitespace-nowrap ${
                     isActive
-                      ? 'bg-white/90 text-confluence-blue shadow-lg border-white/30'
-                      : 'bg-white/10 text-white hover:bg-white/20 border-white/10'
+                      ? 'bg-white text-confluence-blue'
+                      : 'text-white hover:bg-white/20'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="text-sm font-medium">{feature.label}</span>
+                  <Icon className="w-3 h-3" />
+                  <span className="font-medium">{feature.label}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+        <div className="p-4 overflow-y-auto h-[calc(700px-120px)]">
           {/* Video Selection Section */}
-          <div className="mb-6 bg-white/60 backdrop-blur-xl rounded-xl p-6 border border-white/20 shadow-lg">
+          <div className="mb-4 bg-white rounded-lg p-4 border border-gray-200">
             <h3 className="font-semibold text-gray-800 mb-4">Select Video Content</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-3">
               {/* Space Selection */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -150,7 +150,7 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <select
                     value={selectedSpace}
                     onChange={(e) => setSelectedSpace(e.target.value)}
-                    className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                   >
                     <option value="">Choose a space...</option>
                     {spaces.map(space => (
@@ -170,7 +170,7 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   <select
                     value={selectedPage}
                     onChange={(e) => setSelectedPage(e.target.value)}
-                    className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                   >
                     <option value="">Choose a page...</option>
                     {pages.map(page => (
@@ -185,7 +185,7 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
             <button
               onClick={processVideo}
               disabled={!selectedSpace || !selectedPage || isProcessing}
-              className="mt-4 w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-3 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
+              className="mt-3 w-full bg-confluence-blue text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
             >
               {isProcessing ? (
                 <>
@@ -204,21 +204,21 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
           {/* Videos List */}
           <div className="space-y-4">
             {videos.map(video => (
-              <div key={video.id} className="border border-white/30 rounded-xl overflow-hidden bg-white/60 backdrop-blur-xl shadow-lg">
+              <div key={video.id} className="border border-gray-200 rounded-lg overflow-hidden bg-white">
                 <div 
-                  className="p-4 bg-white/50 backdrop-blur-sm cursor-pointer hover:bg-white/70 transition-colors"
+                  className="p-3 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors"
                   onClick={() => setExpandedVideo(expandedVideo === video.id ? null : video.id)}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-confluence-light-blue/20 backdrop-blur-sm rounded-lg flex items-center justify-center border border-white/20">
-                        <Video className="w-6 h-6 text-confluence-blue" />
+                      <div className="w-10 h-10 bg-blue-100 rounded flex items-center justify-center">
+                        <Video className="w-5 h-5 text-confluence-blue" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-800">{video.name}</h4>
+                        <h4 className="font-medium text-gray-800">{video.name}</h4>
                         <div className="flex items-center space-x-4 text-sm text-gray-500">
                           <span>Processed</span>
-                          <span className="px-2 py-1 rounded-full text-xs bg-green-100/80 backdrop-blur-sm text-green-800 border border-white/20">
+                          <span className="px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
                             Completed
                           </span>
                         </div>
@@ -228,7 +228,7 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                       <div className="flex space-x-1">
                         <button
                           onClick={(e) => { e.stopPropagation(); exportSummary(video, exportFormat); }}
-                          className="px-3 py-1 bg-confluence-blue/90 backdrop-blur-sm text-white rounded text-sm hover:bg-confluence-blue transition-colors border border-white/10"
+                          className="px-2 py-1 bg-confluence-blue text-white rounded text-xs hover:bg-blue-600 transition-colors"
                         >
                           Export
                         </button>
@@ -239,12 +239,12 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 </div>
 
                 {expandedVideo === video.id && (
-                  <div className="border-t border-white/20 bg-white/40 backdrop-blur-xl">
-                    <div className="p-6 space-y-6">
+                  <div className="border-t border-gray-200 bg-white">
+                    <div className="p-4 space-y-4">
                       {/* Summary */}
                       <div>
                         <h5 className="font-semibold text-gray-800 mb-3">AI Summary</h5>
-                        <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                        <div className="bg-gray-50 rounded p-3">
                           <p className="text-gray-700">{video.summary}</p>
                         </div>
                       </div>
@@ -255,7 +255,7 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                           <h5 className="font-semibold text-gray-800 mb-3">Key Quotes</h5>
                           <div className="space-y-2">
                             {video.quotes.map((quote, index) => (
-                              <div key={index} className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border-l-4 border-confluence-blue border border-white/20">
+                              <div key={index} className="bg-gray-50 rounded p-3 border-l-4 border-confluence-blue">
                                 <p className="text-gray-700 italic">"{quote}"</p>
                               </div>
                             ))}
@@ -270,7 +270,7 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                           {video.qa && video.qa.length > 0 && (
                             <div className="space-y-3">
                               {video.qa.map((qa, index) => (
-                                <div key={index} className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                                <div key={index} className="bg-gray-50 rounded p-3">
                                   <p className="font-medium text-gray-800 mb-2">Q: {qa.question}</p>
                                   <p className="text-gray-700">A: {qa.answer}</p>
                                 </div>
@@ -279,14 +279,14 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                           )}
                           
                           {/* Add New Question */}
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                          <div className="bg-gray-50 rounded p-3">
                             <div className="flex space-x-2">
                               <input
                                 type="text"
                                 value={newQuestion}
                                 onChange={(e) => setNewQuestion(e.target.value)}
                                 placeholder="Ask a question about this video..."
-                                className="flex-1 p-2 border border-white/30 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue bg-white/70 backdrop-blur-sm"
+                                className="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue bg-white"
                                 onKeyPress={(e) => e.key === 'Enter' && addQuestion()}
                               />
                               <button
@@ -294,7 +294,7 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                                   setSelectedVideo(video.id);
                                   addQuestion();
                                 }}
-                                className="px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded hover:bg-confluence-blue transition-colors flex items-center border border-white/10"
+                                className="px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 transition-colors flex items-center"
                               >
                                 <MessageSquare className="w-4 h-4 mr-1" />
                                 Ask
@@ -311,7 +311,7 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                           <select
                             value={exportFormat}
                             onChange={(e) => setExportFormat(e.target.value)}
-                            className="px-3 py-1 border border-white/30 rounded text-sm focus:ring-2 focus:ring-confluence-blue bg-white/70 backdrop-blur-sm"
+                            className="px-2 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-confluence-blue bg-white"
                           >
                             <option value="markdown">Markdown</option>
                             <option value="pdf">PDF</option>
@@ -320,17 +320,17 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                           </select>
                         </div>
                         
-                        <div className="flex space-x-2 pt-4 border-t border-white/20">
+                        <div className="flex space-x-2 pt-3 border-t border-gray-200">
                           <button
                             onClick={() => exportSummary(video, exportFormat)}
-                            className="flex items-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
+                            className="flex items-center space-x-2 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
                           >
                             <Download className="w-4 h-4" />
                             <span>Export</span>
                           </button>
                           <button
                             onClick={() => alert('Saved to Confluence!')}
-                            className="flex items-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
+                            className="flex items-center space-x-2 px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 transition-colors"
                           >
                             <Save className="w-4 h-4" />
                             <span>Save to Confluence</span>
@@ -346,9 +346,9 @@ ${video.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
           {videos.length === 0 && !isProcessing && (
             <div className="text-center py-12">
-              <Video className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-600 mb-2">No Videos Processed</h3>
-              <p className="text-gray-500">Select a space and page with video content to start generating AI summaries.</p>
+              <Video className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+              <h3 className="text-base font-semibold text-gray-600 mb-2">No Videos Processed</h3>
+              <p className="text-sm text-gray-500">Select a space and page with video content to start generating AI summaries.</p>
             </div>
           )}
         </div>

@@ -246,45 +246,45 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
   };
 
   return (
-    <div className="fixed top-16 right-4 z-40">
-      <div className="bg-white border border-orange-200 rounded-lg shadow-lg w-96 h-[600px] overflow-hidden">
+    <div className="fixed top-4 right-4 z-40">
+      <div className="bg-white border border-orange-200 rounded-lg shadow-lg w-96 h-[700px] overflow-hidden">
         {/* Header */}
-        <div className="bg-orange-500 p-3 text-white border-b border-orange-200">
+        <div className="bg-orange-500 p-4 text-white border-b border-orange-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Zap className="w-5 h-5 text-yellow-300" />
+              <Zap className="w-4 h-4 text-yellow-300" />
               <div>
-                <h2 className="text-lg font-semibold">Agent Mode</h2>
-                <p className="text-orange-100 text-xs">Goal-based AI assistance</p>
+                <h2 className="text-base font-semibold">Agent Mode</h2>
+                <p className="text-orange-100 text-sm">Goal-based AI assistance</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
               <button 
                 onClick={() => onModeSelect('tool')}
-                className="text-orange-100 hover:text-white hover:bg-white/10 rounded px-2 py-1 text-xs transition-colors"
+                className="text-orange-100 hover:text-white hover:bg-white/10 rounded px-2 py-1 text-sm transition-colors"
               >
                 Tool Mode
               </button>
-              <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1">
+              <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1.5">
                 <X className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
 
-        <div className="p-4 overflow-y-auto h-[calc(600px-60px)]">
+        <div className="p-4 overflow-y-auto h-[calc(700px-80px)]">
           {/* Goal Input Section */}
           {!planSteps.length && !isPlanning && (
             <div>
-              <div className="bg-white rounded-lg p-4 border border-gray-200 text-center">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">What do you want to achieve?</h3>
+              <div className="bg-white rounded-lg p-4 border border-gray-200">
+                <h3 className="text-base font-semibold text-gray-800 mb-3">What do you want to achieve?</h3>
                 <div className="relative">
                   <textarea
                     value={goal}
                     onChange={(e) => setGoal(e.target.value)}
                     placeholder="Describe your goal..."
                     className="w-full p-3 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none text-sm"
-                    rows={3}
+                    rows={4}
                   />
                   <button
                     onClick={handleGoalSubmit}
@@ -302,8 +302,8 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
           {isPlanning && (
             <div>
               <div className="bg-white rounded-lg p-4 border border-gray-200 text-center">
-                <div className="flex items-center justify-center space-x-3 mb-4">
-                  <Brain className="w-6 h-6 text-orange-500 animate-pulse" />
+                <div className="flex items-center justify-center space-x-2 mb-3">
+                  <Brain className="w-5 h-5 text-orange-500 animate-pulse" />
                   <h3 className="text-lg font-semibold text-gray-800">Planning steps...</h3>
                 </div>
                 <div className="flex items-center justify-center space-x-4 text-gray-600">
@@ -322,8 +322,8 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
             <div className="space-y-4">
               {/* Left Column - Progress Timeline */}
               <div>
-                <div className="bg-white rounded-lg p-3 border border-gray-200">
-                  <h3 className="font-medium text-gray-800 mb-3 text-sm">Progress</h3>
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
+                  <h3 className="font-medium text-gray-800 mb-3">Progress</h3>
                   <div className="space-y-4">
                     {planSteps.map((step, index) => (
                       <div key={step.id} className="flex items-start space-x-3">
@@ -339,7 +339,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                         <div className="flex-1">
                           <div className="text-sm font-medium text-gray-800">{step.title}</div>
                           {step.details && (
-                            <div className="text-xs text-gray-600 mt-1">{step.details}</div>
+                            <div className="text-sm text-gray-600 mt-1">{step.details}</div>
                           )}
                         </div>
                       </div>
@@ -348,7 +348,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                   
                   {/* Progress Bar */}
                   <div className="mt-6">
-                    <div className="flex items-center justify-between text-xs text-gray-600 mb-2">
+                    <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
                       <span>Progress</span>
                       <span>{Math.round(((currentStep + 1) / planSteps.length) * 100)}%</span>
                     </div>
@@ -367,7 +367,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                 {outputTabs.length > 0 && (
                   <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                     {/* Tab Headers */}
-                    <div className="border-b border-gray-200 bg-gray-50">
+                    <div className="border-b border-gray-200 bg-gray-50 overflow-x-auto">
                       <div className="flex overflow-x-auto scrollbar-thin">
                         {outputTabs.map(tab => {
                           const Icon = tab.icon;
@@ -390,7 +390,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                     </div>
 
                     {/* Tab Content */}
-                    <div className="p-3">
+                    <div className="p-4 max-h-80 overflow-y-auto">
                       {outputTabs.find(tab => tab.id === activeTab) && (
                         <div className="prose prose-xs max-w-none">
                           {activeTab === 'qa' ? (
@@ -399,7 +399,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                                 {outputTabs.find(tab => tab.id === activeTab)?.content}
                               </div>
                               {showFollowUp && (
-                                <div className="border-t border-gray-200 pt-3">
+                                <div className="border-t border-gray-200 pt-3 mt-3">
                                   <div className="flex space-x-2">
                                     <input
                                       type="text"
@@ -422,7 +422,7 @@ ${outputTabs.find(tab => tab.id === 'tools')?.content || ''}
                             </div>
                           ) : (
                             <div className="whitespace-pre-wrap text-gray-700">
-                              {outputTabs.find(tab => tab.id === activeTab)?.content.split('\n').slice(0, 20).map((line, index) => {
+                              {outputTabs.find(tab => tab.id === activeTab)?.content.split('\n').map((line, index) => {
                                 if (line.startsWith('### ')) {
                                   return <h3 key={index} className="text-sm font-bold text-gray-800 mt-3 mb-1">{line.substring(4)}</h3>;
                                 } else if (line.startsWith('## ')) {

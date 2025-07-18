@@ -202,25 +202,25 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-40 p-4">
-      <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden">
+    <div className="fixed top-4 right-4 z-40">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-lg w-[600px] h-[700px] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-confluence-blue/90 to-confluence-light-blue/90 backdrop-blur-xl p-6 text-white border-b border-white/10">
+        <div className="bg-confluence-blue p-4 text-white border-b border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <TrendingUp className="w-8 h-8" />
+              <TrendingUp className="w-5 h-5" />
               <div>
-                <h2 className="text-2xl font-bold">Confluence AI Assistant</h2>
-                <p className="text-blue-100/90">AI-powered tools for your Confluence workspace</p>
+                <h2 className="text-base font-bold">Impact Analyzer</h2>
+                <p className="text-blue-100 text-sm">Analyze code changes and impact</p>
               </div>
             </div>
-            <button onClick={onClose} className="text-white hover:bg-white/10 rounded-full p-2 backdrop-blur-sm">
-              <X className="w-6 h-6" />
+            <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1.5">
+              <X className="w-4 h-4" />
             </button>
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-6 flex gap-2 overflow-x-auto">
+          <div className="mt-3 flex gap-1 overflow-x-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'impact';
@@ -229,27 +229,27 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 <button
                   key={feature.id}
                   onClick={() => onFeatureSelect(feature.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg backdrop-blur-sm border transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center space-x-1 px-2 py-1 rounded text-xs transition-all duration-200 whitespace-nowrap ${
                     isActive
-                      ? 'bg-white/90 text-confluence-blue shadow-lg border-white/30'
-                      : 'bg-white/10 text-white hover:bg-white/20 border-white/10'
+                      ? 'bg-white text-confluence-blue'
+                      : 'text-white hover:bg-white/20'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="text-sm font-medium">{feature.label}</span>
+                  <Icon className="w-3 h-3" />
+                  <span className="font-medium">{feature.label}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
-          <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <div className="p-4 overflow-y-auto h-[calc(700px-120px)]">
+          <div className="space-y-4">
             {/* Left Column - Configuration */}
-            <div className="xl:col-span-1">
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 space-y-4 border border-white/20 shadow-lg">
+            <div>
+              <div className="bg-white rounded-lg p-4 space-y-3 border border-gray-200">
                 <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                  <GitCompare className="w-5 h-5 mr-2" />
+                  <GitCompare className="w-4 h-4 mr-2" />
                   Version Comparison
                 </h3>
                 
@@ -262,7 +262,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <select
                       value={oldPage}
                       onChange={(e) => setOldPage(e.target.value)}
-                      className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                      className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select old version...</option>
                       {codePages.map(page => (
@@ -282,7 +282,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <select
                       value={newPage}
                       onChange={(e) => setNewPage(e.target.value)}
-                      className="w-full p-3 border border-white/30 rounded-lg focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white/70 backdrop-blur-sm"
+                      className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white"
                     >
                       <option value="">Select new version...</option>
                       {codePages.map(page => (
@@ -297,7 +297,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                 <button
                   onClick={analyzeDiff}
                   disabled={!oldPage || !newPage || isAnalyzing}
-                  className="w-full bg-confluence-blue/90 backdrop-blur-sm text-white py-3 px-4 rounded-lg hover:bg-confluence-blue disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors border border-white/10"
+                  className="w-full bg-confluence-blue text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors"
                 >
                   {isAnalyzing ? (
                     <>
@@ -314,22 +314,22 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
                 {/* Metrics Display */}
                 {metrics && (
-                  <div className="mt-6 space-y-3">
+                  <div className="mt-4 space-y-2">
                     <h4 className="font-semibold text-gray-800">Change Metrics</h4>
                     <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div className="bg-green-100/80 backdrop-blur-sm p-2 rounded text-center border border-white/20">
+                      <div className="bg-green-100 p-2 rounded text-center">
                         <div className="font-semibold text-green-800">+{metrics.linesAdded}</div>
                         <div className="text-green-600 text-xs">Added</div>
                       </div>
-                      <div className="bg-red-100/80 backdrop-blur-sm p-2 rounded text-center border border-white/20">
+                      <div className="bg-red-100 p-2 rounded text-center">
                         <div className="font-semibold text-red-800">-{metrics.linesRemoved}</div>
                         <div className="text-red-600 text-xs">Removed</div>
                       </div>
-                      <div className="bg-blue-100/80 backdrop-blur-sm p-2 rounded text-center border border-white/20">
+                      <div className="bg-blue-100 p-2 rounded text-center">
                         <div className="font-semibold text-blue-800">{metrics.filesChanged}</div>
                         <div className="text-blue-600 text-xs">Files</div>
                       </div>
-                      <div className="bg-purple-100/80 backdrop-blur-sm p-2 rounded text-center border border-white/20">
+                      <div className="bg-purple-100 p-2 rounded text-center">
                         <div className="font-semibold text-purple-800">{metrics.percentageChanged}%</div>
                         <div className="text-purple-600 text-xs">Changed</div>
                       </div>
@@ -339,9 +339,9 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
                 {/* Risk Level */}
                 {riskLevel && (
-                  <div className="mt-6">
+                  <div className="mt-4">
                     <h4 className="font-semibold text-gray-800 mb-2">Risk Assessment</h4>
-                    <div className={`p-3 rounded-lg flex items-center space-x-2 border ${getRiskColor(riskLevel.level)}`}>
+                    <div className={`p-2 rounded flex items-center space-x-2 ${getRiskColor(riskLevel.level)}`}>
                       {getRiskIcon(riskLevel.level)}
                       <div>
                         <div className="font-semibold capitalize">{riskLevel.level} Risk</div>
@@ -354,13 +354,12 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
             </div>
 
             {/* Middle Columns - Diff and Analysis */}
-            <div className="xl:col-span-2 space-y-6">
               {/* Code Diff */}
               {diffResults && (
-                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
                   <h3 className="font-semibold text-gray-800 mb-4">Code Diff</h3>
-                  <div className="bg-gray-900/90 backdrop-blur-sm rounded-lg p-4 overflow-auto max-h-80 border border-white/10">
-                    <pre className="text-sm">
+                  <div className="bg-gray-900 rounded p-3 overflow-auto max-h-60">
+                    <pre className="text-xs">
                       <code>
                         {diffResults.split('\n').map((line, index) => (
                           <div
@@ -383,9 +382,9 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
               {/* Impact Summary */}
               {impactSummary && (
-                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
                   <h3 className="font-semibold text-gray-800 mb-4">AI Impact Summary</h3>
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/20 prose prose-sm max-w-none">
+                  <div className="bg-gray-50 rounded p-3 prose prose-sm max-w-none max-h-60 overflow-y-auto">
                     {impactSummary.split('\n').map((line, index) => {
                       if (line.startsWith('### ')) {
                         return <h3 key={index} className="text-lg font-bold text-gray-800 mt-4 mb-2">{line.substring(4)}</h3>;
@@ -406,13 +405,11 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   </div>
                 </div>
               )}
-            </div>
 
             {/* Right Column - Q&A and Export */}
-            <div className="xl:col-span-1 space-y-6">
               {/* Risk Factors */}
               {riskLevel && (
-                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
                   <h3 className="font-semibold text-gray-800 mb-4">Risk Factors</h3>
                   <div className="space-y-2">
                     {riskLevel.factors.map((factor, index) => (
@@ -426,16 +423,16 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
               )}
 
               {/* Q&A Section */}
-              <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+              <div className="bg-white rounded-lg p-4 border border-gray-200">
                 <h3 className="font-semibold text-gray-800 mb-4">Questions & Analysis</h3>
                 
                 {/* Existing Q&A */}
                 {qaResults.length > 0 && (
-                  <div className="space-y-3 mb-4">
+                  <div className="space-y-2 mb-3 max-h-40 overflow-y-auto">
                     {qaResults.map((qa, index) => (
-                      <div key={index} className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-white/20">
-                        <p className="font-medium text-gray-800 mb-2">Q: {qa.question}</p>
-                        <p className="text-gray-700 text-sm">A: {qa.answer}</p>
+                      <div key={index} className="bg-gray-50 rounded p-2">
+                        <p className="font-medium text-gray-800 mb-1 text-sm">Q: {qa.question}</p>
+                        <p className="text-gray-700 text-xs">A: {qa.answer.substring(0, 100)}...</p>
                       </div>
                     ))}
                   </div>
@@ -448,13 +445,13 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                     placeholder="Ask about the impact analysis..."
-                    className="w-full p-2 border border-white/30 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue bg-white/70 backdrop-blur-sm"
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue bg-white"
                     onKeyPress={(e) => e.key === 'Enter' && addQuestion()}
                   />
                   <button
                     onClick={addQuestion}
                     disabled={!question.trim()}
-                    className="w-full px-3 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded hover:bg-confluence-blue disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2 border border-white/10"
+                    className="w-full px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-2"
                   >
                     <MessageSquare className="w-4 h-4" />
                     <span>Ask Question</span>
@@ -464,7 +461,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
 
               {/* Export Options */}
               {diffResults && (
-                <div className="bg-white/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 shadow-lg">
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
                   <h3 className="font-semibold text-gray-800 mb-4">Export Options</h3>
                   <div className="space-y-3">
                     <div className="flex items-center space-x-2">
@@ -472,7 +469,7 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                       <select
                         value={exportFormat}
                         onChange={(e) => setExportFormat(e.target.value)}
-                        className="px-3 py-1 border border-white/30 rounded text-sm focus:ring-2 focus:ring-confluence-blue bg-white/70 backdrop-blur-sm"
+                        className="px-2 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-confluence-blue bg-white"
                       >
                         <option value="markdown">Markdown</option>
                         <option value="pdf">PDF</option>
@@ -484,14 +481,14 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                     <div className="space-y-2">
                       <button
                         onClick={exportAnalysis}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600/90 backdrop-blur-sm text-white rounded-lg hover:bg-green-700 transition-colors border border-white/10"
+                        className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
                       >
                         <Download className="w-4 h-4" />
                         <span>Export</span>
                       </button>
                       <button
                         onClick={() => alert('Saved to Confluence!')}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-confluence-blue/90 backdrop-blur-sm text-white rounded-lg hover:bg-confluence-blue transition-colors border border-white/10"
+                        className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 transition-colors"
                       >
                         <Save className="w-4 h-4" />
                         <span>Save to Confluence</span>
@@ -500,7 +497,6 @@ ${qaResults.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n')
                   </div>
                 </div>
               )}
-            </div>
           </div>
         </div>
       </div>
