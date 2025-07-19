@@ -3,6 +3,7 @@ import { X, Image, Upload, Eye, Zap, BarChart3 } from 'lucide-react';
 
 interface ImageInsightsProps {
   onClose: () => void;
+  onFeatureSelect: (feature: any) => void;
 }
 
 export default function ImageInsights({ onClose }: ImageInsightsProps) {
