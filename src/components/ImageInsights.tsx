@@ -6,10 +6,19 @@ interface ImageInsightsProps {
   onFeatureSelect: (feature: any) => void;
 }
 
-export default function ImageInsights({ onClose }: ImageInsightsProps) {
+const ImageInsights: React.FC<ImageInsightsProps> = ({ onClose, onFeatureSelect }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [insights, setInsights] = useState<any>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const features = [
+    { id: 'search' as const, label: 'AI Powered Search', icon: Search },
+    { id: 'video' as const, label: 'Video Summarizer', icon: Video },
+    { id: 'code' as const, label: 'Code Assistant', icon: Code },
+    { id: 'impact' as const, label: 'Impact Analyzer', icon: TrendingUp },
+    { id: 'test' as const, label: 'Test Support Tool', icon: TestTube },
+    { id: 'image' as const, label: 'Image Insights & Chart Builder', icon: Image },
+  ];
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -41,29 +50,55 @@ export default function ImageInsights({ onClose }: ImageInsightsProps) {
   };
 
   return (
-    <div className="fixed top-4 right-4 w-[500px] h-[700px] bg-white border border-gray-200 shadow-lg overflow-hidden flex flex-col">
+    <div className="fixed top-4 right-4 z-40">
+      <div className="bg-white border border-gray-200 shadow-lg w-[500px] h-[700px] overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between p-3 border-b border-gray-200 bg-gray-50">
-        <div className="flex items-center gap-2">
-          <Eye className="w-4 h-4 text-blue-600" />
-          <h2 className="text-sm font-semibold text-gray-900">Image Insights</h2>
+        <div className="bg-confluence-blue p-3 text-white border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Image className="w-4 h-4" />
+              <div>
+                <h2 className="text-sm font-bold">Image Insights & Chart Builder</h2>
+                <p className="text-blue-100 text-xs">Analyze images and create charts</p>
+              </div>
+            </div>
+            <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1">
+              <X className="w-3 h-3" />
+            </button>
+          </div>
+          
+          {/* Feature Navigation */}
+          <div className="mt-2 flex gap-1 overflow-x-auto">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              const isActive = feature.id === 'image';
+              
+              return (
+                <button
+                  key={feature.id}
+                  onClick={() => onFeatureSelect(feature.id)}
+                  className={`flex items-center space-x-1 px-2 py-1 rounded text-xs transition-all duration-200 whitespace-nowrap ${
+                    isActive
+                      ? 'bg-white text-confluence-blue'
+                      : 'text-white hover:bg-white/20'
+                  }`}
+                >
+                  <Icon className="w-3 h-3" />
+                  <span className="font-medium">{feature.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-        <button
-          onClick={onClose}
-          className="p-1 hover:bg-gray-200 rounded transition-colors"
-        >
-          <X className="w-4 h-4 text-gray-500" />
-        </button>
-      </div>
 
       {/* Content */}
-      <div className="flex-1 p-4 overflow-y-auto">
+        <div className="p-3 overflow-y-auto h-[calc(700px-100px)]">
         {/* Upload Section */}
-        <div className="mb-4">
-          <label className="block text-xs font-medium text-gray-700 mb-2">
+          <div className="mb-3">
+            <label className="block text-xs font-medium text-gray-700 mb-2">
             Upload Image
           </label>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+            <div className="border-2 border-dashed border-gray-300 rounded p-4 text-center hover:border-blue-400 transition-colors">
             <input
               type="file"
               accept="image/*"
@@ -72,7 +107,7 @@ export default function ImageInsights({ onClose }: ImageInsightsProps) {
               id="image-upload"
             />
             <label htmlFor="image-upload" className="cursor-pointer">
-              <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                <Upload className="w-6 h-6 text-gray-400 mx-auto mb-2" />
               <p className="text-sm text-gray-600">Click to upload an image</p>
               <p className="text-xs text-gray-400 mt-1">PNG, JPG, GIF up to 10MB</p>
             </label>
@@ -81,30 +116,30 @@ export default function ImageInsights({ onClose }: ImageInsightsProps) {
 
         {/* Image Preview */}
         {selectedImage && (
-          <div className="mb-4">
+            <div className="mb-3">
             <label className="block text-xs font-medium text-gray-700 mb-2">
               Preview
             </label>
-            <div className="border border-gray-200 rounded-lg overflow-hidden">
+              <div className="border border-gray-200 rounded overflow-hidden">
               <img
                 src={selectedImage}
                 alt="Preview"
-                className="w-full h-32 object-cover"
+                  className="w-full h-24 object-cover"
               />
             </div>
             <button
               onClick={analyzeImage}
               disabled={isAnalyzing}
-              className="w-full mt-2 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                className="w-full mt-2 px-3 py-2 bg-confluence-blue text-white text-sm rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
               {isAnalyzing ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   Analyzing...
                 </>
               ) : (
                 <>
-                  <Zap className="w-4 h-4" />
+                    <Zap className="w-3 h-3" />
                   Analyze Image
                 </>
               )}
@@ -114,14 +149,14 @@ export default function ImageInsights({ onClose }: ImageInsightsProps) {
 
         {/* Insights Results */}
         {insights && (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-3">
-              <BarChart3 className="w-4 h-4 text-green-600" />
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 mb-2">
+                <BarChart3 className="w-3 h-3 text-green-600" />
               <h3 className="text-sm font-semibold text-gray-900">Analysis Results</h3>
             </div>
 
-            <div className="grid grid-cols-1 gap-3">
-              <div className="bg-gray-50 p-3 rounded-lg">
+              <div className="grid grid-cols-1 gap-2">
+                <div className="bg-gray-50 p-2 rounded">
                 <h4 className="text-xs font-medium text-gray-700 mb-2">Detected Objects</h4>
                 <div className="flex flex-wrap gap-1">
                   {insights.objects.map((object: string, index: number) => (
@@ -135,7 +170,7 @@ export default function ImageInsights({ onClose }: ImageInsightsProps) {
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-3 rounded-lg">
+                <div className="bg-gray-50 p-2 rounded">
                 <h4 className="text-xs font-medium text-gray-700 mb-2">Dominant Colors</h4>
                 <div className="flex flex-wrap gap-1">
                   {insights.colors.map((color: string, index: number) => (
@@ -149,23 +184,23 @@ export default function ImageInsights({ onClose }: ImageInsightsProps) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-50 p-3 rounded-lg">
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-gray-50 p-2 rounded">
                   <h4 className="text-xs font-medium text-gray-700 mb-1">Mood</h4>
                   <p className="text-sm text-gray-900">{insights.mood}</p>
                 </div>
-                <div className="bg-gray-50 p-3 rounded-lg">
+                  <div className="bg-gray-50 p-2 rounded">
                   <h4 className="text-xs font-medium text-gray-700 mb-1">Quality</h4>
                   <p className="text-sm text-gray-900">{insights.quality}</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-50 p-3 rounded-lg">
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-gray-50 p-2 rounded">
                   <h4 className="text-xs font-medium text-gray-700 mb-1">Resolution</h4>
                   <p className="text-sm text-gray-900">{insights.resolution}</p>
                 </div>
-                <div className="bg-gray-50 p-3 rounded-lg">
+                  <div className="bg-gray-50 p-2 rounded">
                   <h4 className="text-xs font-medium text-gray-700 mb-1">File Size</h4>
                   <p className="text-sm text-gray-900">{insights.fileSize}</p>
                 </div>
@@ -174,6 +209,6 @@ export default function ImageInsights({ onClose }: ImageInsightsProps) {
           </div>
         )}
       </div>
+      </div>
     </div>
   );
-}
