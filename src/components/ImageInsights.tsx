@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Image, Upload, Eye, Zap, BarChart3 } from 'lucide-react';
+import { X, Image, Upload, Eye, Zap, BarChart3, Search, Video, Code, TrendingUp, TestTube } from 'lucide-react';
 
 interface ImageInsightsProps {
   onClose: () => void;
@@ -212,3 +212,6 @@ const ImageInsights: React.FC<ImageInsightsProps> = ({ onClose, onFeatureSelect 
       </div>
     </div>
   );
+};
+
+export default ImageInsights;
