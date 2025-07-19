@@ -1,15 +1,38 @@
 import React, { useState } from 'react';
-import { X, Image, Upload, Eye, Zap, BarChart3, Search, Video, Code, TrendingUp, TestTube } from 'lucide-react';
+import { Image, Download, Save, X, ChevronDown, Loader2, MessageSquare, BarChart3, Search, Video, Code, TrendingUp, TestTube, Eye, Zap } from 'lucide-react';
+import { FeatureType } from '../App';
 
 interface ImageInsightsProps {
   onClose: () => void;
-  onFeatureSelect: (feature: any) => void;
+  onFeatureSelect: (feature: FeatureType) => void;
+}
+
+interface ImageData {
+  id: string;
+  name: string;
+  url: string;
+  summary?: string;
+  chart?: string;
+  qa?: Array<{ question: string; answer: string }>;
 }
 
 const ImageInsights: React.FC<ImageInsightsProps> = ({ onClose, onFeatureSelect }) => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [insights, setInsights] = useState<any>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [selectedSpace, setSelectedSpace] = useState('');
+  const [selectedPages, setSelectedPages] = useState<string[]>([]);
+  const [images, setImages] = useState<ImageData[]>([]);
+  const [isLoadingImages, setIsLoadingImages] = useState(false);
+  const [analyzingImage, setAnalyzingImage] = useState<string>('');
+  const [generatingChart, setGeneratingChart] = useState<string>('');
+  const [chartType, setChartType] = useState('bar');
+  const [chartFilename, setChartFilename] = useState('');
+  const [exportFormat, setExportFormat] = useState('png');
+  const [newQuestion, setNewQuestion] = useState('');
+  const [selectedImageForQA, setSelectedImageForQA] = useState('');
+
+  const spaces = ['Engineering', 'Product', 'Design', 'Marketing', 'Documentation'];
+  const pages = ['Dashboard Screenshots', 'UI Mockups', 'Architecture Diagrams', 'Performance Charts', 'User Analytics'];
+  const chartTypes = ['bar', 'line', 'pie', 'scatter', 'area'];
+  const exportFormats = ['png', 'pdf', 'docx', 'svg'];
 
   const features = [
     { id: 'search' as const, label: 'AI Powered Search', icon: Search },
@@ -20,38 +43,110 @@ const ImageInsights: React.FC<ImageInsightsProps> = ({ onClose, onFeatureSelect 
     { id: 'image' as const, label: 'Image Insights & Chart Builder', icon: Image },
   ];
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSelectedImage(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
+  const sampleImages: ImageData[] = [
+    {
+      id: '1',
+      name: 'User Dashboard Analytics',
+      url: 'https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=400'
+    },
+    {
+      id: '2', 
+      name: 'Performance Metrics Chart',
+      url: 'https://images.pexels.com/photos/669610/pexels-photo-669610.jpeg?auto=compress&cs=tinysrgb&w=400'
+    },
+    {
+      id: '3',
+      name: 'System Architecture Diagram', 
+      url: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=400'
     }
+  ];
+
+  const loadImages = async () => {
+    if (!selectedSpace || selectedPages.length === 0) return;
+    
+    setIsLoadingImages(true);
+    // Simulate loading images from Confluence
+    setTimeout(() => {
+      setImages(sampleImages);
+      setIsLoadingImages(false);
+    }, 2000);
   };
 
-  const analyzeImage = () => {
-    if (!selectedImage) return;
-    
-    setIsAnalyzing(true);
-    // Simulate analysis
+  const analyzeImage = async (imageId: string) => {
+    setAnalyzingImage(imageId);
+    // Simulate AI analysis
     setTimeout(() => {
-      setInsights({
-        objects: ['Person', 'Car', 'Building', 'Tree'],
-        colors: ['Blue', 'Green', 'Gray', 'Brown'],
-        mood: 'Professional',
-        quality: 'High',
-        resolution: '1920x1080',
-        fileSize: '2.4 MB'
-      });
-      setIsAnalyzing(false);
-    }, 2000);
+      setImages(prev => prev.map(img => 
+        img.id === imageId 
+          ? { 
+              ...img, 
+              summary: `AI Analysis: This image shows key performance metrics and data visualizations. The chart displays trends over time with multiple data series. Key insights include growth patterns, seasonal variations, and performance indicators that can inform business decisions.`
+            }
+          : img
+      ));
+      setAnalyzingImage('');
+    }, 3000);
+  };
+
+  const generateChart = async (imageId: string) => {
+    setGeneratingChart(imageId);
+    // Simulate chart generation
+    setTimeout(() => {
+      setImages(prev => prev.map(img => 
+        img.id === imageId 
+          ? { 
+              ...img, 
+              chart: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=400'
+            }
+          : img
+      ));
+      setGeneratingChart('');
+    }, 2500);
+  };
+
+  const addQuestion = () => {
+    if (!newQuestion.trim() || !selectedImageForQA) return;
+    
+    const answer = `Based on the AI analysis of this image, here's the response: The image contains data visualization elements that show ${newQuestion.toLowerCase().includes('trend') ? 'upward trends in key metrics with seasonal patterns' : newQuestion.toLowerCase().includes('performance') ? 'strong performance indicators across multiple dimensions' : 'relevant insights that can inform decision-making processes'}.`;
+
+    setImages(prev => prev.map(img => 
+      img.id === selectedImageForQA 
+        ? { 
+            ...img, 
+            qa: [...(img.qa || []), { question: newQuestion, answer }]
+          }
+        : img
+    ));
+    setNewQuestion('');
+    setSelectedImageForQA('');
+  };
+
+  const exportChart = (image: ImageData) => {
+    const content = `# Image Analysis Report: ${image.name}
+
+## AI Summary
+${image.summary || 'No summary available'}
+
+## Generated Chart
+Chart exported in ${exportFormat} format
+
+## Q&A
+${image.qa?.map(qa => `**Q:** ${qa.question}\n**A:** ${qa.answer}`).join('\n\n') || 'No questions asked'}
+
+---
+*Generated by Confluence AI Assistant - Image Insights*`;
+
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${chartFilename || image.name.replace(/\s+/g, '_')}.${exportFormat}`;
+    a.click();
   };
 
   return (
     <div className="fixed top-4 right-4 z-40">
-      <div className="bg-white border border-gray-200 shadow-lg w-[500px] h-[700px] overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-lg w-[600px] h-[700px] overflow-hidden">
         {/* Header */}
         <div className="bg-confluence-blue p-4 text-white border-b border-gray-200">
           <div className="flex items-center justify-between">
@@ -59,7 +154,7 @@ const ImageInsights: React.FC<ImageInsightsProps> = ({ onClose, onFeatureSelect 
               <Image className="w-5 h-5" />
               <div>
                 <h2 className="text-base font-bold">Image Insights & Chart Builder</h2>
-                <p className="text-blue-100 text-sm">Analyze images and create charts</p>
+                <p className="text-blue-100 text-sm">Analyze images and create charts from Confluence</p>
               </div>
             </div>
             <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1.5">
@@ -91,123 +186,256 @@ const ImageInsights: React.FC<ImageInsightsProps> = ({ onClose, onFeatureSelect 
           </div>
         </div>
 
-        {/* Content */}
         <div className="p-4 overflow-y-auto h-[calc(700px-120px)]">
-          {/* Upload Section */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Upload Image
-            </label>
-            <div className="border-2 border-dashed border-gray-300 rounded p-6 text-center hover:border-blue-400 transition-colors">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-                id="image-upload"
-              />
-              <label htmlFor="image-upload" className="cursor-pointer">
-                <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-600">Click to upload an image</p>
-                <p className="text-xs text-gray-400 mt-1">PNG, JPG, GIF up to 10MB</p>
-              </label>
-            </div>
-          </div>
-
-          {/* Image Preview */}
-          {selectedImage && (
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Preview
-              </label>
-              <div className="border border-gray-200 rounded overflow-hidden">
-                <img
-                  src={selectedImage}
-                  alt="Preview"
-                  className="w-full h-48 object-cover"
-                />
+          <div className="space-y-4">
+            {/* Left Panel - Controls */}
+            <div className="bg-white rounded-lg p-4 border border-gray-200">
+              <h3 className="font-semibold text-gray-800 mb-4">Select Content</h3>
+              
+              {/* Space Selection */}
+              <div className="mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Confluence Space
+                </label>
+                <div className="relative">
+                  <select
+                    value={selectedSpace}
+                    onChange={(e) => setSelectedSpace(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-confluence-blue focus:border-confluence-blue appearance-none bg-white text-sm"
+                  >
+                    <option value="">Choose a space...</option>
+                    {spaces.map(space => (
+                      <option key={space} value={space}>{space}</option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                </div>
               </div>
+
+              {/* Page Selection */}
+              <div className="mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Pages with Images
+                </label>
+                <div className="space-y-1 max-h-24 overflow-y-auto border border-gray-300 rounded p-2 bg-white">
+                  {pages.map(page => (
+                    <label key={page} className="flex items-center space-x-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectedPages.includes(page)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedPages([...selectedPages, page]);
+                          } else {
+                            setSelectedPages(selectedPages.filter(p => p !== page));
+                          }
+                        }}
+                        className="rounded border-gray-300 text-confluence-blue focus:ring-confluence-blue"
+                      />
+                      <span className="text-xs text-gray-700">{page}</span>
+                    </label>
+                  ))}
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  {selectedPages.length} page(s) selected
+                </p>
+              </div>
+
+              {/* Load Images Button */}
               <button
-                onClick={analyzeImage}
-                disabled={isAnalyzing}
-                className="w-full mt-3 px-4 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                onClick={loadImages}
+                disabled={!selectedSpace || selectedPages.length === 0 || isLoadingImages}
+                className="w-full bg-confluence-blue text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition-colors text-sm"
               >
-                {isAnalyzing ? (
+                {isLoadingImages ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Analyzing...</span>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Loading Images...</span>
                   </>
                 ) : (
                   <>
-                    <Zap className="w-4 h-4" />
-                    <span>Analyze Image</span>
+                    <Image className="w-4 h-4" />
+                    <span>Load Images</span>
                   </>
                 )}
               </button>
             </div>
-          )}
 
-          {/* Insights Results */}
-          {insights && (
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2 mb-3">
-                <BarChart3 className="w-4 h-4 text-green-600" />
-                <h3 className="text-base font-semibold text-gray-900">Analysis Results</h3>
+            {/* Center Panel - Image Grid */}
+            {images.length > 0 && (
+              <div className="bg-white rounded-lg p-4 border border-gray-200">
+                <h3 className="font-semibold text-gray-800 mb-4">Discovered Images</h3>
+                <div className="space-y-4 max-h-96 overflow-y-auto">
+                  {images.map(image => (
+                    <div key={image.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                      {/* Image Card */}
+                      <div className="p-3">
+                        <div className="flex space-x-3">
+                          <img
+                            src={image.url}
+                            alt={image.name}
+                            className="w-20 h-16 object-cover rounded"
+                          />
+                          <div className="flex-1">
+                            <h4 className="font-medium text-gray-800 text-sm">{image.name}</h4>
+                            <div className="flex space-x-2 mt-2">
+                              <button
+                                onClick={() => analyzeImage(image.id)}
+                                disabled={analyzingImage === image.id}
+                                className="px-2 py-1 bg-confluence-blue text-white rounded text-xs hover:bg-blue-600 disabled:bg-gray-300 transition-colors flex items-center space-x-1"
+                              >
+                                {analyzingImage === image.id ? (
+                                  <>
+                                    <Loader2 className="w-3 h-3 animate-spin" />
+                                    <span>Analyzing...</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Eye className="w-3 h-3" />
+                                    <span>Analyze</span>
+                                  </>
+                                )}
+                              </button>
+                              {image.summary && (
+                                <button
+                                  onClick={() => generateChart(image.id)}
+                                  disabled={generatingChart === image.id}
+                                  className="px-2 py-1 bg-green-600 text-white rounded text-xs hover:bg-green-700 disabled:bg-gray-300 transition-colors flex items-center space-x-1"
+                                >
+                                  {generatingChart === image.id ? (
+                                    <>
+                                      <Loader2 className="w-3 h-3 animate-spin" />
+                                      <span>Generating...</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <BarChart3 className="w-3 h-3" />
+                                      <span>Chart</span>
+                                    </>
+                                  )}
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* AI Summary */}
+                        {image.summary && (
+                          <div className="mt-3 bg-gray-50 rounded p-2">
+                            <h5 className="text-xs font-semibold text-gray-800 mb-1">AI Summary</h5>
+                            <p className="text-xs text-gray-700">{image.summary}</p>
+                          </div>
+                        )}
+
+                        {/* Generated Chart */}
+                        {image.chart && (
+                          <div className="mt-3 bg-gray-50 rounded p-2">
+                            <h5 className="text-xs font-semibold text-gray-800 mb-2">Generated Chart</h5>
+                            <img
+                              src={image.chart}
+                              alt="Generated Chart"
+                              className="w-full h-24 object-cover rounded mb-2"
+                            />
+                            <div className="space-y-2">
+                              <div className="grid grid-cols-2 gap-2">
+                                <select
+                                  value={chartType}
+                                  onChange={(e) => setChartType(e.target.value)}
+                                  className="px-2 py-1 border border-gray-300 rounded text-xs focus:ring-2 focus:ring-confluence-blue bg-white"
+                                >
+                                  {chartTypes.map(type => (
+                                    <option key={type} value={type}>
+                                      {type.charAt(0).toUpperCase() + type.slice(1)}
+                                    </option>
+                                  ))}
+                                </select>
+                                <select
+                                  value={exportFormat}
+                                  onChange={(e) => setExportFormat(e.target.value)}
+                                  className="px-2 py-1 border border-gray-300 rounded text-xs focus:ring-2 focus:ring-confluence-blue bg-white"
+                                >
+                                  {exportFormats.map(format => (
+                                    <option key={format} value={format}>
+                                      {format.toUpperCase()}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                              <input
+                                type="text"
+                                value={chartFilename}
+                                onChange={(e) => setChartFilename(e.target.value)}
+                                placeholder="Chart filename..."
+                                className="w-full px-2 py-1 border border-gray-300 rounded text-xs focus:ring-2 focus:ring-confluence-blue bg-white"
+                              />
+                              <button
+                                onClick={() => exportChart(image)}
+                                className="w-full px-2 py-1 bg-green-600 text-white rounded text-xs hover:bg-green-700 transition-colors flex items-center justify-center space-x-1"
+                              >
+                                <Download className="w-3 h-3" />
+                                <span>Export Chart</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Q&A Section */}
+                        {image.summary && (
+                          <div className="mt-3 bg-gray-50 rounded p-2">
+                            <h5 className="text-xs font-semibold text-gray-800 mb-2">Questions & Answers</h5>
+                            
+                            {/* Existing Q&A */}
+                            {image.qa && image.qa.length > 0 && (
+                              <div className="space-y-1 mb-2 max-h-20 overflow-y-auto">
+                                {image.qa.map((qa, index) => (
+                                  <div key={index} className="bg-white rounded p-1">
+                                    <p className="font-medium text-gray-800 text-xs">Q: {qa.question}</p>
+                                    <p className="text-gray-700 text-xs">A: {qa.answer.substring(0, 80)}...</p>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Add Question */}
+                            <div className="space-y-1">
+                              <input
+                                type="text"
+                                value={newQuestion}
+                                onChange={(e) => setNewQuestion(e.target.value)}
+                                placeholder="Ask about this image..."
+                                className="w-full px-2 py-1 border border-gray-300 rounded text-xs focus:ring-2 focus:ring-confluence-blue bg-white"
+                                onKeyPress={(e) => e.key === 'Enter' && addQuestion()}
+                              />
+                              <button
+                                onClick={() => {
+                                  setSelectedImageForQA(image.id);
+                                  addQuestion();
+                                }}
+                                disabled={!newQuestion.trim()}
+                                className="w-full px-2 py-1 bg-confluence-blue text-white rounded text-xs hover:bg-blue-600 disabled:bg-gray-300 transition-colors flex items-center justify-center space-x-1"
+                              >
+                                <MessageSquare className="w-3 h-3" />
+                                <span>Ask Question</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
+            )}
 
-              <div className="grid grid-cols-1 gap-3">
-                <div className="bg-gray-50 p-3 rounded">
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">Detected Objects</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {insights.objects.map((object: string, index: number) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
-                      >
-                        {object}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="bg-gray-50 p-3 rounded">
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">Dominant Colors</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {insights.colors.map((color: string, index: number) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"
-                      >
-                        {color}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-gray-50 p-3 rounded">
-                    <h4 className="text-sm font-medium text-gray-700 mb-1">Mood</h4>
-                    <p className="text-sm text-gray-900">{insights.mood}</p>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded">
-                    <h4 className="text-sm font-medium text-gray-700 mb-1">Quality</h4>
-                    <p className="text-sm text-gray-900">{insights.quality}</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-gray-50 p-3 rounded">
-                    <h4 className="text-sm font-medium text-gray-700 mb-1">Resolution</h4>
-                    <p className="text-sm text-gray-900">{insights.resolution}</p>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded">
-                    <h4 className="text-sm font-medium text-gray-700 mb-1">File Size</h4>
-                    <p className="text-sm text-gray-900">{insights.fileSize}</p>
-                  </div>
-                </div>
+            {/* Empty State */}
+            {images.length === 0 && !isLoadingImages && (
+              <div className="text-center py-12">
+                <Image className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                <h3 className="text-base font-semibold text-gray-600 mb-2">No Images Loaded</h3>
+                <p className="text-sm text-gray-500">Select a space and pages to discover images for AI analysis.</p>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
