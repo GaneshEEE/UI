@@ -52,23 +52,23 @@ const ImageInsights: React.FC<ImageInsightsProps> = ({ onClose, onFeatureSelect 
   return (
     <div className="fixed top-4 right-4 z-40">
       <div className="bg-white border border-gray-200 shadow-lg w-[500px] h-[700px] overflow-hidden">
-      {/* Header */}
-        <div className="bg-confluence-blue p-3 text-white border-b border-gray-200">
+        {/* Header */}
+        <div className="bg-confluence-blue p-4 text-white border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Image className="w-4 h-4" />
+            <div className="flex items-center space-x-3">
+              <Image className="w-5 h-5" />
               <div>
-                <h2 className="text-sm font-bold">Image Insights & Chart Builder</h2>
-                <p className="text-blue-100 text-xs">Analyze images and create charts</p>
+                <h2 className="text-base font-bold">Image Insights & Chart Builder</h2>
+                <p className="text-blue-100 text-sm">Analyze images and create charts</p>
               </div>
             </div>
-            <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1">
-              <X className="w-3 h-3" />
+            <button onClick={onClose} className="text-white hover:bg-white/10 rounded p-1.5">
+              <X className="w-4 h-4" />
             </button>
           </div>
           
           {/* Feature Navigation */}
-          <div className="mt-2 flex gap-1 overflow-x-auto">
+          <div className="mt-3 flex gap-1 overflow-x-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               const isActive = feature.id === 'image';
@@ -91,124 +91,124 @@ const ImageInsights: React.FC<ImageInsightsProps> = ({ onClose, onFeatureSelect 
           </div>
         </div>
 
-      {/* Content */}
-        <div className="p-3 overflow-y-auto h-[calc(700px-100px)]">
-        {/* Upload Section */}
-          <div className="mb-3">
-            <label className="block text-xs font-medium text-gray-700 mb-2">
-            Upload Image
-          </label>
-            <div className="border-2 border-dashed border-gray-300 rounded p-4 text-center hover:border-blue-400 transition-colors">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-              id="image-upload"
-            />
-            <label htmlFor="image-upload" className="cursor-pointer">
-                <Upload className="w-6 h-6 text-gray-400 mx-auto mb-2" />
-              <p className="text-sm text-gray-600">Click to upload an image</p>
-              <p className="text-xs text-gray-400 mt-1">PNG, JPG, GIF up to 10MB</p>
+        {/* Content */}
+        <div className="p-4 overflow-y-auto h-[calc(700px-120px)]">
+          {/* Upload Section */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Upload Image
             </label>
-          </div>
-        </div>
-
-        {/* Image Preview */}
-        {selectedImage && (
-            <div className="mb-3">
-            <label className="block text-xs font-medium text-gray-700 mb-2">
-              Preview
-            </label>
-              <div className="border border-gray-200 rounded overflow-hidden">
-              <img
-                src={selectedImage}
-                alt="Preview"
-                  className="w-full h-24 object-cover"
+            <div className="border-2 border-dashed border-gray-300 rounded p-6 text-center hover:border-blue-400 transition-colors">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+                id="image-upload"
               />
-            </div>
-            <button
-              onClick={analyzeImage}
-              disabled={isAnalyzing}
-                className="w-full mt-2 px-3 py-2 bg-confluence-blue text-white text-sm rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
-            >
-              {isAnalyzing ? (
-                <>
-                    <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Analyzing...
-                </>
-              ) : (
-                <>
-                    <Zap className="w-3 h-3" />
-                  Analyze Image
-                </>
-              )}
-            </button>
-          </div>
-        )}
-
-        {/* Insights Results */}
-        {insights && (
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 mb-2">
-                <BarChart3 className="w-3 h-3 text-green-600" />
-              <h3 className="text-sm font-semibold text-gray-900">Analysis Results</h3>
-            </div>
-
-              <div className="grid grid-cols-1 gap-2">
-                <div className="bg-gray-50 p-2 rounded">
-                <h4 className="text-xs font-medium text-gray-700 mb-2">Detected Objects</h4>
-                <div className="flex flex-wrap gap-1">
-                  {insights.objects.map((object: string, index: number) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
-                    >
-                      {object}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-                <div className="bg-gray-50 p-2 rounded">
-                <h4 className="text-xs font-medium text-gray-700 mb-2">Dominant Colors</h4>
-                <div className="flex flex-wrap gap-1">
-                  {insights.colors.map((color: string, index: number) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"
-                    >
-                      {color}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-gray-50 p-2 rounded">
-                  <h4 className="text-xs font-medium text-gray-700 mb-1">Mood</h4>
-                  <p className="text-sm text-gray-900">{insights.mood}</p>
-                </div>
-                  <div className="bg-gray-50 p-2 rounded">
-                  <h4 className="text-xs font-medium text-gray-700 mb-1">Quality</h4>
-                  <p className="text-sm text-gray-900">{insights.quality}</p>
-                </div>
-              </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-gray-50 p-2 rounded">
-                  <h4 className="text-xs font-medium text-gray-700 mb-1">Resolution</h4>
-                  <p className="text-sm text-gray-900">{insights.resolution}</p>
-                </div>
-                  <div className="bg-gray-50 p-2 rounded">
-                  <h4 className="text-xs font-medium text-gray-700 mb-1">File Size</h4>
-                  <p className="text-sm text-gray-900">{insights.fileSize}</p>
-                </div>
-              </div>
+              <label htmlFor="image-upload" className="cursor-pointer">
+                <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-600">Click to upload an image</p>
+                <p className="text-xs text-gray-400 mt-1">PNG, JPG, GIF up to 10MB</p>
+              </label>
             </div>
           </div>
-        )}
-      </div>
+
+          {/* Image Preview */}
+          {selectedImage && (
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Preview
+              </label>
+              <div className="border border-gray-200 rounded overflow-hidden">
+                <img
+                  src={selectedImage}
+                  alt="Preview"
+                  className="w-full h-48 object-cover"
+                />
+              </div>
+              <button
+                onClick={analyzeImage}
+                disabled={isAnalyzing}
+                className="w-full mt-3 px-4 py-2 bg-confluence-blue text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+              >
+                {isAnalyzing ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Analyzing...</span>
+                  </>
+                ) : (
+                  <>
+                    <Zap className="w-4 h-4" />
+                    <span>Analyze Image</span>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+
+          {/* Insights Results */}
+          {insights && (
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2 mb-3">
+                <BarChart3 className="w-4 h-4 text-green-600" />
+                <h3 className="text-base font-semibold text-gray-900">Analysis Results</h3>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3">
+                <div className="bg-gray-50 p-3 rounded">
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">Detected Objects</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {insights.objects.map((object: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                      >
+                        {object}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 p-3 rounded">
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">Dominant Colors</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {insights.colors.map((color: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"
+                      >
+                        {color}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-gray-50 p-3 rounded">
+                    <h4 className="text-sm font-medium text-gray-700 mb-1">Mood</h4>
+                    <p className="text-sm text-gray-900">{insights.mood}</p>
+                  </div>
+                  <div className="bg-gray-50 p-3 rounded">
+                    <h4 className="text-sm font-medium text-gray-700 mb-1">Quality</h4>
+                    <p className="text-sm text-gray-900">{insights.quality}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-gray-50 p-3 rounded">
+                    <h4 className="text-sm font-medium text-gray-700 mb-1">Resolution</h4>
+                    <p className="text-sm text-gray-900">{insights.resolution}</p>
+                  </div>
+                  <div className="bg-gray-50 p-3 rounded">
+                    <h4 className="text-sm font-medium text-gray-700 mb-1">File Size</h4>
+                    <p className="text-sm text-gray-900">{insights.fileSize}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
